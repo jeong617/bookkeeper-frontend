@@ -42,8 +42,7 @@ function BookDetail({
                                 <FormButton label="수정" icon={<FaPen size={13} className="fill-button-text" />}/>
                                 <FaTrashAlt size={25} className="fill-red-500" />
                             </div>
-                        </div>
-                        <span className="text-sm">{summary}</span>
+                        </div>                        <span className="text-sm">{summary}</span>
                         <div id="like-number" className="flex justify-start gap-1">
                             <FaHeart fill="red" />
                             <span className="text-xs">{like}</span>

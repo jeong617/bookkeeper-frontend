@@ -16,7 +16,7 @@ function SearchBar(): React.JSX.Element {
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center w-full shadow-md px-6 py-1.5 rounded-chips-radius">
             <input type="text"
                    placeholder="검색어를 입력하세요"
-                   className="w-[500px] focus:outline-none"
+                   className="w-full border-0 focus:outline-none"
                    {...register('query', {required: true})}
             />
             <button type="submit" className="bg-white hover:border-white">

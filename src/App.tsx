@@ -11,6 +11,7 @@ import UploadEpisode from "./pages/form/UploadEpisode.tsx";
 import UpdateEpisode from "./pages/form/UpdateEpisode.tsx";
 import BookDetail from "./pages/book/BookDetail.tsx";
 import EpisodeListItem from "./components/EpisodeListItem.tsx";
+import ManageMembers from "./pages/ManageMembers.tsx";
 
 function App() {
     const chapterList = [
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <>
-        <BookDetail title="데미안" coverImageUrl="src/assets/book-cover.png" author="헤르만헤세" summary="작품 상세 줄거리~~" like={617} chapterList={chapterList} />
+        <ManageMembers />
     </>
   )
 }
