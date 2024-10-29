@@ -1,8 +1,8 @@
 import React from "react";
 
-export const Header: React.FC = () => {
+export function Header(): React.JSX.Element {
     return (
-        <div className="h-[45px] px-3.5 py-3.5 bg-[#fffaeb] justify-start items-center gap-[685px] inline-flex">
+        <div className="w-full h-[45px] px-3.5 py-3.5 bg-[#fffaeb] justify-start items-center gap-[685px] inline-flex justify-between">
             <div className="h-[45px] justify-start items-center flex">
                 <div
                     className="h-[60px] text-center text-[#633200] text-[20px] font-normal font-jejudoldam leading-[60px]">BookKeeper
@@ -16,4 +16,4 @@ export const Header: React.FC = () => {
         </div>
 
     );
-};
+}
