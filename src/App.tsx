@@ -4,17 +4,29 @@ import SimpleBookCard from "./components/SimpleBookCard.tsx";
 import SelectChip from "./components/SelectChip.tsx";
 import FormButton from "./components/FormButton.tsx";
 import SearchBar from "./components/SearchBar.tsx";
-
+import HomePage from "./pages/home/HomePage.tsx"
+import AddBook from "./pages/form/AddBook.tsx";
+import MainButton from "./components/MainButton.tsx";
+import UploadEpisode from "./pages/form/UploadEpisode.tsx";
+import UpdateEpisode from "./pages/form/UpdateEpisode.tsx";
+import BookDetail from "./pages/book/BookDetail.tsx";
+import EpisodeListItem from "./components/EpisodeListItem.tsx";
 
 function App() {
+    const chapterList = [
+        {
+            episode: 1,
+            subtitle: "두 개의 세계"
+        },
+        {
+            episode: 2,
+            subtitle: "카인"
+        }
+    ]
 
   return (
     <>
-      {/*<SimpleBookCard title="데미안" author="헤르만 헤세" category="고전소설" coverImageUrl="src/assets/book-cover.png" />
-      <SelectChip value="전체" isActivated={true} />
-      <SelectChip value="전체" isActivated={false} />
-      <FormButton label="새 작품 만들기" />*/}
-      <SearchBar />
+        <BookDetail title="데미안" coverImageUrl="src/assets/book-cover.png" author="헤르만헤세" summary="작품 상세 줄거리~~" like={617} chapterList={chapterList} />
     </>
   )
 }
