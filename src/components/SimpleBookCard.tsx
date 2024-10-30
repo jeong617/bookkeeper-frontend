@@ -11,10 +11,10 @@ function SimpleBookCard({ title, author, category, coverImageUrl }: SimpleBookCa
     return (
         <div className="flex flex-col items-start">
             {/* 커버 이미지 */}
-            <img className="w-52 mb-2 shadow-lg" src={coverImageUrl}/>
+            <img className="w-40 mb-2 shadow-lg rounded-normal-radius" src={coverImageUrl}/>
             {/* 제목 & 작가 */}
-            <div className="text-3xl font-medium">{title}</div>
-            <div>{author}</div>
+            <div className="text-xl font-bold ml-1">{title}</div>
+            <div className="ml-1">{author}</div>
         </div>
     )
 }

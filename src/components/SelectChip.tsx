@@ -18,7 +18,7 @@ function SelectChip({value, isActivated=false} : SelectChipProps): React.JSX.Ele
     } else {
         return (
             <div className="h-8 rounded-chips-radius border-2 border-button flex justify-center items-center inline-flex">
-                <div className="pl-3 pr-4 py-1.5 flex justify-center items-center gap-2 flex">
+                <div className="pl-3 pr-4 py-1.5 flex justify-center items-center gap-2">
                     <FaCheck className="fill-button" />
                     <div className="text-center text-button text-xs font-medium">{value}</div>
                 </div>

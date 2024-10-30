@@ -12,6 +12,8 @@ import UpdateEpisode from "./pages/form/UpdateEpisode.tsx";
 import BookDetail from "./pages/book/BookDetail.tsx";
 import EpisodeListItem from "./components/EpisodeListItem.tsx";
 import ManageMembers from "./pages/ManageMembers.tsx";
+import SearchResult from "./pages/SearchResult.tsx";
+import DashBoard from "./pages/DashBoard.tsx";
 
 function App() {
     const chapterList = [
@@ -27,7 +29,7 @@ function App() {
 
   return (
     <>
-        <ManageMembers />
+        <DashBoard />
     </>
   )
 }

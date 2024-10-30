@@ -13,10 +13,10 @@ function SearchBar(): React.JSX.Element {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center w-full shadow-md px-6 py-1.5 rounded-chips-radius">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center w-full shadow-md px-6 py-1.5 rounded-chips-radius bg-white">
             <input type="text"
                    placeholder="검색어를 입력하세요"
-                   className="w-full border-0 focus:outline-none"
+                   className="w-full border-none focus:outline-none focus:ring-0"
                    {...register('query', {required: true})}
             />
             <button type="submit" className="bg-white hover:border-white">

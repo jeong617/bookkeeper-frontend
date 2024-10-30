@@ -8,23 +8,23 @@ interface MemberItemProps {
     email: string;
     createdAt: string;
     nickname: string;
-    isAccountActive: boolean;
+    isAccountActive?: boolean;
     className?: string;
 
 }
 
-function MemberItem({profile="/src/assets/3d_avatar_28.png" ,email, nickname, createdAt, className}: MemberItemProps): React.JSX.Element {
+function MemberItem({profile="/src/assets/3d_avatar_28.png" ,email, nickname, createdAt, isAccountActive=true, className}: MemberItemProps): React.JSX.Element {
     /* 상태 관리 */
 
     return (
-        <div className={`flex flex-row gap-2 px-2 items-center bg-white mx-2 ${className}`}>
-            <img src={profile} className="aspect-square w-16 p-2" />
-            <span className="w-36">{nickname}</span>
-            <span className="w-44">{email}</span>
-            <span className="w-36">{createdAt}</span>
-            <span className="">
-                <IoEyeOutline />
-            </span>
+        <div className={`grid grid-cols-8 gap-2 px-2 items-center bg-white mx-2 ${className}`}>
+            <img src={profile} className="aspect-square h-[4.5rem] p-2 mx-auto" />
+            <span className="col-span-2">{nickname}</span>
+            <span className="col-span-2">{email}</span>
+            <span className="col-span-2">{createdAt}</span>
+            <button className="grow">
+                {isAccountActive ? <IoEyeOutline size={20} className="mx-auto"/> : <IoEyeOffOutline size={20} className="mx-auto"/>}
+            </button>
         </div>
 
     )

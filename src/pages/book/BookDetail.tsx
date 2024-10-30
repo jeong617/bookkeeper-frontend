@@ -23,7 +23,7 @@ type TapType = "episodes" | "comments";
 function BookDetail({
     title, coverImageUrl, author, summary, like, chapterList
     }: BookDetailProps): React.JSX.Element {
-    const [activeTab, setActiveTab] = useState("episodes");
+    const [activeTab, setActiveTab] = useState<TapType>("episodes");
 
     return (
         <>
