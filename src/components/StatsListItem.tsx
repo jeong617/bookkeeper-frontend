@@ -14,16 +14,16 @@ interface StatsListItemProps {
     data: number;
 }
 
-function StatsListItem({rank, title, author, display, data}: StatsListItemProps) {
+function StatsListItem({rank, title, author, display, data}: StatsListItemProps): React.JSX.Element {
     let icon;
     if (display === "view") {
         icon = <IoMdEye className="fill-line"/>;
     } else if (display === "like") {
-        icon = <IoIosHeart/>;
+        icon = <IoIosHeart className="fill-line" />;
     } else if (display === "comment") {
-        icon = <IoIosChatboxes/>;
+        icon = <IoIosChatboxes className="fill-line" />;
     } else {
-        icon = <IoIosBookmark/>;
+        icon = <IoIosBookmark className="fill-line" />;
     }
 
     return (

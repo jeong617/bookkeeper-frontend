@@ -4,11 +4,9 @@ import React, {useEffect, useState} from "react";
 import SearchBar from "../components/SearchBar.tsx";
 import {Header} from "../components/header";
 import SimpleBookCard from "../components/SimpleBookCard.tsx";
-import SelectChip from "../components/SelectChip.tsx";
 
 // css
 import {Button} from "flowbite-react";
-import {FaCheck} from "react-icons/fa6";
 
 type SortType = "latest" | "alphabetical";
 
