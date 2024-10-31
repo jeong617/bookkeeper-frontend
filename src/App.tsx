@@ -14,6 +14,7 @@ import EpisodeListItem from "./components/EpisodeListItem.tsx";
 import ManageMembers from "./pages/ManageMembers.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
 import DashBoard from "./pages/DashBoard.tsx";
+import Home from "./pages/Home.tsx";
 
 function App() {
     const chapterList = [
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <>
-        <DashBoard />
+        <Home />
     </>
   )
 }
