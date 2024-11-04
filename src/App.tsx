@@ -1,10 +1,13 @@
-import './App.css'
+import "./App.css";
+import DashBoard from "./pages/DashBoard.tsx";
+
 function App() {
 
   return (
     <>
+      <DashBoard />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
