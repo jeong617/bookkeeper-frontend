@@ -7,7 +7,7 @@ interface SimpleBookCardProps {
     coverImageUrl: string;
 }
 
-function SimpleBookCard({ title, author, category, coverImageUrl }: SimpleBookCardProps) : React.JSX.Element {
+function SimpleBookCard({ title, author, coverImageUrl }: SimpleBookCardProps) : React.JSX.Element {
     return (
         <div className="flex flex-col items-start">
             {/* 커버 이미지 */}
