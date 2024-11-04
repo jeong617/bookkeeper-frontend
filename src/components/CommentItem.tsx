@@ -8,10 +8,10 @@ interface CommentItemProps {
     chapter: number;
     nickname: string;
     comment: string;
-    created_at: string;
+    createdAt: string;
 }
 
-function CommentItem({chapter, nickname, comment, created_at}:CommentItemProps): React.JSX.Element {
+function CommentItem({chapter, nickname, comment, createdAt}:CommentItemProps): React.JSX.Element {
 
     return (
         <div className="flex flex-col items-start bg-white mx-1 px-3 py-2 gap-1 rounded-normal-radius">
@@ -21,7 +21,7 @@ function CommentItem({chapter, nickname, comment, created_at}:CommentItemProps):
                     <Badge className="mb-1 rounded-chips-radius border border-button text-button" size="xs">{chapter}화</Badge>
                     <div>
                         <span className="mr-1">{nickname}</span>
-                        <span className="text-xs">{created_at}</span>
+                        <span className="text-xs">{createdAt}</span>
                     </div>
                 </div>
                 <FaTrashAlt className="fill-red-500" />
