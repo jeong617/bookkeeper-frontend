@@ -5,9 +5,11 @@ import { Header } from "../../components/header";
 import FormButton from "../../components/FormButton.tsx";
 import EpisodeListItem from "../../components/EpisodeListItem.tsx";
 import CommentItem from "../../components/CommentItem.tsx";
+import { BookDetailTabType } from '../../store/types.tsx';
+import PopUp from '../form/PopUp.tsx';
 
 // css
-import { FaPen, FaRegTrashAlt, FaHeart, FaTrashAlt } from "react-icons/fa";
+import { FaPen, FaHeart, FaTrashAlt } from "react-icons/fa";
 
 interface Chapter {
   episode: number;
@@ -20,12 +22,7 @@ interface BookDetailProps {
   author: string;
   summary: string;
   like: number;
-  chapterList: Chapter[];
-}
-
-enum TabType {
-  Episodes = "episodes",
-  Comments = "comments",
+  chapterList?: Chapter[];
 }
 
 function BookDetail({
@@ -36,7 +33,9 @@ function BookDetail({
   like,
   chapterList,
 }: BookDetailProps): React.JSX.Element {
-  const [activeTab, setActiveTab] = useState<TabType>(TabType.Episodes);
+  const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);
+  const [popWarning, setPopWarning] = useState<boolean>(false);
+
 
   return (
     <>
@@ -61,11 +60,17 @@ function BookDetail({
                 id="form-button"
                 className="flex flex-row gap-5 px-2 items-center"
               >
-                <FormButton
+                <button><FormButton
                   label="수정"
                   icon={<FaPen size={13} className="fill-button-text" />}
-                />
-                <FaTrashAlt size={25} className="fill-red-500" />
+                /></button>
+                <button
+                  onClick={() => setPopWarning(true)}
+                ><FaTrashAlt size={25} className="fill-red-500" />
+                </button>
+                {popWarning && (
+                  <PopUp isOpened={popWarning} onClose={() => setPopWarning(false)} />
+                )}
               </div>
             </div>
             <span className="text-sm text-start">{summary}</span>
@@ -81,27 +86,27 @@ function BookDetail({
           {/* 회차-댓글 전환 버튼 */}
           <div className="flex flex-row py-3 text-lg">
             <button
-              className={`w-full ${activeTab === TabType.Episodes ? "underline underline-offset-2" : ""}`}
-              onClick={() => setActiveTab(TabType.Episodes)}
+              className={`w-full ${activeTab === BookDetailTabType.Episodes ? "underline underline-offset-2" : ""}`}
+              onClick={() => setActiveTab(BookDetailTabType.Episodes)}
             >
               회차 정보
             </button>
             <button
-              className={`w-full bg-opacity-0 ${activeTab === TabType.Comments ? "underline underline-offset-2" : ""}`}
-              onClick={() => setActiveTab(TabType.Comments)}
+              className={`w-full bg-opacity-0 ${activeTab === BookDetailTabType.Comments ? "underline underline-offset-2" : ""}`}
+              onClick={() => setActiveTab(BookDetailTabType.Comments)}
             >
               댓글
             </button>
           </div>
           <div id="tap-content" className="p-2">
-            {activeTab === TabType.Episodes &&
+            {activeTab === BookDetailTabType.Episodes && chapterList && chapterList.length > 0 &&
               chapterList.map((ch, index) => (
                 <EpisodeListItem
                   chapterNum={index + 1}
                   episodeTitle={ch.subtitle}
                 />
               ))}
-            {activeTab === TabType.Comments && (
+            {activeTab === BookDetailTabType.Comments && (
               <CommentItem
                 chapter={1}
                 nickname="크리스탈"
