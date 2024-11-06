@@ -1,9 +1,9 @@
 export enum CategoryType {
-  All = "전체",
   ClassicNovel = "고전소설",
   Fantasy = "판타지",
   Romance = "로맨스",
   FairyTale = "동화",
+  Mystery = "미스터리"
 }
 
 export enum DisplayType {
