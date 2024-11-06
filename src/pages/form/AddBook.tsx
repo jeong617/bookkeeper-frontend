@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { AiOutlineUpload, AiOutlinePlus } from 'react-icons/ai';
 
 // project
-import MainButton from '../../components/MainButton';
-import InputBox from '../../components/InputBox';
-import SelectChip from '../../components/SelectChip.tsx';
+import MainButton from "../../components/MainButton";
+import InputBox from "../../components/InputBox";
+import { CategoryType } from '../../store/types.tsx';
+
+// css
+import {Button} from "flowbite-react";
 
 type AddBookProps = {
   isOpened: boolean;
@@ -12,17 +15,23 @@ type AddBookProps = {
 };
 
 function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null {
-  // 카테고리 추후 store에 저장
-  const categories: string[] = [
-    '고전소설',
-    '판타지',
-    '무협',
-    '로맨스',
-    '코미디',
-    '라이트노벨',
-    '추리',
-    '미스테리',
-  ];
+  const categories: string[] = Object.values(CategoryType);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  // handler
+  const handleUploadClick = (): void => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
+      console.log("선택한 파일: ", file);
+    }
+  }
 
   return (
     <>
@@ -41,9 +50,16 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
             {/* 표지 등록 */}
             <div className="flex flex-row pt-8">
               <h2 className="w-[250px] ml-10 text-lg font-bold">표지 등록</h2>
-              <span className="flex justify-center items-center rounded-normal-radius w-28 h-32 bg-background">
+              <span className="flex flex-col justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"
+                    onClick={handleUploadClick}>
                 <AiOutlineUpload size={40} />
               </span>
+              {fileName && (<p className='px-3 py-1 text-xs self-end'>{fileName}</p>)}
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{display: 'none'}}
+                onChange={handleFileChange}/>
             </div>
 
             {/* 도서 정보 */}
@@ -72,16 +88,24 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
             </div>
 
             {/* 카테고리 */}
-            <div className="flex flex-row pb-3">
+            <div className="flex flex-row">
               <h2 className="w-[250px] ml-10 text-lg font-bold">카테고리</h2>
               <div className="flex flex-wrap w-96 gap-3">
                 {categories.map((category) => (
-                  <SelectChip
-                    key={category}
-                    value={category}
-                    isActivated={false}
-                  />
+                  <Button pill size="xs" color="gray"
+                          className={`text-line focus:ring-0`}>{category}</Button>
                 ))}
+              </div>
+            </div>
+
+            {/* 완결 여부 */}
+            <div className="flex flex-row pb-3">
+              <h2 className="w-[250px] ml-10 text-lg font-bold">완결여부</h2>
+              <div className="flex gap-3">
+                <Button pill size="xs" color="gray"
+                        className={`text-line focus:ring-0`}>완결</Button>
+                <Button pill size="xs" color="gray"
+                        className={`text-line focus:ring-0`}>미완결</Button>
               </div>
             </div>
           </div>
