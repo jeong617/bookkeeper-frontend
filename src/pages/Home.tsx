@@ -16,8 +16,8 @@ import { Link } from 'react-router-dom';
 
 function Home(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpened, setModalOpened] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isModalOpened, setModalOpened] = useState<boolean>(false);
   const categories: CategoryType[] = Object.values(CategoryType);
 
   const onPageChange = (page: number) => setCurrentPage(page);
