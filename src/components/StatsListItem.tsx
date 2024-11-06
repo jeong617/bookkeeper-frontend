@@ -1,5 +1,8 @@
 import React from "react";
 
+// project
+import { DisplayType } from '../store/types.tsx';
+
 // css
 import {
   IoMdEye,
@@ -7,13 +10,6 @@ import {
   IoIosChatboxes,
   IoIosBookmark,
 } from "react-icons/io";
-
-enum DisplayType {
-  View = "view",
-  Like = "like",
-  Comment = "comment",
-  Bookmark = "bookmark",
-}
 
 interface StatsListItemProps {
   rank: number;

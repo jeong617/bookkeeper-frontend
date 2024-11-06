@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 
 
 // css
@@ -7,7 +7,6 @@ import { AiOutlineUpload } from "react-icons/ai";
 // project
 import InputBox from "../../components/InputBox.tsx";
 import MainButton from "../../components/MainButton";
-import SimpleBookCard from "../../components/SimpleBookCard.tsx";
 
 interface UploadEpisodeProps {
     title: string;

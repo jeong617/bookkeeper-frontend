@@ -3,13 +3,12 @@ import React from 'react';
 // project
 import {Header} from "../components/header";
 import StatsListItem from "../components/StatsListItem.tsx";
+import { DisplayType } from '../store/types.tsx';
 
 // css
 import {Card} from "flowbite-react";
 
 function DashBoard(): React.JSX.Element {
-    const listCount: number = 5;
-
     return (
         <>
             <Header/>
@@ -22,15 +21,15 @@ function DashBoard(): React.JSX.Element {
                         </div>
                         <div className="flow-root">
                             <ul className="divide-y divide-gray-200">
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.View}
                                                                             data={1234} rank={1}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.View}
                                                                             data={1234} rank={2}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.View}
                                                                             data={1234} rank={3}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.View}
                                                                             data={1234} rank={4}/></li>
-                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.View}
                                                                                  data={1234} rank={5}/></li>
                             </ul>
                         </div>
@@ -41,16 +40,16 @@ function DashBoard(): React.JSX.Element {
                         </div>
                         <div className="flow-root">
                             <ul className="divide-y divide-gray-200">
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="like"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Like}
                                                                             data={1234} rank={1}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="like"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Like}
                                                                             data={1234} rank={2}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="like"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Like}
                                                                             data={1234} rank={3}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="like"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Like}
                                                                             data={1234} rank={4}/></li>
                                 <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세"
-                                                                                 display="like"
+                                                                                 display={DisplayType.Like}
                                                                                  data={1234} rank={5}/></li>
                             </ul>
                         </div>
@@ -61,15 +60,15 @@ function DashBoard(): React.JSX.Element {
                         </div>
                         <div className="flow-root">
                             <ul className="divide-y divide-gray-200">
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="comment"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Comment}
                                                                             data={1234} rank={1}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="comment"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Comment}
                                                                             data={1234} rank={2}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="comment"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Comment}
                                                                             data={1234} rank={3}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="comment"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Comment}
                                                                             data={1234} rank={4}/></li>
-                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Comment}
                                                                                  data={1234} rank={5}/></li>
                             </ul>
                         </div>
@@ -80,15 +79,15 @@ function DashBoard(): React.JSX.Element {
                         </div>
                         <div className="flow-root">
                             <ul className="divide-y divide-gray-200">
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="bookmark"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Bookmark}
                                                                             data={1234} rank={1}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="bookmark"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Bookmark}
                                                                             data={1234} rank={2}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="bookmark"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Bookmark}
                                                                             data={1234} rank={3}/></li>
-                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display="bookmark"
+                                <li className="py-3 sm:py-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Bookmark}
                                                                             data={1234} rank={4}/></li>
-                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display="view"
+                                <li className="pb-0 pt-3 sm:pt-4"><StatsListItem title="데미안" author="헤르만 헤세" display={DisplayType.Bookmark}
                                                                                  data={1234} rank={5}/></li>
                             </ul>
                         </div>
