@@ -8,7 +8,7 @@ export function Header(): React.JSX.Element {
                 <div
                     className="h-[60px] text-center text-[#633200] text-[20px] font-normal font-jejudoldam leading-[60px]">BookKeeper
                 </div>
-                <img className="w-[40px] h-[35px]" src="/src/assets/face-total.png"/>
+                <img alt="fox-logo" className="w-[40px] h-[35px]" src="/src/assets/face-total.png"/>
             </Link>
             <div
                 className="w-[70px] h-[35px] px-px py-[7px] bg-[#dbb185] rounded-[10px] shadow justify-center items-center gap-2.5 flex">

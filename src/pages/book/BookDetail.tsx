@@ -44,6 +44,7 @@ function BookDetail({
         {/* 도서 기본 정보 */}
         <div className="flex flex-row gap-5 p-1">
           <img
+            alt='book-cover-image'
             src={coverImageUrl}
             className="w-48 h-64 rounded-normal-radius shadow-md"
           />

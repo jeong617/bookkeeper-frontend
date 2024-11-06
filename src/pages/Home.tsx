@@ -34,7 +34,7 @@ function Home(): React.JSX.Element {
           <button className="text-button-text font-medium text-sm">로그아웃</button>
         </div>
         <Link to="/" className="w-1/3 mt-10">
-          <img src="src/assets/logo.png" />
+          <img alt='logo' src="src/assets/logo.png" />
         </Link>
         <div className="w-1/2">
           <SearchBar />
