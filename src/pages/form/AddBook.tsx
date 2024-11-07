@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 import { AiOutlineUpload, AiOutlinePlus } from 'react-icons/ai';
 
 // project
-import MainButton from "../../components/MainButton";
-import InputBox from "../../components/InputBox";
+import MainButton from '../../components/MainButton';
+import InputBox from '../../components/InputBox';
 import { CategoryType } from '../../store/types.tsx';
 
 // css
-import {Button} from "flowbite-react";
+import { Button } from 'flowbite-react';
 
 type AddBookProps = {
   isOpened: boolean;
@@ -18,20 +18,22 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   const categories: string[] = Object.values(CategoryType);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   // handler
   const handleUploadClick = (): void => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  }
+  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
-      console.log("선택한 파일: ", file);
+      setPreview(URL.createObjectURL(file));
+      console.log('선택한 파일: ', file);
     }
-  }
+  };
 
   return (
     <>
@@ -50,16 +52,23 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
             {/* 표지 등록 */}
             <div className="flex flex-row pt-8">
               <h2 className="w-[250px] ml-10 text-lg font-bold">표지 등록</h2>
-              <span className="flex flex-col justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"
-                    onClick={handleUploadClick}>
-                <AiOutlineUpload size={40} />
+              <span
+                className="flex flex-col justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"
+                onClick={handleUploadClick}>
+                {preview ? (
+                  <img src={preview} alt="미리보기" className="object-cover w-full h-full rounded-md" />
+                ) : (
+                  <AiOutlineUpload size={40} />
+                )}
               </span>
-              {fileName && (<p className='px-3 py-1 text-xs self-end'>{fileName}</p>)}
+              {fileName && (<p className="px-3 py-1 text-xs self-end">{fileName}</p>)}
               <input
                 type="file"
                 ref={fileInputRef}
-                style={{display: 'none'}}
-                onChange={handleFileChange}/>
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
             </div>
 
             {/* 도서 정보 */}
