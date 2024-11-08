@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Home />,
       },
       {
         path: 'members/',
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/book',
-        element: <BookDetail title="데미안" coverImageUrl='/src/assets/book-cover.png' author='헤르만헤서' summary='줄거리~~' like={617} />
+        element: <BookDetail title="데미안" coverImageUrl='/src/assets/book-cover/데미안.png' author='헤르만헤서' summary='줄거리~~' like={617} />
       }
     ]
   }

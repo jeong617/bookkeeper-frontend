@@ -46,11 +46,11 @@ function SearchResult(): React.JSX.Element {
                     </div>
                     <div className="grid grid-cols-5  gap-x-8 gap-y-10 py-8 px-16">
                         <SimpleBookCard title="데미안" author="헤르만 헤세" category="고전소설"
-                                        coverImageUrl="/src/assets/book-cover.png"/>
+                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
                         <SimpleBookCard title="데미안" author="헤르만 헤세" category="고전소설"
-                                        coverImageUrl="/src/assets/book-cover.png"/>
+                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
                         <SimpleBookCard title="데미안" author="헤르만 헤세" category="고전소설"
-                                        coverImageUrl="/src/assets/book-cover.png"/>
+                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
                     </div>
                 </section>
             </div>

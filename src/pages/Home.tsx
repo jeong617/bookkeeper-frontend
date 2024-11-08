@@ -9,6 +9,8 @@ import SimpleBookCard from '../components/SimpleBookCard.tsx';
 import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import useSideBarStore from '../store/store.tsx';
+/* import get from '../api/api.ts' */
+import { novelList } from '../api/mock/novelList.ts';
 
 // css
 import { Button, Pagination } from 'flowbite-react';
@@ -20,9 +22,14 @@ function Home(): React.JSX.Element {
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
   const categories: CategoryType[] = Object.values(CategoryType);
 
+  // handler
   const onPageChange = (page: number) => setCurrentPage(page);
   const openModal = () => setModalOpened(true);
   const closeModal = () => setModalOpened(false);
+
+  // api
+  /*const getNovelList = get({ url: 'api/novel/list?page=1&size=10' });*/
+  const mockNovelList = novelList.novelList;
 
   return (
     <>
@@ -49,8 +56,7 @@ function Home(): React.JSX.Element {
             <button onClick={openModal}><FormButton label="새 작품 만들기" /></button>
           </div>
           <div className="flex flex-row gap-2 py-2">
-            {
-              categories.map((category: CategoryType, index) => (
+            {categories.map((category: CategoryType, index) => (
                 <Button key={index} pill size="xs" color="gray"
                         className={`text-line focus:ring-0`}>{category}</Button>
               ))
@@ -58,7 +64,12 @@ function Home(): React.JSX.Element {
           </div>
         </div>
         <div className="grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10">
-          <Link to='/book'><SimpleBookCard title="데미안" author="헤르만 헤세" category="고전소설" coverImageUrl="src/assets/book-cover.png" /></Link>
+          {mockNovelList.map((novel) => (
+            <Link key={novel.id} to='/book'>
+              <SimpleBookCard title={novel.title} author={novel.author} coverImageUrl={novel.coverImageUrl} />
+            </Link>
+          ))
+          }
         </div>
 
         {/* 페이지 번호 */}
@@ -66,7 +77,7 @@ function Home(): React.JSX.Element {
           <Pagination
             currentPage={currentPage}
             onPageChange={onPageChange}
-            totalPages={20}
+            totalPages={10}
             previousLabel=""
             nextLabel=""
             showIcons

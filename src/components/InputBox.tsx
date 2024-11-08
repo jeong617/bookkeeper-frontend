@@ -7,9 +7,11 @@ interface InputBoxProps {
     defaultValue?: string;
     rows?: number;
     errorMessage?: string;
+    name?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-function InputBox({className, label, defaultValue, rows=1, errorMessage}: InputBoxProps): React.JSX.Element{
+function InputBox({className, label, defaultValue, rows=1, errorMessage, name, onChange}: InputBoxProps): React.JSX.Element{
     return (
         <div className={`flex flex-col items-start ${className}`}>
             <label htmlFor="label"
@@ -18,6 +20,8 @@ function InputBox({className, label, defaultValue, rows=1, errorMessage}: InputB
                    className={`border border-line border-opacity-20 text-sm rounded-lg block w-full px-0.5 py-1.5 focus:ring-blue-100`}
                    rows={rows}
                    defaultValue={defaultValue}
+                   name={name}
+                   onChange={onChange}
             />
             {errorMessage && (
                 <span className="text-xs text-red-500">{errorMessage}</span>

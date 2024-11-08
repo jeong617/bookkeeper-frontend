@@ -7,7 +7,7 @@ interface RequestArgs<T = any> {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,22 +18,22 @@ const api: AxiosInstance = axios.create({
 // TODO: 상태코드 정한 후 응답 인터셉터 추가
 
 const get = async <T>({url}: RequestArgs): Promise<T> => {
-  const response = await axios.get<T>(url);
+  const response = await api.get<T>(url);
   return response.data;
 };
 
 const post = async <T>({ url, data }: RequestArgs): Promise<T> => {
-  const response = await axios.post<T>(url, data);
+  const response = await api.post<T>(url, data);
   return response.data;
 };
 
 const put = async <T>({ url, data }: RequestArgs): Promise<T> => {
-  const response = await axios.put<T>(url, data);
+  const response = await api.put<T>(url, data);
   return response.data;
 };
 
 const del = async <T>({ url }: RequestArgs): Promise<T> => {
-  const response = await axios.delete<T>(url);
+  const response = await api.delete<T>(url);
   return response.data;
 };
 
