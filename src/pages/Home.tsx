@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-
 // project
 import SearchBar from '../components/SearchBar.tsx';
 import FormButton from '../components/FormButton.tsx';
@@ -9,7 +8,7 @@ import SimpleBookCard from '../components/SimpleBookCard.tsx';
 import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import useSideBarStore from '../store/store.tsx';
-/* import get from '../api/api.ts' */
+import get from '../api/api.ts'
 import { novelList } from '../api/mock/novelList.ts';
 
 // css
@@ -28,7 +27,8 @@ function Home(): React.JSX.Element {
   const closeModal = () => setModalOpened(false);
 
   // api
-  /*const getNovelList = get({ url: 'api/novel/list?page=1&size=10' });*/
+  const getNovelList = get({ url: 'api/novel/list?page=1&size=10' });
+  console.log(getNovelList);
   const mockNovelList = novelList.novelList;
 
   return (
@@ -65,7 +65,7 @@ function Home(): React.JSX.Element {
         </div>
         <div className="grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10">
           {mockNovelList.map((novel) => (
-            <Link key={novel.id} to='/book'>
+            <Link key={novel.id} to='/novel'>
               <SimpleBookCard title={novel.title} author={novel.author} coverImageUrl={novel.coverImageUrl} />
             </Link>
           ))

@@ -9,21 +9,31 @@ import { post } from '../../api/api.ts';
 
 // css
 import { Button } from 'flowbite-react';
+import axios from "axios";
 
 type AddBookProps = {
   isOpened: boolean;
   onClose: () => void;
 };
 
+interface PresignedUrlResponse {
+  data: {
+    novelId: string,
+    presignedUrl: string;
+  };
+}
+
 function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null {
   const categories: string[] = Object.values(CategoryType);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [bookData, setBookData] = useState({
     title: '',
     author: '',
     summary: '',
+    publicationYear: 0,
     category: [] as string[],
     isCompleted: false,
   });
@@ -37,9 +47,9 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (file) {
+      setFile(file);
       setFileName(file.name);
       setPreview(URL.createObjectURL(file));
-      console.log('선택한 파일: ', file);
     }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
@@ -58,8 +68,28 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   console.log(bookData.category);
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    const res = post({ url: 'api/admin/novel', data: bookData });
-    console.log('res', res);
+    post<PresignedUrlResponse>({ url: 'api/admin/novel', data: bookData })
+        .then((res) => {
+          const presignedUrl = res.data.presignedUrl;
+          console.log(presignedUrl);
+          if (file && presignedUrl) {
+            axios.put(presignedUrl, file, {
+              headers: {
+                'Content-Type': 'image/jpeg',
+              },
+            })
+                .then((uploadRes) => {
+                  console.log('File uploaded successfully', uploadRes);
+                  // 성공적으로 업로드된 후 추가 작업을 수행할 수 있습니다.
+                })
+                .catch((error) => {
+                  console.error('Error uploading file:', error);
+                });
+          }
+        })
+        .catch((error) => {
+          console.error('Error creating presignedURL:', error);
+        });
   };
 
   return (
@@ -131,10 +161,9 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
                 <div className="flex flex-wrap w-96 gap-3">
                   {categories.map((category) => (
                     <Button pill size="xs"
-                            color={bookData.category.includes(category) ? 'blue' : "gray"}
                             key={category} name="category"
                             onClick={() => handleCategoryClick(category)}
-                            className={`text-line focus:ring-0`}>{category}
+                            className={`focus:ring-0 ${bookData.category.includes(category) ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>{category}
                     </Button>
                   ))}
                 </div>
