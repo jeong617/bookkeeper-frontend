@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 
 // css
@@ -10,17 +10,36 @@ import MainButton from "../../components/MainButton";
 
 interface UploadEpisodeProps {
     title: string;
+    onClose: () => void;
 }
 
-function UploadEpisode({title}: UploadEpisodeProps): React.JSX.Element {
+interface EpisodeData {
+    title: string;
+    scheduledReleaseDate?: string; // 옵셔널 필드
+    releasedDate?: string; // 옵셔널 필드
+    releaseStatus: "PRIVATE" | "PUBLIC"; // 열거형 타입으로 설정 (선택사항)
+}
 
+function UploadEpisode({title, onClose}: UploadEpisodeProps): React.JSX.Element {
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [episodeData, setEpisodeData] = useState<EpisodeData>({
+        title: '',
+        scheduledReleaseDate: undefined,
+        releasedDate: undefined,
+        releaseStatus: 'PUBLIC',
+    })
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center">
             <div className="flex flex-col gap-10 bg-white w-[800px] p-6 rounded-md shadow-lg">
                 <div className="flex flex-row justify-between">
                     <h2 className="text-3xl font-extrabold self-start px-6 py-5">{title}</h2>
-                    <MainButton label="저장" className="w-14 mr-3 align-top self-end"/>
+                    <div className="relative end-0.5 mb-5 flex gap-3">
+                        <button type="submit"><MainButton className="w-14" label="저장"/></button>
+                        <button
+                            onClick={onClose}
+                        ><MainButton className="w-14 bg-gray-400" label="닫기"/></button>
+                    </div>
                 </div>
 
                 {/* 파일 업로드 */}
