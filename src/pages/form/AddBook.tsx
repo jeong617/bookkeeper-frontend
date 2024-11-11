@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { AiOutlineUpload, AiOutlinePlus } from 'react-icons/ai';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 // project
 import MainButton from '../../components/MainButton';
@@ -8,8 +9,8 @@ import { CategoryType } from '../../store/types.tsx';
 import { post } from '../../api/api.ts';
 
 // css
+import { AiOutlineUpload, AiOutlinePlus } from 'react-icons/ai';
 import { Button } from 'flowbite-react';
-import axios from "axios";
 
 type AddBookProps = {
   isOpened: boolean;
@@ -24,6 +25,7 @@ interface PresignedUrlResponse {
 }
 
 function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null {
+  const navigate = useNavigate();
   const categories: string[] = Object.values(CategoryType);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -80,12 +82,14 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
             })
                 .then((uploadRes) => {
                   console.log('File uploaded successfully', uploadRes);
-                  // 성공적으로 업로드된 후 추가 작업을 수행할 수 있습니다.
+                  onClose();
                 })
                 .catch((error) => {
                   console.error('Error uploading file:', error);
                 });
           }
+          alert('새 소설 생성 완료!');
+          window.location.reload();
         })
         .catch((error) => {
           console.error('Error creating presignedURL:', error);
@@ -175,10 +179,10 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
                 <div className="flex gap-3">
                   <Button pill size="xs" color="gray" name="isCompleted"
                           onClick={() => setBookData((prev) => ({ ...prev, isCompleted: true }))}
-                          className={`text-line focus:ring-0`}>완결</Button>
+                          className={`focus:ring-0 ${bookData.isCompleted === true ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>완결</Button>
                   <Button pill size="xs" color="gray" name="isCompleted"
                           onClick={() => setBookData((prev) => ({ ...prev, isCompleted: false }))}
-                          className={`text-line focus:ring-0`}>미완결</Button>
+                          className={`focus:ring-0 ${bookData.isCompleted === false ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>미완결</Button>
                 </div>
               </div>
             </div>
