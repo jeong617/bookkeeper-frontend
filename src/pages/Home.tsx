@@ -32,16 +32,16 @@ function Home(): React.JSX.Element {
     const fetchNovelList = async () => {
       try {
         const res = await get({
-          url: 'api/admin/novel/list?page=1&size=10',
+          url: 'api/admin/novel/list?page=1&size=20',
         });
         setNovelList(res.data.data.novelList); // API에서 가져온 소설 목록을 상태에 저장
-        console.log(novelList);
       } catch (error) {
         console.error('소설 목록을 가져오는 데 실패했습니다.', error);
       }
     };
     fetchNovelList();
   }, []);
+  console.log(novelList);
 
   return (
     <>
