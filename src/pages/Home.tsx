@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // project
@@ -9,16 +9,17 @@ import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import useSideBarStore from '../store/store.tsx';
 import get from '../api/api.ts'
-import { novelList } from '../api/mock/novelList.ts';
 
 // css
 import { Button, Pagination } from 'flowbite-react';
 import { FaBars } from 'react-icons/fa6';
+import { AxiosResponse } from 'axios';
 
 function Home(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
+  const [novelList, setNovelList] = useState<any[]>([]);
   const categories: CategoryType[] = Object.values(CategoryType);
 
   // handler
@@ -27,9 +28,20 @@ function Home(): React.JSX.Element {
   const closeModal = () => setModalOpened(false);
 
   // api
-  const getNovelList = get({ url: 'api/novel/list?page=1&size=10' });
-  console.log(getNovelList);
-  const mockNovelList = novelList.novelList;
+  useEffect(() => {
+    const fetchNovelList = async () => {
+      try {
+        const res = await get({
+          url: 'api/admin/novel/list?page=1&size=10',
+        });
+        setNovelList(res.data.data.novelList); // API에서 가져온 소설 목록을 상태에 저장
+        console.log(novelList);
+      } catch (error) {
+        console.error('소설 목록을 가져오는 데 실패했습니다.', error);
+      }
+    };
+    fetchNovelList();
+  }, []);
 
   return (
     <>
@@ -64,12 +76,19 @@ function Home(): React.JSX.Element {
           </div>
         </div>
         <div className="grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10">
-          {mockNovelList.map((novel) => (
-            <Link key={novel.id} to='/novel'>
-              <SimpleBookCard title={novel.title} author={novel.author} coverImageUrl={novel.coverImageUrl} />
-            </Link>
-          ))
-          }
+          {Array.isArray(novelList) && novelList.length > 0 ? (
+            novelList.map((novel) => (
+              <Link key={novel.id} to={`/novel/${novel.id}`}>
+                <SimpleBookCard
+                  title={novel.title}
+                  author={novel.authorList.join(', ')}
+                  coverImageUrl={novel.coverImageUrl}
+                />
+              </Link>
+            ))
+          ) : (
+            <div>소설 목록이 없습니다.</div>
+          )}
         </div>
 
         {/* 페이지 번호 */}
