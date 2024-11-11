@@ -6,6 +6,18 @@ import Home from '../pages/Home.tsx';
 import DashBoard from '../pages/DashBoard.tsx';
 import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
+import { get } from '../api/api.ts';
+
+const loadBookDetail = async ({ params }: any) => {
+  const { novelId } = params; // URL 파라미터에서 novelId를 받음
+  try {
+    const res = await get({ url: `api/admin/novel/detail/${novelId}` });
+    return { novelDetail: res.data }; // 데이터를 반환
+  } catch (error) {
+    console.error('소설 정보를 가져오는 데 실패했습니다.', error);
+    throw new Error('Failed to load book details');
+  }
+};
 
 const router = createBrowserRouter([
   {
@@ -25,8 +37,9 @@ const router = createBrowserRouter([
         element: <DashBoard />
       },
       {
-        path: 'novel/',
-        element: <BookDetail title="데미안" coverImageUrl='/src/assets/book-cover/데미안.png' author='헤르만헤서' summary='줄거리~~' like={617} />
+        path: 'novel/:novelId',
+        element: <BookDetail />,
+        loader: loadBookDetail,
       }
     ]
   }
