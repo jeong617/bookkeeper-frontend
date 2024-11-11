@@ -8,12 +8,10 @@ import EpisodeListItem from '../../components/EpisodeListItem.tsx';
 import CommentItem from '../../components/CommentItem.tsx';
 import { BookDetailTabType } from '../../store/types.tsx';
 import PopUp from '../form/PopUp.tsx';
-import { get } from '../../api/api.ts';
 
 // css
 import { FaPen, FaHeart, FaTrashAlt, FaPlus } from 'react-icons/fa';
 import UploadEpisode from '../form/UploadEpisode.tsx';
-import bookDetail from './BookDetail.tsx';
 
 interface Chapter {
   episode: number;
@@ -43,6 +41,7 @@ function BookDetail({
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
   const { novelId } = useParams<{ novelId: string }>();  // 파라미터 타입 정의
   const { novelDetail } = useLoaderData<{ novelDetail: NovelDetail }>();
+  const defaultImage = '/src/assets/book-cover/default-book-cover.jpg';
 
   // handler
   const openModal = () => setModalOpened(true);
@@ -58,6 +57,11 @@ function BookDetail({
             alt="book-cover-image"
             src={novelDetail.coverImageUrl}
             className="w-48 h-64 rounded-normal-radius shadow-md"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = defaultImage;
+            }}
           />
           <div className="flex flex-col w-full items-start justify-between py-2">
             <div
@@ -145,7 +149,7 @@ function BookDetail({
       {/* open modal */}
       {isModalOpened && novelId && (
         // TODO: 추후 title 넘어가지 않고 novelId 넘겨주기~
-        <div><UploadEpisode novelId={novelId} title="데미안" onClose={closeModal} /></div>
+        <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeModal} /></div>
       )}
     </>
   );
