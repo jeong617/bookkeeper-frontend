@@ -13,13 +13,15 @@ import get from '../api/api.ts'
 // css
 import { Button, Pagination } from 'flowbite-react';
 import { FaBars } from 'react-icons/fa6';
-import { AxiosResponse } from 'axios';
 
 function Home(): React.JSX.Element {
+  // 상태관리
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
   const [novelList, setNovelList] = useState<any[]>([]);
+
+  //
   const categories: CategoryType[] = Object.values(CategoryType);
 
   // handler
@@ -65,7 +67,7 @@ function Home(): React.JSX.Element {
         <div className="flex flex-col w-full divide-y">
           <div className="flex justify-between mb-2">
             <span className="text-xl font-bold">서적목록</span>
-            <button onClick={openModal}><FormButton label="새 작품 만들기" /></button>
+            <FormButton onClick={openModal} label="새 작품 만들기" />
           </div>
           <div className="flex flex-row gap-2 py-2">
             {categories.map((category: CategoryType, index) => (

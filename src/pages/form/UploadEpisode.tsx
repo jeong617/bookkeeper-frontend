@@ -53,7 +53,6 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         const {name, value} = e.target;
         setEpisodeData((prev) => ({...prev, [name]: value}));
-        console.log(episodeData);
     };
     const handleReleaseStatusChange = (status: 'PRIVATE' | 'PUBLIC' | 'SCHEDULED'): void => {
         setEpisodeData((prev) => ({...prev, releaseStatus: status}));

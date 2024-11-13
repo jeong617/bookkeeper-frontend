@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 
 // project
 import MainButton from '../../components/MainButton';
@@ -25,7 +24,6 @@ interface PresignedUrlResponse {
 }
 
 function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null {
-  const navigate = useNavigate();
   const categories: string[] = Object.values(CategoryType);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -57,7 +55,6 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setBookData((prev) => ({ ...prev, [name]: value }));
-    console.log(bookData);
   };
   const handleCategoryClick = (category: string): void => {
     setBookData((prev) => {
@@ -67,13 +64,11 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
       return { ...prev, category: updatedCategories };
     });
   };
-  console.log(bookData.category);
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     post<PresignedUrlResponse>({ url: 'api/admin/novel', data: bookData })
         .then((res) => {
           const presignedUrl = res.data.presignedUrl;
-          console.log(presignedUrl);
           if (file && presignedUrl) {
             axios.put(presignedUrl, file, {
               headers: {
@@ -81,11 +76,9 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
               },
             })
                 .then((uploadRes) => {
-                  console.log('File uploaded successfully', uploadRes);
                   onClose();
                 })
                 .catch((error) => {
-                  console.error('Error uploading file:', error);
                 });
           }
           alert('새 소설 생성 완료!');
@@ -179,10 +172,10 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
                 <div className="flex gap-3">
                   <Button pill size="xs" color="gray" name="isCompleted"
                           onClick={() => setBookData((prev) => ({ ...prev, isCompleted: true }))}
-                          className={`focus:ring-0 ${bookData.isCompleted === true ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>완결</Button>
+                          className={`focus:ring-0 ${bookData.isCompleted ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>완결</Button>
                   <Button pill size="xs" color="gray" name="isCompleted"
                           onClick={() => setBookData((prev) => ({ ...prev, isCompleted: false }))}
-                          className={`focus:ring-0 ${bookData.isCompleted === false ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>미완결</Button>
+                          className={`focus:ring-0 ${!bookData.isCompleted ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>미완결</Button>
                 </div>
               </div>
             </div>
