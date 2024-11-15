@@ -6,8 +6,8 @@ import {AiOutlineUpload} from 'react-icons/ai';
 // project
 import InputBox from '../../components/InputBox.tsx';
 import MainButton from '../../components/MainButton';
-import {post} from '../../api/api.ts';
-import axios from 'axios';
+import {post, putPresignedUrl} from '../../api/api.ts';
+import {AxiosRequestHeaders} from 'axios';
 
 interface UploadEpisodeProps {
     novelId: string;
@@ -86,15 +86,13 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
         post<PresignedUrlResponse>({url: 'api/admin/episode', data: {...episodeData, 'novelId': novelId}})
             .then((res) => {
                 const presignedUrl = res.data.presignedUrl;
-                console.log(presignedUrl);
                 if (file && presignedUrl) {
-                    axios.put(presignedUrl, file, {
-                        headers: {
-                            'Content-Type': 'text/plain; charset=UTF-8',
-                        },
+                    putPresignedUrl({
+                        url: presignedUrl, data: file, headers: {
+                            'Content-Type': 'text/plain; charset=UTF-8'
+                        } as AxiosRequestHeaders
                     })
-                        .then((uploadRes) => {
-                            console.log('File uploaded successfully', uploadRes);
+                        .then(() => {
                             alert('업로드 성공!');
                         })
                         .catch((error) => {
