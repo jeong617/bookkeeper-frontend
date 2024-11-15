@@ -14,7 +14,6 @@ const loadBookDetail = async ({ params }: any) => {
     const res = await get({ url: `api/admin/novel/detail/${novelId}` });
     return { novelDetail: res.data }; // 데이터를 반환
   } catch (error) {
-    console.error('소설 정보를 가져오는 데 실패했습니다.', error);
     throw new Error('Failed to load book details');
   }
 };
