@@ -13,7 +13,7 @@ const loadBookDetail = async ({ params }: any) => {
   try {
     const res = await get({ url: `api/admin/novel/detail/${novelId}` });
     return { novelDetail: res.data }; // 데이터를 반환
-  } catch (error) {
+  } catch {
     throw new Error('Failed to load book details');
   }
 };
