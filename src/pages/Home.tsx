@@ -32,19 +32,17 @@ function Home(): React.JSX.Element {
 
     // api
     useEffect(() => {
-        const fetchNovelList = async () => {
+        (async () => {
             try {
                 const res = await get({
                     url: 'api/admin/novel/list?page=1&size=20',
                 });
-                setNovelList(res.data.data.novelList); // API에서 가져온 소설 목록을 상태에 저장
+                setNovelList(res.data.data.novelList);
             } catch (error) {
                 console.error('소설 목록을 가져오는 데 실패했습니다.', error);
             }
-        };
-        fetchNovelList();
+        })();
     }, []);
-    console.log(novelList);
 
     return (
         <>
@@ -79,7 +77,7 @@ function Home(): React.JSX.Element {
                     </div>
                 </div>
                 <div className="grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10">
-                    {isNovelListEmpty ? (
+                    {!isNovelListEmpty ? (
                         novelList.map((novel) => (
                             <Link key={novel.id} to={`/novel/${novel.id}`}>
                                 <SimpleBookCard
