@@ -7,12 +7,13 @@ import DashBoard from '../pages/DashBoard.tsx';
 import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
 import { get } from '../api/api.ts';
+import {AxiosResponse} from "axios";
 
 const loadBookDetail = async ({ params }: any) => {
-  const { novelId } = params; // URL 파라미터에서 novelId를 받음
+  const { novelId } = params;
   try {
-    const res = await get({ url: `api/admin/novel/detail/${novelId}` });
-    return { novelDetail: res.data }; // 데이터를 반환
+    const res: AxiosResponse = await get({ url: `api/admin/novel/detail/${novelId}` });
+    return { novelDetail: res.data };
   } catch {
     throw new Error('Failed to load book details');
   }
