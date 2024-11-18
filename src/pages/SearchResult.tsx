@@ -45,12 +45,9 @@ function SearchResult(): React.JSX.Element {
                                 className={`text-line focus:ring-0 ${sortOrder === 'alphabetical' ? 'text-button border-button' : null}`}>가나다순</Button>
                     </div>
                     <div className="grid grid-cols-5  gap-x-8 gap-y-10 py-8 px-16">
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"
-                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"
-                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"
-                                        coverImageUrl="/src/assets/book-cover/데미안.png"/>
+                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
+                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
+                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
                     </div>
                 </section>
             </div>
