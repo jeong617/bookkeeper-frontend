@@ -58,10 +58,10 @@ function BookDetail(): React.JSX.Element {
                                 id="form-button"
                                 className="flex flex-row gap-5 px-2 items-center"
                             >
-                                <button><FormButton
+                                <FormButton
                                     label="수정"
                                     icon={<FaPen size={13} className="fill-button-text"/>}
-                                /></button>
+                                />
                                 <button
                                     onClick={() => setPopWarning(true)}
                                 ><FaTrashAlt size={25} className="fill-red-500"/>
