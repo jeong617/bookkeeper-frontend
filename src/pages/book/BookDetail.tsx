@@ -9,35 +9,26 @@ import CommentItem from '../../components/CommentItem.tsx';
 import {BookDetailTabType} from '../../store/types.tsx';
 import {NovelDetailData} from "../../store/novelDetailData.ts";
 import PopUp from '../form/PopUp.tsx';
+import { episodeList } from '../../api/mock/episodeList.ts';
 
 // css
 import {FaPen, FaHeart, FaTrashAlt, FaPlus} from 'react-icons/fa';
 import UploadEpisode from '../form/UploadEpisode.tsx';
 
-interface Chapter {
-    episode: number;
-    subtitle: string;
-}
-
-interface BookDetailProps {
-    chapterList?: Chapter[];
-}
-
-function BookDetail({
-                        chapterList,
-                    }: BookDetailProps): React.JSX.Element {
+function BookDetail(): React.JSX.Element {
     const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);
     const [popWarning, setPopWarning] = useState<boolean>(false);
     const [isModalOpened, setModalOpened] = useState<boolean>(false);
     const {novelId} = useParams<{ novelId: string }>();
     const {novelDetail} = useLoaderData() as {novelDetail: NovelDetailData};
+
+    // etc.
     const defaultImage = '/src/assets/book-cover/default-book-cover.jpg';
 
     // handler
     const openModal = () => setModalOpened(true);
     const closeModal = () => setModalOpened(false);
 
-    console.log(novelDetail);
     return (
         <>
             <Header/>
@@ -117,12 +108,12 @@ function BookDetail({
                                 </div>
                             </div>
                         )}
-                        {BookDetailTabType.Episodes && chapterList && chapterList.length > 0 &&
-                            chapterList.map((ch, index) => (
+                        {BookDetailTabType.Episodes && episodeList && episodeList.length > 0 &&
+                            episodeList.map((ep) => (
                                 <EpisodeListItem
-                                    key={index}
-                                    chapterNum={index + 1}
-                                    episodeTitle={ch.subtitle}
+                                    key={ep.id}
+                                    chapterNum={Number(ep.chapter)}
+                                    episodeTitle={ep.title}
                                 />
                             ))}
                         {activeTab === BookDetailTabType.Comments && (
@@ -139,7 +130,6 @@ function BookDetail({
 
             {/* open modal */}
             {isModalOpened && novelId && (
-                // TODO: 추후 title 넘어가지 않고 novelId 넘겨주기~
                 <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeModal}/></div>
             )}
         </>
