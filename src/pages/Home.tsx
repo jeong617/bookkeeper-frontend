@@ -25,7 +25,6 @@ function Home(): React.JSX.Element {
     currentPage: 1,
   });
 
-  // etc.
   const categories: CategoryType[] = Object.values(CategoryType);
   const isNovelListEmpty = Array.isArray(novelList) && novelList.length === 0;
 
@@ -41,7 +40,7 @@ function Home(): React.JSX.Element {
 
   // api
   useEffect(() => {
-    (async () => {
+    const fetchNovelList = async () => {
       try {
         const res = await get({
           url: `api/admin/novel/list?page=${pageInfo.currentPage}&size=20`,
@@ -55,7 +54,8 @@ function Home(): React.JSX.Element {
       } catch (error) {
         console.error('소설 목록을 가져오는 데 실패했습니다.', error);
       }
-    })();
+    };
+    fetchNovelList();
   }, [pageInfo.currentPage]);
 
   return (
