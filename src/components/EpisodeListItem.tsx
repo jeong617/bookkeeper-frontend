@@ -11,7 +11,7 @@ interface EpisodeListItemProps {
 function EpisodeListItem({chapterNum, episodeTitle}: EpisodeListItemProps): React.JSX.Element {
 
     return (
-        <div className="flex flex-row bg-white mx-1 px-3 py-3 justify-between rounded-normal-radius">
+        <div className="flex flex-row bg-white mx-1 px-3 py-3 justify-between rounded-md">
             {/* 제목 */}
             <div className="flex flex-row gap-2">
                 <span className="font-bold text-xl">{`chpater${chapterNum}`}</span>
