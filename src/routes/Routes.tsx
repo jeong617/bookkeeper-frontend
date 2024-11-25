@@ -12,7 +12,7 @@ import {AxiosResponse} from "axios";
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
   try {
-    const res: AxiosResponse = await get({ url: `api/admin/novel/detail/${novelId}` });
+    const res: AxiosResponse = await get({ url: `api/admin/novels/${novelId}` });
     return { novelDetail: res.data };
   } catch {
     throw new Error('Failed to load book details');
