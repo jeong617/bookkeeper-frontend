@@ -13,17 +13,25 @@ export enum DisplayType {
   Bookmark = "bookmark"
 }
 
-export enum SortType {
-  Latest = "latest",
-  Alphabetical = "alphabetical"
-}
-
 export enum RoleType {
-  Member = "member",
-  Admin = "admin",
+  Members = "members",
+  Admins = "admins",
 }
 
 export enum BookDetailTabType {
   Episodes = "episodes",
   Comments = "comments",
+}
+
+/* SORT OPTIONS */
+export enum SortField {
+  id = "id",
+  nickname = "nickname",
+  email = "email",
+  createdAt = "createdAt",
+}
+
+export enum SortDirection {
+  asc = "asc",
+  desc = "desc",
 }

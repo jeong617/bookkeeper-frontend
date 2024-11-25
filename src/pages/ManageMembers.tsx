@@ -4,18 +4,18 @@ import React, { useState } from "react";
 import { Header } from "../components/header";
 import FormButton from "../components/FormButton.tsx";
 import SearchBar from "../components/SearchBar";
+import { RoleType, SortDirection, SortField } from '../store/types.tsx';
 
 // css
 import { FaUser, FaUserCog, FaPlus } from "react-icons/fa";
 import MemberItem from "../components/MemberItem.tsx";
 
-enum TabType {
-  Admins = "admins",
-  Memebers = "memebers",
-}
-
 function ManageMembers(): React.JSX.Element {
-  const [activeTab, setActivetab] = useState<TabType>(TabType.Admins);
+  const [activeTab, setActivetab] = useState<RoleType>(RoleType.Admins);
+  const [sortOption, setSortOptions] = useState({
+    sortField: SortField.createdAt,
+    sortDirection: SortDirection.desc,
+  })
 
   return (
     <>
@@ -26,8 +26,8 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === TabType.Admins ? "bg-background underline" : "bg-white"}`}
-              onClick={() => setActivetab(TabType.Admins)}
+                                ${activeTab === RoleType.Admins ? "bg-background underline" : "bg-white"}`}
+              onClick={() => setActivetab(RoleType.Admins)}
             >
               <FaUser />
               ADMINS
@@ -35,8 +35,8 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === TabType.Memebers ? "bg-background underline" : "bg-white"}`}
-              onClick={() => setActivetab(TabType.Memebers)}
+                                ${activeTab === RoleType.Members ? "bg-background underline" : "bg-white"}`}
+              onClick={() => setActivetab(RoleType.Members)}
             >
               <FaUserCog />
               MEMBERS
@@ -69,25 +69,6 @@ function ManageMembers(): React.JSX.Element {
               nickname="^^"
               isAccountActive={true}
               className="rounded-t-normal-radius"
-            />
-            <MemberItem
-              email="crystal@gmail.com"
-              createdAt="2024-06-17"
-              nickname="^^"
-              isAccountActive={true}
-            />
-            <MemberItem
-              email="crystal@gmail.com"
-              createdAt="2024-06-17"
-              nickname="^^"
-              isAccountActive={false}
-            />
-            <MemberItem
-              email="crystal@gmail.com"
-              createdAt="2024-06-17"
-              nickname="^^"
-              isAccountActive={false}
-              className="rounded-b-normal-radius"
             />
           </div>
         </div>
