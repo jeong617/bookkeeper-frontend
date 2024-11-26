@@ -1,5 +1,6 @@
 import { useParams, useLoaderData } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
 
 // project
 import { get } from '../../api/api.ts';
@@ -8,20 +9,20 @@ import FormButton from '../../components/FormButton.tsx';
 import EpisodeListItem from '../../components/EpisodeListItem.tsx';
 import CommentItem from '../../components/CommentItem.tsx';
 import { BookDetailTabType } from '../../store/types.tsx';
-import { NovelDetailData } from '../../store/novelDetailData.ts';
-import PopUp from '../form/PopUp.tsx';
+import { NovelDetailData, EpisodeData, CommentData } from '../../store/novelDetailInterface.ts';
+import parseDateTime from '../../utils/parseDateTime.ts';
 
 // css
 import { FaPen, FaHeart, FaTrashAlt, FaPlus } from 'react-icons/fa';
+import PopUp from '../form/PopUp.tsx';
 import UploadEpisode from '../form/UploadEpisode.tsx';
-import { AxiosResponse } from 'axios';
 
 function BookDetail(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);
   const [popWarning, setPopWarning] = useState<boolean>(false);
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
-  const [episodeList, setEpisodeList] = useState<any[]>([]);
-  const [commentList, setCommentList] = useState<any[]>([]);
+  const [episodeList, setEpisodeList] = useState<EpisodeData[]>([]);
+  const [commentList, setCommentList] = useState<CommentData[]>([]);
   const { novelId } = useParams<{ novelId: string }>();
   const { novelDetail } = useLoaderData() as { novelDetail: NovelDetailData };
 
@@ -163,7 +164,7 @@ function BookDetail(): React.JSX.Element {
                       episodeNumber={comment.episodeNumber}
                       userName={comment.userName}
                       content={comment.content}
-                      createdAt={comment.updatedAt.split('T')[0] + ' ' + comment.createdAt.split('T')[1]}
+                      createdAt={parseDateTime(comment.createdAt)}
                     />
                   ),
                 )
