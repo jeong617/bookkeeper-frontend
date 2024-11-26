@@ -1,21 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 // project
-import { Header } from "../components/header";
-import FormButton from "../components/FormButton.tsx";
-import SearchBar from "../components/SearchBar";
+import { Header } from '../components/header';
+import FormButton from '../components/FormButton.tsx';
+import SearchBar from '../components/SearchBar';
 import { RoleType, SortDirection, SortField } from '../store/types.tsx';
+import { get } from '../api/api.ts';
 
 // css
-import { FaUser, FaUserCog, FaPlus } from "react-icons/fa";
-import MemberItem from "../components/MemberItem.tsx";
+import { FaUser, FaUserCog, FaPlus } from 'react-icons/fa';
+import MemberItem from '../components/MemberItem.tsx';
+import { AxiosResponse } from 'axios';
 
 function ManageMembers(): React.JSX.Element {
-  const [activeTab, setActivetab] = useState<RoleType>(RoleType.Admins);
-  const [sortOption, setSortOptions] = useState({
+  const [activeTab, setActivetab] = useState<RoleType>(RoleType.Members);
+  const [paramOption, setParamOptions] = useState({
+    currentPage: 1,
     sortField: SortField.createdAt,
     sortDirection: SortDirection.desc,
-  })
+  });
+  const [memberList, setMemberList] = useState([]);
+  const [adminList, setAdminList] = useState([]);
+
+  // member list api
+  useEffect(() => {
+    const getMemberList = async () => {
+      try {
+        const res: AxiosResponse = await get({
+          url: `admin/members?page=${paramOption.currentPage}&size=10&sortField=${paramOption.sortField}&sortDirectioson=${paramOption.sortDirection}`,
+        });
+        setMemberList(res.data.memberList);
+      } catch (error) {
+        console.error('회원 목록을 가져오는 데 실패했습니다.', error);
+      }
+    };
+    getMemberList();
+  },)
+
+  // TODO: admin list api
+
 
   return (
     <>
@@ -26,7 +49,7 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === RoleType.Admins ? "bg-background underline" : "bg-white"}`}
+                                ${activeTab === RoleType.Admins ? 'bg-background underline' : 'bg-white'}`}
               onClick={() => setActivetab(RoleType.Admins)}
             >
               <FaUser />
@@ -35,7 +58,7 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === RoleType.Members ? "bg-background underline" : "bg-white"}`}
+                                ${activeTab === RoleType.Members ? 'bg-background underline' : 'bg-white'}`}
               onClick={() => setActivetab(RoleType.Members)}
             >
               <FaUserCog />
@@ -55,22 +78,26 @@ function ManageMembers(): React.JSX.Element {
 
         {/* admin & member list */}
         <div className="bg-background w-full py-3 rounded-tr-normal-radius rounded-b-normal-radius">
-          <div className="grid grid-cols-8 gap-2 px-2 items-center mx-2 pb-1">
-            <span>프로필</span>
-            <span className="col-span-2">닉네임</span>
-            <span className="col-span-2">이메일</span>
-            <span className="col-span-2">가입일</span>
-            <span>활성여부</span>
-          </div>
-          <div className="divide-y">
-            <MemberItem
-              email="crystal@gmail.com"
-              createdAt="2024-06-17"
-              nickname="^^"
-              isAccountActive={true}
-              className="rounded-t-normal-radius"
-            />
-          </div>
+          {activeTab === RoleType.Members && (
+            <>
+              <div className="grid grid-cols-8 gap-2 px-2 items-center mx-2 pb-1">
+                <span className="justify-self-center">프로필</span>
+                <span className="col-span-2">닉네임</span>
+                <span className="col-span-2">이메일</span>
+                <span className="col-span-2">가입일</span>
+                <span>활성여부</span>
+              </div>
+              <div className="divide-y">
+                <MemberItem
+                  email="crystal@gmail.com"
+                  createdAt="2024-06-17"
+                  nickname="^^"
+                  isAccountActive={true}
+                  className="rounded-t-normal-radius"
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
