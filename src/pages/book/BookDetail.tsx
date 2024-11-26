@@ -1,34 +1,70 @@
 import { useParams, useLoaderData } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
 
 // project
+import { get } from '../../api/api.ts';
 import { Header } from '../../components/header';
 import FormButton from '../../components/FormButton.tsx';
 import EpisodeListItem from '../../components/EpisodeListItem.tsx';
 import CommentItem from '../../components/CommentItem.tsx';
 import { BookDetailTabType } from '../../store/types.tsx';
-import { NovelDetailData } from '../../store/novelDetailData.ts';
-import PopUp from '../form/PopUp.tsx';
-import { episodeList } from '../../api/mock/episodeList.ts';
-import { commentList } from '../../api/mock/commentList.ts';
+import { NovelDetailData, EpisodeData, CommentData } from '../../store/novelDetailInterface.ts';
+import parseDateTime from '../../utils/parseDateTime.ts';
 
 // css
 import { FaPen, FaHeart, FaTrashAlt, FaPlus } from 'react-icons/fa';
+import PopUp from '../form/PopUp.tsx';
 import UploadEpisode from '../form/UploadEpisode.tsx';
 
 function BookDetail(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);
   const [popWarning, setPopWarning] = useState<boolean>(false);
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
+  const [episodeList, setEpisodeList] = useState<EpisodeData[]>([]);
+  const [commentList, setCommentList] = useState<CommentData[]>([]);
   const { novelId } = useParams<{ novelId: string }>();
   const { novelDetail } = useLoaderData() as { novelDetail: NovelDetailData };
 
   // etc.
-  const defaultImage = '/src/assets/book-cover/default-book-cover.jpg';
+  const defaultImage = '/book-cover/default-book-cover.jpg';
 
   // handler
   const openModal = () => setModalOpened(true);
   const closeModal = () => setModalOpened(false);
+
+  // episodeList api
+  useEffect(() => {
+    const getEpisodeList = async () => {
+      try {
+        const res: AxiosResponse = await get({
+          url: `api/admin/novels/${novelId}/episodes`,
+        });
+        setEpisodeList(res.data.episodeList);
+      } catch (error) {
+        console.error('소설 목록을 가져오는 데 실패했습니다.', error);
+      }
+    };
+    getEpisodeList();
+  }, [novelId]);
+
+  // commentList api
+  useEffect(() => {
+    if (activeTab === BookDetailTabType.Comments) {
+      const getCommentList = async () => {
+        try {
+          const res: AxiosResponse = await get({
+            url: `api/admin/novels/${novelId}/comments`,
+          });
+          setCommentList(res.data.commentList);
+        } catch (error) {
+          console.error('댓글 목록을 가져오는 데 실패했습니다.', error);
+        }
+      };
+      getCommentList();
+      console.log(commentList);
+    }
+  },[activeTab, novelId]);
 
   return (
     <>
@@ -80,7 +116,6 @@ function BookDetail(): React.JSX.Element {
           </div>
         </div>
 
-        {/* 회차 정보 */}
         <div className="bg-gray-50 w-full mt-12 rounded-normal-radius">
           {/* 회차-댓글 전환 버튼 */}
           <div className="flex flex-row py-3 text-lg">
@@ -98,9 +133,10 @@ function BookDetail(): React.JSX.Element {
             </button>
           </div>
           <div id="tap-content" className="p-2">
+
             {activeTab === BookDetailTabType.Episodes && (
               <div
-                className="flex flex-row bg-gray-200 mx-1 px-3 py-3 justify-center rounded-normal-radius hover:bg-gray-300 cursor-pointer"
+                className="flex flex-row bg-gray-200 mb-2 mx-1 px-3 py-3 justify-center rounded-normal-radius hover:bg-gray-300 cursor-pointer"
                 onClick={openModal}
               >
                 <div className="flex flex-row items-center gap-2">
@@ -109,25 +145,31 @@ function BookDetail(): React.JSX.Element {
                 </div>
               </div>
             )}
-            {BookDetailTabType.Episodes && episodeList && episodeList.length > 0 &&
-              episodeList.map((ep) => (
-                <EpisodeListItem
-                  key={ep.id}
-                  chapterNum={Number(ep.chapter)}
-                  episodeTitle={ep.title}
-                />
-              ))}
-            {activeTab === BookDetailTabType.Comments &&
-              commentList.map((comment) => (
-                  <CommentItem
-                    chapter={comment.episodeNum}
-                    nickname="크리스탈"
-                    comment="잼써요"
-                    createdAt="2024-10-28 15:39"
+            {/* 회차 정보 */}
+            <div className='flex flex-col gap-1'>
+              {activeTab === BookDetailTabType.Episodes && episodeList && episodeList.length > 0 &&
+                episodeList.map((ep) => (
+                  <EpisodeListItem
+                    key={ep.id}
+                    chapterNum={Number(ep.chapter)}
+                    episodeTitle={ep.title}
                   />
-                ),
-              )
-            }
+                ))}
+            </div>
+            <div>
+              {activeTab === BookDetailTabType.Comments &&
+                commentList.map((comment) => (
+                    <CommentItem
+                      key={comment.id}
+                      episodeNumber={comment.episodeNumber}
+                      userName={comment.userName}
+                      content={comment.content}
+                      createdAt={parseDateTime(comment.createdAt)}
+                    />
+                  ),
+                )
+              }
+            </div>
           </div>
         </div>
       </div>

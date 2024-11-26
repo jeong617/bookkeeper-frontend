@@ -43,7 +43,7 @@ function Home(): React.JSX.Element {
     const fetchNovelList = async () => {
       try {
         const res = await get({
-          url: `api/admin/novel/list?page=${pageInfo.currentPage}&size=20`,
+          url: `api/admin/novels?page=${pageInfo.currentPage}&size=20`,
         });
         setNovelList(res.data.data.novelList);
         setPageInfo((prev) => ({
