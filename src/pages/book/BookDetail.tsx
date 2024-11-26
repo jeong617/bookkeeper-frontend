@@ -159,6 +159,7 @@ function BookDetail(): React.JSX.Element {
               {activeTab === BookDetailTabType.Comments &&
                 commentList.map((comment) => (
                     <CommentItem
+                      key={comment.id}
                       episodeNumber={comment.episodeNumber}
                       userName={comment.userName}
                       content={comment.content}
