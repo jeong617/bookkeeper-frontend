@@ -2,7 +2,7 @@ import React from 'react';
 
 // css
 import { Button, Label, TextInput } from 'flowbite-react';
-
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 function Login(): React.JSX.Element {
   return (
@@ -28,20 +28,25 @@ function Login(): React.JSX.Element {
           {/* form 영역 */}
           <section className='flex flex-col gap-5'>
             <div>
-              <div className="mb-2 block">
+              <div className="block">
                 <Label htmlFor="email1" value="ID" />
               </div>
-              <TextInput id="email" type="email" required />
+              <TextInput id="email" type="email" required
+                         className='focus:outline-none'
+              />
             </div>
             <div>
-              <div className="mb-2 block">
+              <div className="block">
                 <Label htmlFor="password1" value="PASSWORD" />
               </div>
               <TextInput id="password1" type="password" required />
             </div>
-            <Button className="bg-button-text mt-5">로그인</Button>
+            <Button className="bg-button-text mt-5 shadow-md">로그인</Button>
           </section>
-          <p className='text-button-text font-light underline underline-offset-4 decoration-button-text/30 hover:cursor-pointer'>회원가입 하러가기</p>
+          <p className='mt-2 text-sm text-button-text/70 hover:cursor-pointer hover:text-button-text justify-self-center flex items-center gap-1'>
+            회원가입 하러가기
+            <IoIosArrowRoundForward />
+          </p>
         </div>
       </div>
     </div>
