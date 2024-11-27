@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import React from 'react';
 
-function Register(): React.JSX.Element {
+function Login(): React.JSX.Element {
   return (
     <>
-      <h2 className="text-5xl font-extrabold text-black mb-8">Register</h2>
+      <h2 className="text-5xl font-extrabold text-black mb-8">Log In</h2>
       {/* form 영역 */}
       <section className="flex flex-col gap-5">
         <div>
@@ -27,7 +27,7 @@ function Register(): React.JSX.Element {
       </section>
       <Link to="/register">
         <p className="mt-2 text-sm text-button-text/70 hover:cursor-pointer hover:text-button-text justify-self-center flex items-center gap-1">
-          이미 회원이신가요?
+          회원가입 하러가기
           <IoIosArrowRoundForward />
         </p>
       </Link>
@@ -35,4 +35,4 @@ function Register(): React.JSX.Element {
   );
 }
 
-export default Register;
+export default Login;

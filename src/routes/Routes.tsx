@@ -9,8 +9,7 @@ import DashBoard from '../pages/DashBoard.tsx';
 import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
 import { get } from '../api/api.ts';
-import Login from '../pages/Login.tsx';
-import Register from '../pages/Register.tsx';
+import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -45,13 +44,9 @@ const router = createBrowserRouter([
         loader: loadBookDetail,
       },
       {
-        path: 'login/',
-        element: <Login />
+        path: 'auth/',
+        element: <AuthSkeleton />,
       },
-      {
-        path: 'register/',
-        element: <Register />
-      }
     ]
   },
 ])
