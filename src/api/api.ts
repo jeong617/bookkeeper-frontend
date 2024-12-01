@@ -7,7 +7,7 @@ interface RequestArgs<T = any> {
 }
 
 const api: AxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL_NGROK,
     headers: {
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': true,    // 실제 배포 시 지우기

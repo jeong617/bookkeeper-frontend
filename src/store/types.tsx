@@ -27,3 +27,8 @@ export enum BookDetailTabType {
   Episodes = "episodes",
   Comments = "comments",
 }
+
+export enum AuthType {
+  Login = 'login',
+  Register = 'register',
+}

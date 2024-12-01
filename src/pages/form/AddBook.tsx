@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
-import {AxiosRequestHeaders} from "axios";
+import axios, {AxiosRequestHeaders} from "axios";
 
 // project
 import MainButton from '../../components/MainButton';
 import InputBox from '../../components/InputBox';
 import {CategoryType} from '../../store/types.tsx';
-import {post, putPresignedUrl} from '../../api/api.ts';
+import { putPresignedUrl} from '../../api/api.ts';
 
 // css
 import {AiOutlineUpload, AiOutlinePlus} from 'react-icons/ai';
@@ -16,12 +16,14 @@ type AddBookProps = {
     onClose: () => void;
 };
 
+/*
 interface PresignedUrlResponse {
     data: {
         novelId: string,
         presignedUrl: string;
     };
 }
+*/
 
 function AddBook({isOpened, onClose}: AddBookProps): React.JSX.Element | null {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -70,23 +72,64 @@ function AddBook({isOpened, onClose}: AddBookProps): React.JSX.Element | null {
     };
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-        post<PresignedUrlResponse>({url: 'api/admin/novel', data: bookData})
-            .then((res) => {
-                const presignedUrl = res.data.presignedUrl;
-                if (file && presignedUrl) {
-                    putPresignedUrl({url: presignedUrl, data: file, headers: putFileHeaders})
-                        .then(() => {
-                            onClose();
-                        })
-                        .catch(() => {
-                        });
-                }
-                alert('새 소설 생성 완료!');
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.error('Error creating presignedURL:', error);
+
+        // FormData 객체 생성
+        const formData = new FormData();
+        formData.append("title", bookData.title);
+        formData.append("author", bookData.author);
+        formData.append("summary", bookData.summary);
+        formData.append("publicationYear", bookData.publicationYear.toString());
+        formData.append("isCompleted", bookData.isCompleted.toString());
+        bookData.category.forEach((category) => formData.append("category", category));
+
+        try {
+            // Presigned URL 요청
+            const response = await axios({
+                method: "POST", // 반드시 명시
+                url: `${import.meta.env.VITE_API_URL}/api/admin/novel`,
+                data: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
+
+            const presignedUrl = response.data.presignedUrl;
+
+            if (file && presignedUrl) {
+                // 파일 업로드
+                putPresignedUrl({url: presignedUrl, data: file, headers: putFileHeaders})
+                    .then(() => {
+                        onClose();
+                    })
+                    .catch(() => {
+                    });
+            }
+            alert('새 소설 생성 완료!');
+            onClose();
+            window.location.reload();
+        } catch (error) {
+            console.error("Error creating or uploading the novel:", error);
+        }
+
+        /*
+                post<PresignedUrlResponse>({url: 'api/admin/novel', data: bookData})
+                    .then((res) => {
+                        const presignedUrl = res.data.presignedUrl;
+                        if (file && presignedUrl) {
+                            putPresignedUrl({url: presignedUrl, data: file, headers: putFileHeaders})
+                                .then(() => {
+                                    onClose();
+                                })
+                                .catch(() => {
+                                });
+                        }
+                        alert('새 소설 생성 완료!');
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Error creating presignedURL:', error);
+                    });
+        */
     };
 
     return (
