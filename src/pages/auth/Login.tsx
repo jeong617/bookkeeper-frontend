@@ -8,20 +8,30 @@ interface LoginProps {
 }
 
 function Login({setState}: LoginProps): React.JSX.Element {
-    const loginData = useState({
+    const [loginData, setLoginData] = useState({
         email: '',
         password: '',
-    })
+    });
 
     // handler
-    const loginHandler = async () => {
-        try {
-            const url = `auth/login`;
-            await post(url, loginData);
-        } catch ((error) => {
-            console.error(error);
-        })
+    const loginHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setLoginData((prev) => ({
+            ...prev,
+            [name]: value,
+        }))
     }
+
+    // api
+    const login = async () => {
+        const url = 'auth/login';
+        try {
+            await post({url: url, data: loginData });
+        } catch (err) {
+            console.error('로그인 요청 실패: ', err);
+        }
+    }
+
 
     return (
         <>
@@ -32,9 +42,10 @@ function Login({setState}: LoginProps): React.JSX.Element {
                     <div className="block">
                         <Label htmlFor="email1" value="ID"/>
                     </div>
-                    <input type="email" id="email"
+                    <input type="email" name="email"
                            className="block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300"
-                           onChange={(e) => setEmail(e.target.value)}
+                           onChange={loginHandler}
+                           value={loginData.email}
                            required
                     />
                 </div>
@@ -42,13 +53,19 @@ function Login({setState}: LoginProps): React.JSX.Element {
                     <div className="block">
                         <Label htmlFor="password1" value="PASSWORD"/>
                     </div>
-                    <input type="password" id="password"
+                    <input type="password" name="password"
                            className="block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300"
-                           onChange={(e) => setPassword(e.target.value)}
+                           onChange={loginHandler}
+                           value={loginData.password}
                            required
                     />
                 </div>
-                <Button className="bg-button-text mt-5 shadow-md">로그인</Button>
+                <Button
+                  className="bg-button-text mt-5 shadow-md"
+                  onClick={login}
+                >
+                    로그인
+                </Button>
             </section>
             <p className="mt-2 text-sm text-button-text/70 hover:cursor-pointer hover:text-button-text justify-self-center flex items-center gap-1"
                onClick={setState}
