@@ -6,4 +6,4 @@ export interface UserData {
     name: string;
     gender: string,
     ageGroup: AgeGroupType,
-};
+}
