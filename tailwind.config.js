@@ -19,6 +19,7 @@ export default {
         'button': '#DBB185',
         'button-text': '#643300',
         'line' : '#6a6a6a',
+        'error' : '#DC2626',
       },
       borderRadius: {
         'normal-radius': '10px',
