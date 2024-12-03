@@ -1,13 +1,16 @@
 import {Button, Label} from 'flowbite-react';
 import {IoIosArrowRoundForward} from 'react-icons/io';
 import React, {useState} from 'react';
-import {post} from "../../api/api.ts";
+// import {post} from "../../api/api.ts";
+import axios, { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
     setState: () => void;
 }
 
 function Login({setState}: LoginProps): React.JSX.Element {
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
@@ -24,9 +27,15 @@ function Login({setState}: LoginProps): React.JSX.Element {
 
     // api
     const login = async () => {
-        const url = 'auth/login';
+        const url = `${import.meta.env.VITE_API_URL_NGROK}auth/login`;
         try {
-            await post({url: url, data: loginData });
+            const response: AxiosResponse = await axios.post(url, loginData, {withCredentials: true});
+            console.log('응답 헤더: ', response.headers);
+            const accessToken = response.headers['authorization'];
+            if (accessToken) {
+                localStorage.setItem('accessToken', accessToken.split(' ')[1]);
+                navigate('/');
+            }
         } catch (err) {
             console.error('로그인 요청 실패: ', err);
         }
