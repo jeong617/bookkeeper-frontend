@@ -15,7 +15,7 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
   const [userInfo, setUserInfo] = useState<UserData>({
     email: '',
     password: '',
-    name: '',
+    nickName: '',
     gender: '',
     ageGroup: AgeGroupType.Teens,
   });
@@ -45,8 +45,10 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
   // api
   const register = async () => {
     const url = 'auth/signUp';
+    const formData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(userInfo)], { type: 'application/json' }));
     try {
-      await post({url: url, data: userInfo});
+      await post({url: url, data: formData});
     } catch (err) {
       console.error('회원가입 요청 실패: ', err)
     }
@@ -85,9 +87,9 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
           <div className="block">
             <Label htmlFor="name" value="이름" />
           </div>
-          <input type="text" name="name"
+          <input type="text" name="nickName"
                  className="block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300"
-                 value={userInfo.name}
+                 value={userInfo.nickName}
                  onChange={handleInput}
                  required />
         </div>
