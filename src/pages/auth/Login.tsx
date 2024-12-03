@@ -30,7 +30,6 @@ function Login({setState}: LoginProps): React.JSX.Element {
         const url = `${import.meta.env.VITE_API_URL_NGROK}auth/login`;
         try {
             const response: AxiosResponse = await axios.post(url, loginData, {withCredentials: true});
-            console.log('응답 헤더: ', response.headers);
             const accessToken = response.headers['authorization'];
             if (accessToken) {
                 localStorage.setItem('accessToken', accessToken.split(' ')[1]);

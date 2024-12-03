@@ -1,6 +1,6 @@
 import { Button, Label } from 'flowbite-react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // project
 import { UserData } from '../../store/UserData.ts';
@@ -53,10 +53,6 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
       console.error('회원가입 요청 실패: ', err)
     }
   };
-
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
 
   return (
     <>
