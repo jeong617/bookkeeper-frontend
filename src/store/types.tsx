@@ -27,3 +27,20 @@ export enum BookDetailTabType {
   Episodes = "episodes",
   Comments = "comments",
 }
+
+export enum AuthType {
+  Login = 'login',
+  Register = 'register',
+}
+
+export enum AgeGroupType {
+  Teens = 'TEENS',
+  Twenties = 'TWENTIES',
+  Thirties = 'THIRTIES',
+  Forties ='FORTIES',
+  Fifties ='FIFTIES',
+  Sixties ='SIXTIES',
+  Seventies ='SEVENTIES',
+  Eighties ='EIGHTIES',
+  Nineties ='NINETIES',
+}
