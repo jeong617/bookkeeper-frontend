@@ -1,9 +1,14 @@
 import {Button, Label} from 'flowbite-react';
-import {IoIosArrowRoundForward} from 'react-icons/io';
 import React, {useState} from 'react';
 // import {post} from "../../api/api.ts";
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+// project
+import { LoginData } from '../../store/UserData.ts';
+
+// css
+import {IoIosArrowRoundForward} from 'react-icons/io';
 
 interface LoginProps {
     setState: () => void;
@@ -11,7 +16,7 @@ interface LoginProps {
 
 function Login({setState}: LoginProps): React.JSX.Element {
     const navigate = useNavigate();
-    const [loginData, setLoginData] = useState({
+    const [loginData, setLoginData] = useState<LoginData>({
         email: '',
         password: '',
     });

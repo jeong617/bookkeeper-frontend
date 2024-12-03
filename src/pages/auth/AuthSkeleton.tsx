@@ -10,8 +10,9 @@ function AuthSkeleton(): React.JSX.Element {
 
     // handler
     const handleToggle = () => {
-        // 누르면 auth type login <-> register 서로 switch
-        setToggle((prev) => (prev === AuthType.Login ? AuthType.Register : AuthType.Login));
+        setToggle((prev) => (
+          prev === AuthType.Login ? AuthType.Register : AuthType.Login
+        ));
     }
     return (
         <div className="flex h-screen">

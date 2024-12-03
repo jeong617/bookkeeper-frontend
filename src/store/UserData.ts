@@ -7,3 +7,8 @@ export interface UserData {
     gender: string,
     ageGroup: AgeGroupType,
 }
+
+export interface LoginData {
+    email: string;
+    password: string;
+}
