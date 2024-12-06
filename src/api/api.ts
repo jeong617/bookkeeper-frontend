@@ -1,17 +1,31 @@
-import axios, {AxiosInstance, AxiosRequestHeaders} from 'axios';
+import axios, { AxiosInstance, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 
 interface RequestArgs<T = any> {
     url: string;
-    headers?: AxiosRequestHeaders;
+    headers?: AxiosRequestHeaders,
     data?: T;
 }
 
 const api: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL_NGROK,
-    headers: {
-    },
+    headers: {},
+    withCredentials: true, // 쿠키를 포함한 요청 허용
     timeout: 5000,
 });
+
+// token 설정 추가
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+  },
+  (error) => {
+      return Promise.reject(error);
+  }
+);
 
 // TODO: 로그인 기능 구현 후 요청 인터셉터 추가 및 props에 header정보 추가
 // TODO: 상태코드 정한 후 응답 인터셉터 추가
