@@ -9,6 +9,7 @@ import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import useSideBarStore from '../store/store.tsx';
 import get from '../api/api.ts';
+import getToken from '../utils/getToken.ts';
 
 // css
 import { Button, Pagination } from 'flowbite-react';
@@ -40,7 +41,7 @@ function Home(): React.JSX.Element {
   const closeModal = () => setModalOpened(false);
 
   // token이 없는 경우 login 화면으로 redirect
-  if (!localStorage.getItem('accessToken')) {
+  if (!getToken()) {
     navigate('/auth');
   }
 
