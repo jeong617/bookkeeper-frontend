@@ -44,10 +44,14 @@ function Login({setState}: LoginProps): React.JSX.Element {
             console.error('로그인 요청 실패: ', err);
         }
     }
-
+    const enterLogin = (e: React.KeyboardEvent<HTMLDivElement>)=> {
+        if (e.key === 'Enter') {
+            login();
+        }
+    }
 
     return (
-        <>
+        <div onKeyDown={enterLogin} tabIndex={0}>
             <h2 className="text-5xl font-extrabold text-black mb-8">Log In</h2>
             {/* form 영역 */}
             <section className="flex flex-col gap-5">
@@ -86,7 +90,7 @@ function Login({setState}: LoginProps): React.JSX.Element {
                 회원가입 하러가기
                 <IoIosArrowRoundForward/>
             </p>
-        </>
+        </div>
     );
 }
 

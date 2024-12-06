@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // project
 import SearchBar from '../components/SearchBar.tsx';
@@ -9,6 +9,7 @@ import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import useSideBarStore from '../store/store.tsx';
 import get from '../api/api.ts';
+import getToken from '../utils/getToken.ts';
 
 // css
 import { Button, Pagination } from 'flowbite-react';
@@ -16,6 +17,7 @@ import { FaBars } from 'react-icons/fa6';
 
 function Home(): React.JSX.Element {
   // 상태관리
+  const navigate = useNavigate();
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
   const [isModalOpened, setModalOpened] = useState<boolean>(false);
   const [novelList, setNovelList] = useState<any[]>([]);
@@ -37,6 +39,11 @@ function Home(): React.JSX.Element {
   };
   const openModal = () => setModalOpened(true);
   const closeModal = () => setModalOpened(false);
+
+  // token이 없는 경우 login 화면으로 redirect
+  if (!getToken()) {
+    navigate('/auth');
+  }
 
   // api
   useEffect(() => {
