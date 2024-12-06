@@ -1,13 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
+import {AxiosResponse} from "axios";
 
 // project
+// TODO: lazy loading 적용 페이지 선정 및 로딩 UI 추가
 import MainLayout from '../layout/MainLayout.tsx';
 import Home from '../pages/Home.tsx';
 import DashBoard from '../pages/DashBoard.tsx';
 import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
 import { get } from '../api/api.ts';
-import {AxiosResponse} from "axios";
+import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -40,9 +42,13 @@ const router = createBrowserRouter([
         path: 'novel/:novelId',
         element: <BookDetail />,
         loader: loadBookDetail,
-      }
+      },
+      {
+        path: 'auth/',
+        element: <AuthSkeleton />,
+      },
     ]
-  }
+  },
 ])
 
 export default router;
