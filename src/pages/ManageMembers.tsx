@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../components/header';
 import FormButton from '../components/FormButton.tsx';
 import SearchBar from '../components/SearchBar';
-import { RoleType, SortDirection, SortField } from '../store/types.tsx';
+import { RoleType, SortFieldType, SortDirectionType } from '../store/types.tsx';
 import { get } from '../api/api.ts';
 
 // css
@@ -13,11 +13,12 @@ import MemberItem from '../components/MemberItem.tsx';
 import { AxiosResponse } from 'axios';
 
 function ManageMembers(): React.JSX.Element {
-  const [activeTab, setActivetab] = useState<RoleType>(RoleType.Members);
+  const [activeTab, setActivetab] = useState<RoleType>(RoleType.Member);
   const [paramOption, setParamOptions] = useState({
     currentPage: 1,
-    sortField: SortField.createdAt,
-    sortDirection: SortDirection.desc,
+    sortField: SortFieldType.CreatedAt,
+    sortDirection: SortDirectionType.Desc,
+    role: RoleType.Member,
   });
   const [memberList, setMemberList] = useState([]);
   const [adminList, setAdminList] = useState([]);
@@ -27,7 +28,7 @@ function ManageMembers(): React.JSX.Element {
     const getMemberList = async () => {
       try {
         const res: AxiosResponse = await get({
-          url: `admin/members?page=${paramOption.currentPage}&size=10&sortField=${paramOption.sortField}&sortDirectioson=${paramOption.sortDirection}`,
+          url: `admin/members?page=${paramOption.currentPage}&size=10&sortField=${paramOption.sortField}&sortDirectioson=${paramOption.sortDirection}&role=${paramOption.role}`,
         });
         setMemberList(res.data.memberList);
       } catch (error) {
@@ -38,7 +39,19 @@ function ManageMembers(): React.JSX.Element {
   },)
 
   // TODO: admin list api
-
+  useEffect(() => {
+    const getAdminList = async () => {
+      try {
+        const res: AxiosResponse = await get({
+          url: `admin/members?page=${paramOption.currentPage}&size=10&sortField=${paramOption.sortField}&sortDirectioson=${paramOption.sortDirection}`,
+        });
+        setAdminList(res.data.memberList);
+      } catch (error) {
+        console.error('회원 목록을 가져오는 데 실패했습니다.', error);
+      }
+    };
+    getAdminList();
+  },)
 
   return (
     <>
@@ -49,8 +62,8 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === RoleType.Admins ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setActivetab(RoleType.Admins)}
+                                ${activeTab === RoleType.Admin ? 'bg-background underline' : 'bg-white'}`}
+              onClick={() => setActivetab(RoleType.Admin)}
             >
               <FaUser />
               ADMINS
@@ -58,8 +71,8 @@ function ManageMembers(): React.JSX.Element {
             <button
               type="button"
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
-                                ${activeTab === RoleType.Members ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setActivetab(RoleType.Members)}
+                                ${activeTab === RoleType.Member ? 'bg-background underline' : 'bg-white'}`}
+              onClick={() => setActivetab(RoleType.Member)}
             >
               <FaUserCog />
               MEMBERS
@@ -78,7 +91,7 @@ function ManageMembers(): React.JSX.Element {
 
         {/* admin & member list */}
         <div className="bg-background w-full py-3 rounded-tr-normal-radius rounded-b-normal-radius">
-          {activeTab === RoleType.Members && (
+          {activeTab === RoleType.Member && (
             <>
               <div className="grid grid-cols-8 gap-2 px-2 items-center mx-2 pb-1">
                 <span className="justify-self-center">프로필</span>

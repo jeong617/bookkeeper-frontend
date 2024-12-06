@@ -8,15 +8,16 @@ interface RequestArgs<T = any> {
 
 const api: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL_NGROK,
+    // baseURL: import.meta.env.VITE_API_URL,
     headers: {},
-    withCredentials: true, // 쿠키를 포함한 요청 허용
+    withCredentials: true,
     timeout: 5000,
 });
 
 // token 설정 추가
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-      const token = localStorage.getItem('accessToken');
+      const token: string | null = localStorage.getItem('accessToken');
       if (token) {
           config.headers.Authorization = `Bearer ${token}`;
       }
