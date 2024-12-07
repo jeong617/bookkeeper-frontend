@@ -32,7 +32,7 @@ function Login({setState}: LoginProps): React.JSX.Element {
 
     // api
     const login = async () => {
-        const url = `${import.meta.env.VITE_API_URL_NGROK}auth/login`;
+        const url = `/api/auth/login`;
         try {
             const response: AxiosResponse = await axios.post(url, loginData, {withCredentials: true});
             const accessToken = response.headers['authorization'];
