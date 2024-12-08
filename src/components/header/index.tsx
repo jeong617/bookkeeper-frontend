@@ -4,9 +4,20 @@ import { Link } from 'react-router-dom';
 // project
 import useSideBarStore from '../../store/store.tsx';
 import { FaBars } from 'react-icons/fa6';
+import { post } from '../../api/api.ts';
 
 export function Header(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
+
+  // api
+  const logout = async () => {
+    const url = `auth/logout`;
+    try {
+      await post({ url: url });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="w-full h-[45px] px-3.5 py-3.5 bg-[#fffaeb] flex justify-between items-center">
@@ -22,9 +33,10 @@ export function Header(): React.JSX.Element {
         </Link>
       </div>
       <div
-        className="w-[70px] h-[35px] px-px py-[7px] bg-[#dbb185] rounded-[10px] shadow justify-center items-center gap-2.5 flex"
+        className="w-[70px] h-[35px] px-px py-[7px] bg-button rounded-[10px] shadow justify-center items-center gap-2.5 flex hover:cursor-pointer hover:bg-button-text"
+        onClick={logout}
       >
-        <div className="text-center text-white text-[15px] font-semibold leading-[34.50px]">로그아웃</div>
+        <span className="text-center text-white text-[15px] font-semibold leading-[34.50px]">로그아웃</span>
       </div>
     </div>
 
