@@ -3,7 +3,7 @@ import { IoIosArrowRoundForward } from 'react-icons/io';
 import React, { useState } from 'react';
 
 // project
-import { UserData } from '../../store/UserData.ts';
+import { RegisterData } from '../../store/UserData.ts';
 import { AgeGroupType } from '../../store/types.tsx';
 import { post } from '../../api/api.ts';
 
@@ -12,7 +12,7 @@ interface RegisterProps {
 }
 
 function Register({ setState }: RegisterProps): React.JSX.Element {
-  const [userInfo, setUserInfo] = useState<UserData>({
+  const [userInfo, setUserInfo] = useState<RegisterData>({
     email: '',
     password: '',
     nickName: '',
