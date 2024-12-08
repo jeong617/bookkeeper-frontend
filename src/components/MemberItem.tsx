@@ -28,6 +28,7 @@ function MemberItem({ profile = '/default-profile.svg',
     <div className={`grid grid-cols-8 gap-2 px-2 items-center bg-white mx-2 ${className}`}>
       <img src={profile} className='aspect-square h-[4.5rem] p-2 mx-auto'
            onError={handleImageError}
+           alt='profile-image'
       />
       <span className='col-span-2'>{nickname}</span>
       <span className='col-span-2'>{email}</span>
