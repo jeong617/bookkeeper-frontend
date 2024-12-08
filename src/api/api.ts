@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 interface RequestArgs<T = any> {
     url: string;
@@ -36,9 +36,8 @@ const get = async <T>({url}: RequestArgs): Promise<T> => {
     return response.data;
 };
 
-const post = async <T>({url, data}: RequestArgs): Promise<T> => {
-    const response = await api.post<T>(url, data);
-    return response.data;
+const post = async <T>({url,data}: RequestArgs): Promise<AxiosResponse<T>> => {
+    return await api.post<T>(url, data);
 };
 
 const put = async <T>({url, data}: RequestArgs): Promise<T> => {
