@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // project
 import useSideBarStore from '../../store/store.tsx';
@@ -8,12 +8,16 @@ import { post } from '../../api/api.ts';
 
 export function Header(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
+  const navitate = useNavigate();
 
   // api
   const logout = async () => {
     const url = `auth/logout`;
     try {
       await post({ url: url });
+      localStorage.removeItem('accessToken');
+      navitate('/auth');
+
     } catch (err) {
       console.error(err);
     }
