@@ -23,10 +23,9 @@ function MemberItem({ profile = '/default-profile.svg',
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
     event.currentTarget.src = '/default-profile.svg';
   };
-
   return (
     <div className={`grid grid-cols-8 gap-2 px-2 items-center bg-white mx-2 ${className}`}>
-      <img src={profile} className='aspect-square h-[4.5rem] p-2 mx-auto'
+      <img src={profile} className='aspect-square h-[4.5rem] p-2 mx-auto rounded-full'
            onError={handleImageError}
            alt='profile-image'
       />
