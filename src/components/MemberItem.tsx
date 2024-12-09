@@ -8,7 +8,7 @@ interface MemberItemProps {
   email: string;
   createdAt: string;
   nickname: string;
-  isAccountActive?: string | null;
+  deletedAt?: string | null;
   className?: string;
 
 }
@@ -17,7 +17,7 @@ function MemberItem({ profile = '/default-profile.svg',
                       email,
                       nickname,
                       createdAt,
-                      isAccountActive = null,
+                      deletedAt = null,
                       className,
                     }: MemberItemProps): React.JSX.Element {
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -36,7 +36,7 @@ function MemberItem({ profile = '/default-profile.svg',
               <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
             </span>
       <button className='grow'>
-        {!isAccountActive ?
+        {!deletedAt ?
           <IoEyeOutline size={20} className='mx-auto' /> : <IoEyeOffOutline size={20} className='mx-auto' />}
       </button>
     </div>

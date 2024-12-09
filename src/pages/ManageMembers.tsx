@@ -101,7 +101,7 @@ function ManageMembers(): React.JSX.Element {
                   createdAt={formatDateTime(member.createdAt)}
                   nickname={member.nickname}
                   profile={member.profileImageUrl ?? undefined}
-                  isAccountActive={member.deletedAt}
+                  deletedAt={member.deletedAt}
                 />
               ))}
             </div>
