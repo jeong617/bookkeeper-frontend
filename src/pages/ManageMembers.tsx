@@ -100,7 +100,7 @@ function ManageMembers(): React.JSX.Element {
                   email={member.email}
                   createdAt={formatDateTime(member.createdAt)}
                   nickname={member.nickname}
-                  profile={member.profileImageUrl}
+                  profile={member.profileImageUrl ?? undefined}
                   isAccountActive={member.deletedAt}
                 />
               ))}

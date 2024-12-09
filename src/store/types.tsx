@@ -28,7 +28,7 @@ export enum SortDirectionType {
 export enum RoleType {
   Member = 'MEMBER',
   Admin = 'ADMIN',
-  PendingAdmin ='PENDING-ADMIN'
+  PendingAdmin ='PENDING_ADMIN'
 }
 
 export enum BookDetailTabType {
