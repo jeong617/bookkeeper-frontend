@@ -17,7 +17,6 @@ export function Header(): React.JSX.Element {
       await post({ url: url });
       localStorage.removeItem('accessToken');
       navitate('/auth');
-
     } catch (err) {
       console.error(err);
     }
