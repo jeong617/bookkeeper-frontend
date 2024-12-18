@@ -8,6 +8,7 @@ import { RoleType, SortFieldType, SortDirectionType } from '../store/types.tsx';
 import { MemberData } from '../store/UserData.ts';
 import formatDateTime from '../utils/parseDateTime.ts';
 import { get } from '../api/api.ts';
+import useInfiniteScroll from '../hooks/useInfiniteScroll.ts';
 
 // css
 import { FaUser, FaUserCog, FaPlus } from 'react-icons/fa';
@@ -24,19 +25,29 @@ function ManageMembers(): React.JSX.Element {
   });
   const [memberList, setMemberList] = useState<MemberData[]>([]);
 
+  // api
+  const fetchMoreMembers = async () => {
+    try {
+      const res: AxiosResponse = await get({
+        url: `api/admin/members?page=${paramOption.currentPage}&size=5&sortField=${paramOption.sortField}&sortDirection=${paramOption.sortDirection}&role=${paramOption.role}`,
+      });
+      setMemberList((prev) => [...prev, ...res.data.memberList]);
+      setParamOptions((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+      setIsFetching(false);
+    } catch (error) {
+      console.error('회원 목록을 가져오는 데 실패했습니다.', error);
+      setIsFetching(false);
+    }
+  };
+
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreMembers);
+
   useEffect(() => {
-    const getMemeberList = async () => {
-      try {
-        const res: AxiosResponse = await get({
-          url: `api/admin/members?page=${paramOption.currentPage}&size=10&sortField=${paramOption.sortField}&sortDirectioson=${paramOption.sortDirection}&role=${paramOption.role}`,
-        });
-        setMemberList(res.data.memberList);
-      } catch (error) {
-        console.error('회원 목록을 가져오는 데 실패했습니다.', error);
-      }
-    };
-    getMemeberList();
-  }, [paramOption.role]);
+    fetchMoreMembers();
+  }, [paramOption]);
 
   return (
     <>
@@ -48,7 +59,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.Admin ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Admin }))}
+              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Admin, currentPage: 1 }))}
             >
               <FaUser />
               ADMINS
@@ -57,7 +68,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.Member ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Member }))}
+              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Member, currentPage: 1 }))}
             >
               <FaUserCog size={20} />
               MEMBERS
@@ -66,7 +77,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.PendingAdmin ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.PendingAdmin }))}
+              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.PendingAdmin, currentPage: 1 }))}
             >
               <FaUserCheck size={20} />
               승인 대기
