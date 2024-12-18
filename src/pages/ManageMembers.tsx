@@ -4,16 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../components/header';
 import FormButton from '../components/FormButton.tsx';
 import SearchBar from '../components/SearchBar';
-import { RoleType, SortFieldType, SortDirectionType } from '../store/types.tsx';
+import { RoleType, SortDirectionType, SortFieldType } from '../store/types.tsx';
 import { MemberData } from '../store/UserData.ts';
 import formatDateTime from '../utils/parseDateTime.ts';
-import { get } from '../api/api.ts';
+import { get, put } from '../api/api.ts';
 
 // css
-import { FaUser, FaUserCog, FaPlus } from 'react-icons/fa';
+import { FaPlus, FaUser, FaUserCog } from 'react-icons/fa';
 import { FaUserCheck } from 'react-icons/fa6';
 import MemberItem from '../components/MemberItem.tsx';
 import { AxiosResponse } from 'axios';
+import PendingAdminItem from '../components/PendingAdminItem.tsx';
 
 function ManageMembers(): React.JSX.Element {
   const [paramOption, setParamOptions] = useState({
@@ -24,6 +25,7 @@ function ManageMembers(): React.JSX.Element {
   });
   const [memberList, setMemberList] = useState<MemberData[]>([]);
 
+  // api
   useEffect(() => {
     const getMemeberList = async () => {
       try {
@@ -36,12 +38,20 @@ function ManageMembers(): React.JSX.Element {
       }
     };
     getMemeberList();
-  }, [paramOption.role]);
+  }, [paramOption]);
 
+  const approveAdmin = async (pendingAdminId: string) => {
+    const url = `api/admin/members/${pendingAdminId}/roles/ADMIN`;
+    try {
+      await put({ url: url });
+    } catch (err) {
+      console.error(err);
+    }
+  }
   return (
     <>
       <Header />
-      <div className='container px-48 mx-auto mt-12'>
+      <div className='container px-48 mx-auto my-12'>
         <div className='flex flex-row w-full h-14 justify-between'>
           <div className='flex flex-row mt-2'>
             <button
@@ -74,7 +84,7 @@ function ManageMembers(): React.JSX.Element {
           </div>
           <div className='flex flex-row items-center pr-2 mb-2'>
             <div className='scale-75'>
-              <SearchBar />
+              <SearchBar defaultQuery='' />
             </div>
             <FormButton
               label='ADD'
@@ -91,18 +101,30 @@ function ManageMembers(): React.JSX.Element {
               <span className='col-span-2'>닉네임</span>
               <span className='col-span-2'>이메일</span>
               <span className='col-span-2'>가입일</span>
-              <span className='mx-auto'>활성여부</span>
+              {paramOption.role !== RoleType.PendingAdmin && <span className='mx-auto'>활성여부</span>}
             </div>
             <div className='divide-y'>
               {memberList.map(member => (
-                <MemberItem
-                  key={member.id}
-                  email={member.email}
-                  createdAt={formatDateTime(member.createdAt)}
-                  nickname={member.nickname}
-                  profile={member.profileImageUrl ?? undefined}
-                  deletedAt={member.deletedAt}
-                />
+                paramOption.role !== RoleType.PendingAdmin ? (
+                  <MemberItem
+                    key={member.id}
+                    email={member.email}
+                    createdAt={formatDateTime(member.createdAt)}
+                    nickname={member.nickname}
+                    profile={member.profileImageUrl ?? undefined}
+                    deletedAt={member.deletedAt}
+                  />
+                ) : (
+                  <PendingAdminItem
+                    key={member.id}
+                    memberId={member.id}
+                    email={member.email}
+                    createdAt={formatDateTime(member.createdAt)}
+                    nickname={member.nickname}
+                    profile={member.profileImageUrl ?? undefined}
+                    onClick={approveAdmin}
+                  />
+                )
               ))}
             </div>
           </>
