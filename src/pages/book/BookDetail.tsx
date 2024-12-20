@@ -11,6 +11,7 @@ import CommentItem from '../../components/CommentItem.tsx';
 import { BookDetailTabType } from '../../store/types.tsx';
 import { NovelDetailData, EpisodeData, CommentData } from '../../store/novelDetailInterface.ts';
 import parseDateTime from '../../utils/parseDateTime.ts';
+import UpdateEpisode from '../form/UpdateEpisode.tsx';
 
 // css
 import { FaPen, FaHeart, FaTrashAlt, FaPlus } from 'react-icons/fa';
@@ -20,7 +21,8 @@ import UploadEpisode from '../form/UploadEpisode.tsx';
 function BookDetail(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);
   const [popWarning, setPopWarning] = useState<boolean>(false);
-  const [isModalOpened, setModalOpened] = useState<boolean>(false);
+  const [isEpisodeUploadModalOpened, setEpisodeUploadModalOpened] = useState<boolean>(false);
+  const [isEpisodeDetailModalOpened, setEpisodeDetailModalOpened] = useState<boolean>(false);
   const [episodeList, setEpisodeList] = useState<EpisodeData[]>([]);
   const [commentList, setCommentList] = useState<CommentData[]>([]);
   const { novelId } = useParams<{ novelId: string }>();
@@ -30,8 +32,21 @@ function BookDetail(): React.JSX.Element {
   const defaultImage = '/book-cover/default-book-cover.jpg';
 
   // handler
-  const openModal = () => setModalOpened(true);
-  const closeModal = () => setModalOpened(false);
+  const openEpisodeDetailModal = () => setEpisodeDetailModalOpened(true);
+  const closdeEpisodeUploadModal = () => setEpisodeDetailModalOpened(false);
+  const openEpisodeUploadModal = () => setEpisodeUploadModalOpened(true);
+  const closeEpisodeUploadModal = () => setEpisodeUploadModalOpened(false);
+
+
+  // get episode detail api
+  const getEpisodeDetail = async (episodeId: string) => {
+    const url = `api/admin/episode/${episodeId}`;
+    try {
+      const res: AxiosResponse = await get({ url: url });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   // episodeList api
   useEffect(() => {
@@ -137,7 +152,7 @@ function BookDetail(): React.JSX.Element {
             {activeTab === BookDetailTabType.Episodes && (
               <div
                 className="flex flex-row bg-gray-200 mb-2 mx-1 px-3 py-3 justify-center rounded-normal-radius hover:bg-gray-300 cursor-pointer"
-                onClick={openModal}
+                onClick={openEpisodeUploadModal}
               >
                 <div className="flex flex-row items-center gap-2">
                   <FaPlus />
@@ -153,6 +168,7 @@ function BookDetail(): React.JSX.Element {
                     key={ep.id}
                     chapterNum={Number(ep.chapter)}
                     episodeTitle={ep.title}
+                    onClick={openEpisodeDetailModal}
                   />
                 ))}
             </div>
@@ -175,8 +191,8 @@ function BookDetail(): React.JSX.Element {
       </div>
 
       {/* open modal */}
-      {isModalOpened && novelId && (
-        <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeModal} /></div>
+      {isEpisodeUploadModalOpened && novelId && (
+        <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeEpisodeUploadModal} /></div>
       )}
     </>
   );
