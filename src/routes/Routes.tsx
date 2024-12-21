@@ -10,6 +10,7 @@ import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
 import { get } from '../api/api.ts';
 import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
+import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'dashboard/',
         element: <DashBoard />
+      },
+      {
+        path: 'upload-monitor/',
+        element: <FileUploadMonitor />
       },
       {
         path: 'novel/:novelId',

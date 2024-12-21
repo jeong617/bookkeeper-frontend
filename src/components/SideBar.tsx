@@ -7,6 +7,7 @@ import useSideBarStore from '../store/store.tsx';
 // css
 import { Sidebar } from 'flowbite-react';
 import { FaHouse, FaUser, FaChartSimple, FaBars } from 'react-icons/fa6';
+import { FaFileUpload } from 'react-icons/fa';
 
 // sidebar custom
 
@@ -39,9 +40,14 @@ export function SideBar(): React.JSX.Element {
             HOME
           </Sidebar.Item>
           <Sidebar.Item as={Link} to='/members' icon={FaUser}>
-            MEMBERS</Sidebar.Item>
+            MEMBERS
+          </Sidebar.Item>
           <Sidebar.Item as={Link} to='/dashboard' icon={FaChartSimple}>
-            DASHBOARD</Sidebar.Item>
+            DASHBOARD
+          </Sidebar.Item>
+          <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload}>
+            UPLOAD MONITOR
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
