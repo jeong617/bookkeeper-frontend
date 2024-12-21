@@ -7,9 +7,7 @@ import useSideBarStore from '../store/store.tsx';
 // css
 import { Sidebar } from 'flowbite-react';
 import { FaHouse, FaUser, FaChartSimple, FaBars } from 'react-icons/fa6';
-import { FaFileUpload } from 'react-icons/fa';
-
-// sidebar custom
+import { FaBell, FaFileUpload } from 'react-icons/fa';
 
 export function SideBar(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
@@ -17,11 +15,9 @@ export function SideBar(): React.JSX.Element {
   // Sidebar Custom
   const customTheme = {
     root: {
-      base: 'bg-white h-full', // Sidebar 전체 배경색과 텍스트 색상
-      inner: 'p-4', // Sidebar 내부 패딩
+      base: 'bg-white h-full',
+      inner: 'p-4',
     },
-
-
   };
 
   return (
@@ -38,6 +34,9 @@ export function SideBar(): React.JSX.Element {
         <Sidebar.ItemGroup>
           <Sidebar.Item as={Link} to='/' icon={FaHouse}>
             HOME
+          </Sidebar.Item>
+          <Sidebar.Item as={Link} to='/notification' icon={FaBell}>
+            NOTIFICATION
           </Sidebar.Item>
           <Sidebar.Item as={Link} to='/members' icon={FaUser}>
             MEMBERS
