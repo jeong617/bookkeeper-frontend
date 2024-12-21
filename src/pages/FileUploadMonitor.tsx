@@ -10,7 +10,7 @@ function FileUploadMonitor(): React.JSX.Element {
     <>
       <Header />
       <div className='container mx-auto mt-20'>
-        <Table>
+        <Table className='rounded-normal-radius'>
           <Table.Head>
             <Table.HeadCell className='w-1/2'>소설명</Table.HeadCell>
             <Table.HeadCell className='w-1/4'>회차</Table.HeadCell>
