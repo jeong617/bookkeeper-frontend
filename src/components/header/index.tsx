@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // project
-import useSideBarStore from '../../store/store.tsx';
+import { useSideBarStore } from '../../store/store.tsx';
 import { FaBars } from 'react-icons/fa6';
 import { post } from '../../api/api.ts';
 

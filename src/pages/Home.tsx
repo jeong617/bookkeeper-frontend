@@ -7,7 +7,7 @@ import FormButton from '../components/FormButton.tsx';
 import SimpleBookCard from '../components/SimpleBookCard.tsx';
 import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
-import useSideBarStore from '../store/store.tsx';
+import { useSideBarStore } from '../store/store.tsx';
 import get from '../api/api.ts';
 import getToken from '../utils/getToken.ts';
 

@@ -52,3 +52,9 @@ export enum AgeGroupType {
   Eighties = 'EIGHTIES',
   Nineties = 'NINETIES',
 }
+
+export enum FileStateType {
+  Pending = 'PENDING',
+  Start = 'START',
+  Completed = 'COMPLETED'
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // project
-import useSideBarStore from '../store/store.tsx';
+import { useSideBarStore } from '../store/store.tsx';
 
 // css
 import { Sidebar } from 'flowbite-react';
