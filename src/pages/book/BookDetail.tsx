@@ -23,6 +23,7 @@ function BookDetail(): React.JSX.Element {
   const [popWarning, setPopWarning] = useState<boolean>(false);
   const [isEpisodeUploadModalOpened, setEpisodeUploadModalOpened] = useState<boolean>(false);
   const [isEpisodeDetailModalOpened, setEpisodeDetailModalOpened] = useState<boolean>(false);
+  const [selectedEpisodeId, setSelectedEpisodeId] = useState<string | null>(null);
   const [episodeList, setEpisodeList] = useState<EpisodeData[]>([]);
   const [commentList, setCommentList] = useState<CommentData[]>([]);
   const { novelId } = useParams<{ novelId: string }>();
@@ -32,20 +33,11 @@ function BookDetail(): React.JSX.Element {
   const defaultImage = '/book-cover/default-book-cover.jpg';
 
   // handler
-  const openEpisodeDetailModal = () => setEpisodeDetailModalOpened(true);
-  const closdeEpisodeUploadModal = () => setEpisodeDetailModalOpened(false);
   const openEpisodeUploadModal = () => setEpisodeUploadModalOpened(true);
   const closeEpisodeUploadModal = () => setEpisodeUploadModalOpened(false);
-
-
-  // get episode detail api
-  const getEpisodeDetail = async (episodeId: string) => {
-    const url = `api/admin/episode/${episodeId}`;
-    try {
-      const res: AxiosResponse = await get({ url: url });
-    } catch (err) {
-      console.error(err);
-    }
+  const handleUpdateEpisode = (episodeId: string) => {
+    setEpisodeDetailModalOpened(true);
+    setSelectedEpisodeId(episodeId);
   }
 
   // episodeList api
@@ -80,7 +72,6 @@ function BookDetail(): React.JSX.Element {
       console.log(commentList);
     }
   },[activeTab, novelId]);
-
   return (
     <>
       <Header />
@@ -166,9 +157,10 @@ function BookDetail(): React.JSX.Element {
                 episodeList.map((ep) => (
                   <EpisodeListItem
                     key={ep.id}
+                    episodeId={ep.id}
                     chapterNum={Number(ep.chapter)}
                     episodeTitle={ep.title}
-                    onClick={openEpisodeDetailModal}
+                    onClick={handleUpdateEpisode}
                   />
                 ))}
             </div>
@@ -190,9 +182,14 @@ function BookDetail(): React.JSX.Element {
         </div>
       </div>
 
-      {/* open modal */}
+      {/* open episode uplosd modal */}
       {isEpisodeUploadModalOpened && novelId && (
         <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeEpisodeUploadModal} /></div>
+      )}
+      
+      {/* open episode detail modal*/}
+      {isEpisodeDetailModalOpened && novelId && selectedEpisodeId && (
+        <UpdateEpisode episodeId={selectedEpisodeId} onClose={() => setEpisodeDetailModalOpened(false)} />
       )}
     </>
   );

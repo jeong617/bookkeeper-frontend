@@ -15,6 +15,19 @@ export interface EpisodeData {
     title: string;
 }
 
+export interface EpisodeDetailData {
+    id: string;
+    title: string;
+    chapter: number;
+    releaseDate? : string | null;
+    scheduledDate?: string | null,
+    releaseStatus: string;
+    novelId: string;
+    viewCount: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface CommentData {
     id: string;
     episodeNumber: number;
