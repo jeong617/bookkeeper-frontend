@@ -39,7 +39,7 @@ function SearchResult(): React.JSX.Element {
     // const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const url = `api/admin/novels/search?query=${query}&page=$1&size=20`
+        const url = `api/admin/novels/search?query=${query}&page=1&size=20`
         const fetchResults = async () => {
             try {
                 const res: AxiosResponse = await get({ url: url });
