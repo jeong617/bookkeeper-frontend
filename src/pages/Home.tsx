@@ -7,7 +7,7 @@ import FormButton from '../components/FormButton.tsx';
 import SimpleBookCard from '../components/SimpleBookCard.tsx';
 import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
-import useSideBarStore from '../store/store.tsx';
+import { useSideBarStore } from '../store/store.tsx';
 import get from '../api/api.ts';
 import getToken from '../utils/getToken.ts';
 
@@ -31,7 +31,7 @@ function Home(): React.JSX.Element {
   const isNovelListEmpty = Array.isArray(novelList) && novelList.length === 0;
 
   // handler
-  const onPageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setPageInfo((prev) => ({
       ...prev,
       currentPage: page,
@@ -45,7 +45,7 @@ function Home(): React.JSX.Element {
     navigate('/auth');
   }
 
-  // api
+  // get novel list api
   useEffect(() => {
     const fetchNovelList = async () => {
       try {
@@ -79,7 +79,7 @@ function Home(): React.JSX.Element {
           <img alt="logo" src="/logo.png" />
         </Link>
         <div className="w-1/2">
-          <SearchBar />
+          <SearchBar defaultQuery=''/>
         </div>
       </section>
 
@@ -118,7 +118,7 @@ function Home(): React.JSX.Element {
         <div className="mt-12 flex justify-center">
           <Pagination
             currentPage={pageInfo.currentPage}
-            onPageChange={onPageChange}
+            onPageChange={handlePageChange}
             totalPages={pageInfo.totalPages}
             previousLabel=""
             nextLabel=""

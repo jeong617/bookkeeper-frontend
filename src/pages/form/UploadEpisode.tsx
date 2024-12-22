@@ -6,20 +6,12 @@ import {AiOutlineUpload} from 'react-icons/ai';
 // project
 import InputBox from '../../components/InputBox.tsx';
 import MainButton from '../../components/MainButton';
-import {post, putPresignedUrl} from '../../api/api.ts';
-import {AxiosRequestHeaders} from 'axios';
+import {post} from '../../api/api.ts';
 
 interface UploadEpisodeProps {
     novelId: string;
     title: string;
     onClose: () => void;
-}
-
-interface PresignedUrlResponse {
-    data: {
-        novelId: string,
-        presignedUrl: string;
-    };
 }
 
 interface EpisodeData {
@@ -83,26 +75,27 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
     };
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-        post<PresignedUrlResponse>({url: 'api/admin/episode', data: {...episodeData, 'novelId': novelId}})
-            .then((res) => {
-                const presignedUrl = res.data.presignedUrl;
-                if (file && presignedUrl) {
-                    putPresignedUrl({
-                        url: presignedUrl, data: file, headers: {
-                            'Content-Type': 'text/plain; charset=UTF-8'
-                        } as AxiosRequestHeaders
-                    })
-                        .then(() => {
-                            alert('업로드 성공!');
-                        })
-                        .catch((error) => {
-                            console.error('Error uploading file:', error);
-                        });
-                }
-            })
-            .catch((error) => {
-                console.error('Error creating presignedURL:', error);
-            });
+
+        // FormData 객체 생성
+        const formData = new FormData();
+        formData.append('episodeRequest', new Blob([JSON.stringify({...episodeData, 'novelId' : novelId})], { type: 'application/json' }));
+
+        if (file) {
+            formData.append('file', file);
+        } else {
+            console.error('파일이 선택되지 않았습니다.');
+            return;
+        }
+
+        try {
+            await post({url: 'api/admin/episode', data: formData});
+            alert('업로드 성공!');
+            onClose();
+
+        } catch (error) {
+            console.error('episode uplode error: ', error);
+        }
+        console.log(formData);
     };
 
     return (

@@ -9,10 +9,31 @@ export interface NovelDetailData {
     likes: number;
 }
 
+export interface SearchNovelData {
+    id: string;
+    title: string;
+    authorList: string[];
+    categoryList: string[];
+    coverImageUrl: string;
+}
+
 export interface EpisodeData {
     id: string;
     chapter: number;
     title: string;
+}
+
+export interface EpisodeDetailData {
+    id: string;
+    title: string;
+    chapter: number;
+    releaseDate? : string | null;
+    scheduledDate?: string | null,
+    releaseStatus: string;
+    novelId: string;
+    viewCount: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface CommentData {

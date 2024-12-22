@@ -4,14 +4,17 @@ import React, {useEffect, useState} from "react";
 import SearchBar from "../components/SearchBar.tsx";
 import {Header} from "../components/header";
 import SimpleBookCard from "../components/SimpleBookCard.tsx";
+import { get } from '../api/api.ts';
+import { SearchNovelData } from '../store/novelDetailInterface.ts';
 
 // css
 import {Button} from "flowbite-react";
+import { useSearchParams } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
 type SortType = "latest" | "alphabetical";
 
 function SearchResult(): React.JSX.Element {
-
     /* 배경색 변경 */
     useEffect(() => {
         const root = document.getElementById('root');
@@ -29,6 +32,25 @@ function SearchResult(): React.JSX.Element {
     }, []);
 
     const [sortOrder, setSortOrder] = useState<SortType>("latest");
+    const [searchParam] = useSearchParams();
+    const query = searchParam.get('query') || '';
+    const [results, setResults] = useState<SearchNovelData[]>();
+    // TODO: 검색 결과 페이지에 무한 스크롤 또는 페이지네이션 적용
+    // const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+        const url = `api/admin/novels/search?query=${query}&page=$1&size=20`
+        const fetchResults = async () => {
+            try {
+                const res: AxiosResponse = await get({ url: url });
+                setResults(res.data.novelList);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchResults();
+    // TODO: 의존성에 current page 추가
+    }, [query]);
 
     return (
         <>
@@ -45,9 +67,13 @@ function SearchResult(): React.JSX.Element {
                                 className={`text-line focus:ring-0 ${sortOrder === 'alphabetical' ? 'text-button border-button' : null}`}>가나다순</Button>
                     </div>
                     <div className="grid grid-cols-5  gap-x-8 gap-y-10 py-8 px-16">
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
-                        <SimpleBookCard title="데미안" author="헤르만 헤세"/>
+                        {results &&
+                          results.map((novel) => (
+                          <SimpleBookCard title={novel.title}
+                                          author={novel.authorList.join(', ')}
+                                          coverImageUrl={novel.coverImageUrl}
+                          />
+                        ))}
                     </div>
                 </section>
             </div>

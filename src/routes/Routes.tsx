@@ -10,6 +10,9 @@ import ManageMembers from '../pages/ManageMembers.tsx';
 import BookDetail from '../pages/book/BookDetail.tsx';
 import { get } from '../api/api.ts';
 import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
+import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
+import PushNotification from '../pages/PushNotification.tsx';
+import SearchResult from '../pages/SearchResult.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -31,12 +34,24 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/search',
+        element: <SearchResult />
+      },
+      {
         path: 'members/',
         element: <ManageMembers />
       },
       {
         path: 'dashboard/',
         element: <DashBoard />
+      },
+      {
+        path: 'upload-monitor/',
+        element: <FileUploadMonitor />
+      },
+      {
+        path: 'notification/',
+        element: <PushNotification />
       },
       {
         path: 'novel/:novelId',

@@ -2,13 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // project
-import useSideBarStore from '../store/store.tsx';
+import { useSideBarStore } from '../store/store.tsx';
 
 // css
 import { Sidebar } from 'flowbite-react';
 import { FaHouse, FaUser, FaChartSimple, FaBars } from 'react-icons/fa6';
-
-// sidebar custom
+import { FaBell, FaFileUpload } from 'react-icons/fa';
 
 export function SideBar(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
@@ -16,11 +15,9 @@ export function SideBar(): React.JSX.Element {
   // Sidebar Custom
   const customTheme = {
     root: {
-      base: 'bg-white h-full', // Sidebar 전체 배경색과 텍스트 색상
-      inner: 'p-4', // Sidebar 내부 패딩
+      base: 'bg-white h-full',
+      inner: 'p-4',
     },
-
-
   };
 
   return (
@@ -38,10 +35,18 @@ export function SideBar(): React.JSX.Element {
           <Sidebar.Item as={Link} to='/' icon={FaHouse}>
             HOME
           </Sidebar.Item>
+          <Sidebar.Item as={Link} to='/notification' icon={FaBell}>
+            NOTIFICATION
+          </Sidebar.Item>
           <Sidebar.Item as={Link} to='/members' icon={FaUser}>
-            MEMBERS</Sidebar.Item>
+            MEMBERS
+          </Sidebar.Item>
           <Sidebar.Item as={Link} to='/dashboard' icon={FaChartSimple}>
-            DASHBOARD</Sidebar.Item>
+            DASHBOARD
+          </Sidebar.Item>
+          <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload}>
+            UPLOAD MONITOR
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

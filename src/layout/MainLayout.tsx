@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 // project
 import { SideBar } from '../components/SideBar.tsx';
-import useSideBarStore from '../store/store.tsx';
+import { useSideBarStore } from '../store/store.tsx';
 
 const MainLayout = (): React.JSX.Element => {
   const isOpened = useSideBarStore((state) => state.isOpened);

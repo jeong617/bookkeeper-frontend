@@ -1,25 +1,24 @@
 import React from 'react';
 
-// css
-import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
-
-interface MemberItemProps {
+interface PendingAdminItemProps {
   profile?: string;
+  memberId: string;
   email: string;
   createdAt: string;
   nickname: string;
-  deletedAt?: string | null;
   className?: string;
-
+  onClick: (memberId: string) => void;
 }
 
-function MemberItem({ profile = '/default-profile.svg',
-                      email,
-                      nickname,
-                      createdAt,
-                      deletedAt = null,
-                      className,
-                    }: MemberItemProps): React.JSX.Element {
+function PendingAdminItem({
+                            profile = '/default-profile.svg',
+                            memberId,
+                            email,
+                            nickname,
+                            createdAt,
+                            className,
+                            onClick,
+                          }: PendingAdminItemProps): React.JSX.Element {
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
     event.currentTarget.src = '/default-profile.svg';
   };
@@ -35,13 +34,15 @@ function MemberItem({ profile = '/default-profile.svg',
               <p>{createdAt.split(' ')[0]}</p>
               <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
             </span>
-      <button className='grow'>
-        {!deletedAt ?
-          <IoEyeOutline size={20} className='mx-auto' /> : <IoEyeOffOutline size={20} className='mx-auto' />}
+      <button
+        className='grow text-gray-800 bg-gray-100 mx-3 py-2 rounded-normal-radius hover:bg-button hover:text-white'
+        onClick={() => onClick(memberId)}
+      >
+        승인하기
       </button>
     </div>
 
   );
 }
 
-export default MemberItem;
+export default PendingAdminItem;

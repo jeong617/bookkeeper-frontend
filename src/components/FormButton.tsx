@@ -17,9 +17,9 @@ function FormButton({
       className="h-[40px] bg-main rounded-normal-radius shadow-md flex-col justify-center items-center inline-flex"
       onClick={onClick}
     >
-      <span className="self-stretch grow shrink basis-0 px-4 py-4 justify-center items-center gap-2 inline-flex">
+      <span className="flex flex-row self-stretch grow shrink basis-0 px-4 py-4 justify-center items-center gap-2">
         {icon && icon}
-        <span className="text-center text-button-text text-sm font-medium tracking-tight">{label}</span>
+        <span className="min-w-6 text-center text-button-text text-sm font-medium tracking-tight">{label}</span>
       </span>
     </button>
   );
