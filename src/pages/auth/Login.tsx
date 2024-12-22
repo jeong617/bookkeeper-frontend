@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,11 +43,12 @@ function Login({ setState }: LoginProps): React.JSX.Element {
     } catch (err) {
       console.error('로그인 요청 실패: ', err);
     }
-    const enterLogin = (e: React.KeyboardEvent<HTMLDivElement>)=> {
-        if (e.key === 'Enter') {
-            login();
-        }
-    };
+  };
+  const enterLogin = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      login();
+    }
+  };
 
   return (
     <div onKeyDown={enterLogin} tabIndex={0}>
