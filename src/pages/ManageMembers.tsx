@@ -136,6 +136,9 @@ function ManageMembers(): React.JSX.Element {
                   />
                 )
               ))}
+              {isFetching && (
+                <p>loading...</p>
+              )}
             </div>
           </>
         </div>

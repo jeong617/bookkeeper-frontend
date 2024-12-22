@@ -35,10 +35,11 @@ function SearchResult(): React.JSX.Element {
     const [searchParam] = useSearchParams();
     const query = searchParam.get('query') || '';
     const [results, setResults] = useState<SearchNovelData[]>();
-    const [currentPage, setCurrentPage] = useState(1);
+    // TODO: 검색 결과 페이지에 무한 스크롤 또는 페이지네이션 적용
+    // const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const url = `api/admin/novels/search?query=${query}&page=${currentPage}&size=20`
+        const url = `api/admin/novels/search?query=${query}&page=$1&size=20`
         const fetchResults = async () => {
             try {
                 const res: AxiosResponse = await get({ url: url });
@@ -48,7 +49,8 @@ function SearchResult(): React.JSX.Element {
             }
         }
         fetchResults();
-    }, [query, currentPage]);
+    // TODO: 의존성에 current page 추가
+    }, [query]);
 
     return (
         <>
