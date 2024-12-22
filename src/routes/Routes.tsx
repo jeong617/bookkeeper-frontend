@@ -12,6 +12,7 @@ import { get } from '../api/api.ts';
 import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
 import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
 import PushNotification from '../pages/PushNotification.tsx';
+import SearchResult from '../pages/SearchResult.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/search',
+        element: <SearchResult />
       },
       {
         path: 'members/',

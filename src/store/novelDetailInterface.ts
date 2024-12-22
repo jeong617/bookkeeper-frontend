@@ -9,6 +9,14 @@ export interface NovelDetailData {
     likes: number;
 }
 
+export interface SearchNovelData {
+    id: string;
+    title: string;
+    authorList: string[];
+    categoryList: string[];
+    coverImageUrl: string;
+}
+
 export interface EpisodeData {
     id: string;
     chapter: number;
