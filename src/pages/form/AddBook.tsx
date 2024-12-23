@@ -36,7 +36,7 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   const categories: string[] = Object.values(CategoryType);
 
   // handler
-  const handleUploadClick = (): void => {
+  const handleUploadClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }

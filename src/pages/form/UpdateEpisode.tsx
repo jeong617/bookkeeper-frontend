@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // css
 import { FaCloudDownloadAlt } from 'react-icons/fa';
@@ -29,6 +29,25 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
     createdAt: '',
     updatedAt: '',
   });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleUploadClick = (): void => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFile(file);
+      setFileName(file.name);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
 
   // api
   useEffect(() => {
@@ -77,7 +96,7 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
         {/* 에피소드 정보 */}
         <div className='flex flex-row'>
           <h2 className='w-[250px] ml-3 text-lg font-bold'>회차 정보</h2>
-          <InputBox label='회차 제목' className='w-96' defaultValue='' />
+          <InputBox label='회차 제목' className='w-96' defaultValue={episodeDetailData.title} />
         </div>
 
         {/* 공개 여부 */}
