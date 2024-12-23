@@ -66,7 +66,7 @@ function BookDetail(): React.JSX.Element {
       }
     };
     getEpisodeList();
-  }, [novelId]);
+  }, [novelId , closeEpisodeUploadModal]);
 
   // commentList api
   useEffect(() => {
@@ -82,7 +82,6 @@ function BookDetail(): React.JSX.Element {
         }
       };
       getCommentList();
-      console.log(commentList);
     }
   },[activeTab, novelId]);
   return (

@@ -86,16 +86,13 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
             console.error('파일이 선택되지 않았습니다.');
             return;
         }
-
         try {
             await post({url: 'api/admin/episode', data: formData});
             alert('업로드 성공!');
             onClose();
-
         } catch (error) {
             console.error('episode uplode error: ', error);
         }
-        console.log(formData);
     };
 
     return (
