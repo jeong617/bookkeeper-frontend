@@ -1,9 +1,9 @@
-import { useParams, useLoaderData } from 'react-router-dom';
+import { useParams, useLoaderData, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 
 // project
-import { get } from '../../api/api.ts';
+import { get, del } from '../../api/api.ts';
 import { Header } from '../../components/header';
 import FormButton from '../../components/FormButton.tsx';
 import EpisodeListItem from '../../components/EpisodeListItem.tsx';
@@ -26,6 +26,7 @@ function BookDetail(): React.JSX.Element {
   const [selectedEpisodeId, setSelectedEpisodeId] = useState<string | null>(null);
   const [episodeList, setEpisodeList] = useState<EpisodeData[]>([]);
   const [commentList, setCommentList] = useState<CommentData[]>([]);
+  const navigate = useNavigate();
   const { novelId } = useParams<{ novelId: string }>();
   const { novelDetail } = useLoaderData() as { novelDetail: NovelDetailData };
 
@@ -38,6 +39,18 @@ function BookDetail(): React.JSX.Element {
   const handleUpdateEpisode = (episodeId: string) => {
     setEpisodeDetailModalOpened(true);
     setSelectedEpisodeId(episodeId);
+  }
+
+  // delete novel api
+  const deleteNovel = async () => {
+    const url = `api/admin/novels/${novelId}`;
+    try {
+      await del({ url: url });
+      setPopWarning(false);
+      navigate('/');
+    } catch (error) {
+      alert('소설 삭제 실패');
+    }
   }
 
   // episodeList api
@@ -110,7 +123,7 @@ function BookDetail(): React.JSX.Element {
                 ><FaTrashAlt size={25} className="fill-red-500" />
                 </button>
                 {popWarning && (
-                  <PopUp isOpened={popWarning} onClose={() => setPopWarning(false)} />
+                  <PopUp isOpened={popWarning} onClick={deleteNovel} onClose={() => setPopWarning(false)} />
                 )}
               </div>
             </div>
