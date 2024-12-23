@@ -8,9 +8,10 @@ interface EpisodeListItemProps {
   chapterNum: number;
   episodeTitle: string;
   onClick: (episodeId: string) => void;
+  onDelete: (episodeId: string) => void;
 }
 
-function EpisodeListItem({ episodeId, chapterNum, episodeTitle, onClick }: EpisodeListItemProps): React.JSX.Element {
+function EpisodeListItem({ episodeId, chapterNum, episodeTitle, onClick, onDelete }: EpisodeListItemProps): React.JSX.Element {
   return (
     <div className='flex flex-row bg-white mx-1 px-3 py-3 justify-between rounded-md'>
       {/* 제목 */}
@@ -22,7 +23,7 @@ function EpisodeListItem({ episodeId, chapterNum, episodeTitle, onClick }: Episo
       {/* form button */}
       <div className='flex flex-row gap-5 items-center'>
         <div className='hover:cursor-pointer' onClick={() => onClick(episodeId)}><FaPen /></div>
-        <FaTrashAlt className='fill-red-500' />
+        <div className='hover:cursor-pointer' onClick={() => onDelete(episodeId)}><FaTrashAlt className='fill-red-500 hover:fill-red-700' /></div>
       </div>
     </div>
   );

@@ -39,7 +39,19 @@ function BookDetail(): React.JSX.Element {
   const handleUpdateEpisode = (episodeId: string) => {
     setEpisodeDetailModalOpened(true);
     setSelectedEpisodeId(episodeId);
-  }
+  };
+
+  // episodeList api
+  const getEpisodeList = async () => {
+    try {
+      const res: AxiosResponse = await get({
+        url: `api/admin/novels/${novelId}/episodes`,
+      });
+      setEpisodeList(res.data.episodeList);
+    } catch (error) {
+      console.error('소설 목록을 가져오는 데 실패했습니다.', error);
+    }
+  };
 
   // delete novel api
   const deleteNovel = async () => {
@@ -51,22 +63,23 @@ function BookDetail(): React.JSX.Element {
     } catch (error) {
       alert('소설 삭제 실패');
     }
-  }
+  };
 
-  // episodeList api
+  // delete episode api
+  const deleteEpisode = async (episodeId: string) => {
+    const url = `api/admin/episode/${episodeId}`;
+    try {
+      await del({ url: url });
+      alert('에피소드 삭제 완료!');
+      getEpisodeList();
+    } catch (error) {
+      alert('에피소드 삭제 실패');
+    }
+  };
+
   useEffect(() => {
-    const getEpisodeList = async () => {
-      try {
-        const res: AxiosResponse = await get({
-          url: `api/admin/novels/${novelId}/episodes`,
-        });
-        setEpisodeList(res.data.episodeList);
-      } catch (error) {
-        console.error('소설 목록을 가져오는 데 실패했습니다.', error);
-      }
-    };
     getEpisodeList();
-  }, [novelId , closeEpisodeUploadModal]);
+  }, [novelId, isEpisodeUploadModalOpened]);
 
   // commentList api
   useEffect(() => {
@@ -83,60 +96,60 @@ function BookDetail(): React.JSX.Element {
       };
       getCommentList();
     }
-  },[activeTab, novelId]);
+  }, [activeTab, novelId]);
   return (
     <>
       <Header />
-      <div className="container px-48 mx-auto mt-12">
+      <div className='container px-48 mx-auto mt-12'>
         {/* 도서 기본 정보 */}
-        <div className="flex flex-row gap-5 p-1">
+        <div className='flex flex-row gap-5 p-1'>
           <img
-            alt="book-cover-image"
+            alt='book-cover-image'
             src={novelDetail.coverImageUrl}
-            className="w-48 h-64 rounded-normal-radius shadow-md"
+            className='w-48 h-64 rounded-normal-radius shadow-md'
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.onerror = null;
               target.src = defaultImage;
             }}
           />
-          <div className="flex flex-col w-full items-start justify-between py-2">
+          <div className='flex flex-col w-full items-start justify-between py-2'>
             <div
-              id="basic-section"
-              className="flex flex-row w-full items-center justify-between"
+              id='basic-section'
+              className='flex flex-row w-full items-center justify-between'
             >
-              <div id="basic-info" className="flex flex-col">
-                <span className="text-3xl font-extrabold">{novelDetail.title}</span>
-                <span className="font-medium">{novelDetail.authorList.join(', ')}</span>
+              <div id='basic-info' className='flex flex-col'>
+                <span className='text-3xl font-extrabold'>{novelDetail.title}</span>
+                <span className='font-medium'>{novelDetail.authorList.join(', ')}</span>
               </div>
               <div
-                id="form-button"
-                className="flex flex-row gap-5 px-2 items-center"
+                id='form-button'
+                className='flex flex-row gap-5 px-2 items-center'
               >
                 <FormButton
-                  label="수정"
-                  icon={<FaPen size={13} className="fill-button-text" />}
+                  label='수정'
+                  icon={<FaPen size={13} className='fill-button-text' />}
                 />
                 <button
                   onClick={() => setPopWarning(true)}
-                ><FaTrashAlt size={25} className="fill-red-500" />
+                ><FaTrashAlt size={25} className='fill-red-500 hover:fill-red-700' />
                 </button>
                 {popWarning && (
                   <PopUp isOpened={popWarning} onClick={deleteNovel} onClose={() => setPopWarning(false)} />
                 )}
               </div>
             </div>
-            <span className="text-sm text-start">{novelDetail.summary}</span>
-            <div id="like-number" className="flex justify-start gap-1">
-              <FaHeart fill="red" />
-              <span className="text-xs">{novelDetail.likes}</span>
+            <span className='text-sm text-start'>{novelDetail.summary}</span>
+            <div id='like-number' className='flex justify-start gap-1'>
+              <FaHeart fill='red' />
+              <span className='text-xs'>{novelDetail.likes}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-50 w-full mt-12 rounded-normal-radius">
+        <div className='bg-gray-50 w-full mt-12 rounded-normal-radius'>
           {/* 회차-댓글 전환 버튼 */}
-          <div className="flex flex-row py-3 text-lg">
+          <div className='flex flex-row py-3 text-lg'>
             <button
               className={`w-full ${activeTab === BookDetailTabType.Episodes ? 'underline underline-offset-2' : ''}`}
               onClick={() => setActiveTab(BookDetailTabType.Episodes)}
@@ -150,16 +163,16 @@ function BookDetail(): React.JSX.Element {
               댓글
             </button>
           </div>
-          <div id="tap-content" className="p-2">
+          <div id='tap-content' className='p-2'>
 
             {activeTab === BookDetailTabType.Episodes && (
               <div
-                className="flex flex-row bg-gray-200 mb-2 mx-1 px-3 py-3 justify-center rounded-normal-radius hover:bg-gray-300 cursor-pointer"
+                className='flex flex-row bg-gray-200 mb-2 mx-1 px-3 py-3 justify-center rounded-normal-radius hover:bg-gray-300 cursor-pointer'
                 onClick={openEpisodeUploadModal}
               >
-                <div className="flex flex-row items-center gap-2">
+                <div className='flex flex-row items-center gap-2'>
                   <FaPlus />
-                  <div className="font-medium text-md">새 에피소드 업로드</div>
+                  <div className='font-medium text-md'>새 에피소드 업로드</div>
                 </div>
               </div>
             )}
@@ -173,6 +186,7 @@ function BookDetail(): React.JSX.Element {
                     chapterNum={Number(ep.chapter)}
                     episodeTitle={ep.title}
                     onClick={handleUpdateEpisode}
+                    onDelete={deleteEpisode}
                   />
                 ))}
             </div>
@@ -198,7 +212,7 @@ function BookDetail(): React.JSX.Element {
       {isEpisodeUploadModalOpened && novelId && (
         <div><UploadEpisode novelId={novelId} title={novelDetail.title} onClose={closeEpisodeUploadModal} /></div>
       )}
-      
+
       {/* open episode detail modal*/}
       {isEpisodeDetailModalOpened && novelId && selectedEpisodeId && (
         <UpdateEpisode episodeId={selectedEpisodeId} onClose={() => setEpisodeDetailModalOpened(false)} />
