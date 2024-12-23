@@ -11,6 +11,7 @@ import { FaBell, FaFileUpload } from 'react-icons/fa';
 
 export function SideBar(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
+  const isOpened = useSideBarStore((state) => state.isOpened);
 
   // Sidebar Custom
   const customTheme = {
@@ -21,7 +22,7 @@ export function SideBar(): React.JSX.Element {
   };
 
   return (
-    <Sidebar className='ease-in-out duration-500 shadow-2xl drop-shadow-2xl' theme={customTheme}>
+    <Sidebar className={`ease-in-out duration-500 ${isOpened ? `shadow-2xl drop-shadow-2xl` : ''}`} theme={customTheme}>
       <div className="">
         <button
           onClick={toggle}
