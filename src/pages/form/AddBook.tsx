@@ -63,23 +63,19 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
   };
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    await post({ url: 'api/admin/novel', data: bookData })
-      .then((res: AxiosResponse) => {
-        const presignedUrl: string = res.data.presignedUrl;
-        if (file && presignedUrl) {
-          putPresignedUrl({ url: presignedUrl, data: file, headers: putFileHeaders })
-            .then(() => {
-              onClose();
-            })
-            .catch(() => {
-            });
-        }
+    try {
+      const res: AxiosResponse = await post({ url: 'api/admin/novel', data: bookData });
+      const presignedUrl: string = res.data.data.presignedUrl;
+      console.log(presignedUrl);
+      if (file && presignedUrl) {
+        await putPresignedUrl({ url: presignedUrl, data: file, headers: putFileHeaders });
         alert('새 소설 생성 완료!');
+        onClose();
         window.location.reload();
-      })
-      .catch((error) => {
-        console.error('Error creating presignedURL:', error);
-      });
+      }
+    } catch (error) {
+      console.error('Error creating presignedURL:', error);
+    }
   };
 
   return (

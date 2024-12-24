@@ -31,7 +31,11 @@ function BookDetail(): React.JSX.Element {
   const { novelDetail } = useLoaderData() as { novelDetail: NovelDetailData };
 
   // etc.
-  const defaultImage = '/book-cover/default-book-cover.jpg';
+  let defaultImage = '/book-cover/default-book-cover.jpg';
+  if (novelDetail.title === '동백꽃1') {
+    defaultImage = '/book-cover/flower.jpeg';
+  }
+
 
   // handler
   const openEpisodeUploadModal = () => setEpisodeUploadModalOpened(true);
