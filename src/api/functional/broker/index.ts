@@ -6,9 +6,30 @@
 //================================================================
 import type { IConnection } from "@nestia/fetcher";
 import { PlainFetcher } from "@nestia/fetcher/lib/PlainFetcher";
-import type { Resolved, Primitive } from "typia";
+import type { Resolved, Primitive, tags } from "typia";
 
-import { tags } from "typia"
+export * as touser from "./touser";
+
+export namespace Body {
+    export interface IBroadcast {
+        readonly message: string
+        readonly title: string
+    }
+
+    export interface IToUser extends IBroadcast {
+        readonly to_email: string & tags.Format<"email"> & tags.MaxLength<255>
+    }
+
+    export interface INovel extends IBroadcast {
+        readonly novel_id: string & tags.MaxLength<36>
+        readonly novel_title: string
+        readonly summary: string
+    }
+
+    export interface IEvent extends IBroadcast {
+
+    }
+}
 
 export type SubStatus = 
 | "NotEqualPass" 
@@ -55,30 +76,6 @@ export const ERROR : Record<string, FailedResponse> = {
 export type KeyOfValue = keyof typeof ERROR
 export type ValueOfERROR = (typeof ERROR)[KeyOfValue]
 export type TryCatch<T, E extends FailedResponse> = SuccessResponse<T> | E
-
-export namespace Body {
-  export interface IBroadcast {
-      readonly message: string
-      readonly title: string
-  }
-
-  export interface IToUser extends IBroadcast {
-      readonly to_user_id: string & tags.MaxLength<36>
-      readonly to_email: string & tags.Format<"email"> & tags.MaxLength<255>
-  }
-
-  export interface INovel extends IBroadcast {
-      readonly novel_id: string & tags.MaxLength<36>
-      readonly novel_title: string
-      readonly summary: string
-  }
-
-  export interface IEvent extends IBroadcast {
-
-  }
-}
-
-export * as touser from "./touser";
 
 /**
  * @controller BrokerController.broadcast

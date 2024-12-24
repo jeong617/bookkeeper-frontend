@@ -27,7 +27,7 @@ function PushNotification(): React.JSX.Element {
         return;
       }
       try {
-        await broadcast({ host: "http://13.125.197.39:3001", }, notifications);
+        await broadcast({ host: import.meta.env.VITE_API_URL_NOTI, }, notifications);
         alert('알림 전송 성공!');
       } catch (error) {
         alert('알림 전송 실패');
