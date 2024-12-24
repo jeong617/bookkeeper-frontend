@@ -7,7 +7,7 @@ import SimpleBookCard from "../components/SimpleBookCard.tsx";
 import { get } from '../api/api.ts';
 import { SearchNovelData } from '../store/novelDetailInterface.ts';
 
-// css
+// cssㅔ
 import {Button} from "flowbite-react";
 import { useSearchParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
