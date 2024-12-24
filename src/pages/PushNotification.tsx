@@ -1,11 +1,43 @@
 import { Header } from '../components/header';
+import React, { useState } from 'react';
+
+// project
+import { broadcast } from '../api/functional/broker';
 
 // css
-import { Label, Table, Textarea } from 'flowbite-react';
+import { Label, Textarea } from 'flowbite-react';
 import { FaPaperPlane } from 'react-icons/fa6';
 
 function PushNotification(): React.JSX.Element {
+  const [notifications, setNotifications] = useState<string>('');
 
+  // handler
+  const handleNotification = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNotifications(event.target.value); // 입력된 메시지를 상태에 저장
+  };
+
+  // push notification api
+    const pushNotification = async () => {
+      if (!notifications.trim()) {
+        alert("알림 메시지를 입력하세요.");
+        return;
+      }
+      // TODO: API 코드 추가
+      try {
+        await broadcast({
+          host: "http://13.125.197.39:3001",
+        }, {
+          title: "너에게...",
+          message: "닿기를...!",
+        })
+          .then(console.log)
+          .catch(console.log)
+      } catch (error) {
+        alert('알림 전송 실패');
+      }
+      console.log("알림 메시지 전송:", notifications);
+      setNotifications('');
+    };
 
   return (
     <>
@@ -18,10 +50,9 @@ function PushNotification(): React.JSX.Element {
           <div className='flex'>
             <Textarea id='comment' placeholder='알림 메세지를 입력하세요' required rows={4}
                       className='focus:border-transparent focus:ring-0 focus:outline-1 focus:outline-[#DBB185]/80'
+                      onChange={handleNotification}
             />
-            <FaPaperPlane className='fill-white bg-button mx-2 w-10 h-8 p-2 rounded-normal-radius hover:bg-button-text hover:cursor-pointer'
-                          onClick={() => {console.log('알림 제출')}}
-            />
+            <span onClick={pushNotification}><FaPaperPlane className='fill-white bg-button mx-2 w-10 h-8 p-2 rounded-normal-radius hover:bg-button-text hover:cursor-pointer' /></span>
           </div>
 
           {/* user filter area */}
@@ -37,7 +68,7 @@ function PushNotification(): React.JSX.Element {
         </section>
 
         {/* notification history */}
-        <section id='notification-history'>
+        {/*<section id='notification-history'>
           <Table className='rounded-normal-radius'>
             <Table.Head>
               <Table.HeadCell className='w-4/6'>내용</Table.HeadCell>
@@ -58,7 +89,7 @@ function PushNotification(): React.JSX.Element {
               </Table.Row>
             </Table.Body>
           </Table>
-        </section>
+        </section>*/}
       </div>
     </>
   );
