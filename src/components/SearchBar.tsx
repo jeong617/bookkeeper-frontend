@@ -27,6 +27,7 @@ function SearchBar({defaultQuery = ''}: SearchBarProps): React.JSX.Element {
       />
       <button className='bg-white hover:border-white'
               type='button'
+              onClick={handleSearch}
       >
         <FaSearch className='outline-none focus:ring-0 focus:outline-none hover:outline-none active:outline-none' />
       </button>
