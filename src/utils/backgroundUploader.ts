@@ -26,7 +26,7 @@ export const useBackgroundUploader = () => {
             if (response.data.status === TTSUploadStatusType.Completed) {
               updateFileStatus(fileToProcess.id, TTSUploadStatusType.Completed);
             } else if (response.data.status === TTSUploadStatusType.Failed) {
-              updateFileStatus(fileToProcess.id, TTSUploadStatusType.Failed);
+              updateFileStatus(fileToProcess.id, TTSUploadStatusType.Progress);
             }
           } catch (err) {
             console.error(err);
@@ -41,7 +41,7 @@ export const useBackgroundUploader = () => {
           if (response.data.status === TTSUploadStatusType.Completed) {
             updateFileStatus(inProgressFiles[0].id, TTSUploadStatusType.Completed);
           } else if (response.data.status === TTSUploadStatusType.Failed) {
-            updateFileStatus(inProgressFiles[0].id, TTSUploadStatusType.Failed);
+            updateFileStatus(inProgressFiles[0].id, TTSUploadStatusType.Progress);
           }
         } catch (err) {
           console.error(err);
