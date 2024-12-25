@@ -49,6 +49,14 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
     formData.append('data', new Blob([JSON.stringify(userInfo)], { type: 'application/json' }));
     try {
       await post({ url: url, data: formData });
+      setUserInfo({
+        email: '',
+        password: '',
+        nickName: '',
+        gender: '',
+        ageGroup: AgeGroupType.Teens,
+      })
+      alert('회원가입 성공! 관리자의 승인을 기다려주세요');
     } catch (err) {
       console.error('회원가입 요청 실패: ', err);
     }
