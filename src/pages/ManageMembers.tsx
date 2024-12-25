@@ -27,6 +27,7 @@ function ManageMembers(): React.JSX.Element {
   const [memberList, setMemberList] = useState<MemberData[]>([]);
 
   // api
+  // TODO: 무한스크롤 에러 해결 & memeberList 비워주는 로직 추가
   const fetchMoreMembers = async () => {
     try {
       const res: AxiosResponse = await get({

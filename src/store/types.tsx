@@ -58,3 +58,8 @@ export enum FileStateType {
   Start = 'START',
   Completed = 'COMPLETED'
 }
+
+export enum NotificationTargetType {
+  All = 'ALL',
+  Specific = 'SPECIFIC',
+}
