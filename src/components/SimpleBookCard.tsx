@@ -7,7 +7,10 @@ interface SimpleBookCardProps {
 }
 
 function SimpleBookCard({ title, author, coverImageUrl }: SimpleBookCardProps): React.JSX.Element {
-  const defaultImage = '/book-cover/default-book-cover.jpg';
+  let defaultImage = '/book-cover/default-book-cover.jpg';
+  if (title === '동백꽃1') {
+    defaultImage = '/book-cover/flower.jpeg';
+  }
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.onerror = null;

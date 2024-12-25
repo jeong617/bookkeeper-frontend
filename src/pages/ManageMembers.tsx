@@ -7,7 +7,7 @@ import FormButton from '../components/FormButton.tsx';
 import SearchBar from '../components/SearchBar';
 import { RoleType, SortDirectionType, SortFieldType } from '../store/types.tsx';
 import { MemberData } from '../store/UserData.ts';
-import formatDateTime from '../utils/parseDateTime.ts';
+import { formatDateTime } from '../utils/parseDateTime.ts';
 import { get, put } from '../api/api.ts';
 import useInfiniteScroll from '../hooks/useInfiniteScroll.ts';
 import MemberItem from '../components/MemberItem.tsx';
@@ -25,14 +25,24 @@ function ManageMembers(): React.JSX.Element {
     role: RoleType.Member,
   });
   const [memberList, setMemberList] = useState<MemberData[]>([]);
+  let [totalPages, setTotalPages] = useState(10000000);
+
+  // handler
+  const clickTap = (role: RoleType) => {
+    setMemberList([]);
+    setParamOptions((prev) => ({ ...prev, role: role, currentPage: 1 }))
+    setTotalPages(10000000);
+  }
 
   // api
   // TODO: 무한스크롤 에러 해결 & memeberList 비워주는 로직 추가
   const fetchMoreMembers = async () => {
+    if (totalPages === 0 || totalPages < paramOption.currentPage) return;
     try {
       const res: AxiosResponse = await get({
         url: `api/admin/members?page=${paramOption.currentPage}&size=5&sortField=${paramOption.sortField}&sortDirection=${paramOption.sortDirection}&role=${paramOption.role}`,
       });
+      setTotalPages(res.data.totalPages);
       setMemberList((prev) => [...prev, ...res.data.memberList]);
       setParamOptions((prev) => ({
         ...prev,
@@ -44,7 +54,7 @@ function ManageMembers(): React.JSX.Element {
       setIsFetching(false);
     }
   };
-
+  console.log(totalPages);
   const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreMembers);
 
   useEffect(() => {
@@ -55,6 +65,8 @@ function ManageMembers(): React.JSX.Element {
     const url = `api/admin/members/${pendingAdminId}/roles/ADMIN`;
     try {
       await put({ url: url });
+      setParamOptions((prev) => ({...prev, role: RoleType.Admin}));
+      setTotalPages(10000000);
     } catch (err) {
       console.error(err);
     }
@@ -69,7 +81,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.Admin ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Admin, currentPage: 1 }))}
+              onClick={() => clickTap(RoleType.Admin)}
             >
               <FaUser />
               ADMINS
@@ -78,7 +90,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.Member ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.Member, currentPage: 1 }))}
+              onClick={() => clickTap(RoleType.Member)}
             >
               <FaUserCog size={20} />
               MEMBERS
@@ -87,7 +99,7 @@ function ManageMembers(): React.JSX.Element {
               type='button'
               className={`w-32 font-bold rounded-t-normal-radius flex justify-center items-center gap-1
                                 ${paramOption.role === RoleType.PendingAdmin ? 'bg-background underline' : 'bg-white'}`}
-              onClick={() => setParamOptions((prev) => ({ ...prev, role: RoleType.PendingAdmin, currentPage: 1 }))}
+              onClick={() => clickTap(RoleType.PendingAdmin)}
             >
               <FaUserCheck size={20} />
               승인 대기
