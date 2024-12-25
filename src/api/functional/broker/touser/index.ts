@@ -11,8 +11,8 @@ import type { Resolved, Primitive } from "typia";
 import type {
   TryCatch,
   FailedResponse,
-} from "../../../../common/exception/index";
-import type { Body } from "../../../../controller/broker.controller";
+} from "../index.ts";
+import type { Body } from '../index.ts';
 
 /**
  * @controller BrokerController.toUser
