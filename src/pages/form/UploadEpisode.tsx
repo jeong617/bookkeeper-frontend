@@ -75,7 +75,6 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
     };
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-
         // FormData 객체 생성
         const formData = new FormData();
         formData.append('episodeRequest', new Blob([JSON.stringify({...episodeData, 'novelId' : novelId})], { type: 'application/json' }));
@@ -114,8 +113,9 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
                         <h2 className="w-[250px] ml-3 text-lg font-bold">파일 업로드</h2>
                         <span
                             onClick={handleUploadClick}
-                            className="flex justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"><AiOutlineUpload
-                            size={40}/></span>
+                            className="flex justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer">
+                            <AiOutlineUpload size={40}/>
+                        </span>
                         {fileName && (<p className="px-3 py-1 text-xs self-end">{fileName}</p>)}
                         <input
                             type="file"
