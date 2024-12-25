@@ -35,14 +35,14 @@ function AuthSkeleton(): React.JSX.Element {
             </div>
 
             {/* 회원가입 영역(왼쪽) */}
-            <div className="flex flex-1 items-center justify-center bg-white">
+            <div className="flex flex-1 items-center justify-center bg-white w-1/2">
                 <div className="w-96">
                     <Register setState={handleToggle}/>
                 </div>
             </div>
 
             {/* 로그인 영역(오른쪽) */}
-            <div className="flex flex-1 items-center justify-center bg-white">
+            <div className="flex flex-1 items-center justify-center bg-white w-1/2">
                 <div className="w-96">
                     <Login setState={handleToggle}/>
                 </div>
