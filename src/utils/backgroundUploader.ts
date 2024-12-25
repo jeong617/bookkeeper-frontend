@@ -21,7 +21,7 @@ export const useBackgroundUploader = () => {
           updateFileStatus(fileToProcess.id, TTSUploadStatusType.Progress);
           try {
             const response: AxiosResponse = await get({
-              url: `auth/api/tasks/${fileToProcess.id}/stㅕatus`,
+              url: `auth/api/tasks/${fileToProcess.id}/status`,
             });
             if (response.data.status === TTSUploadStatusType.Completed) {
               updateFileStatus(fileToProcess.id, TTSUploadStatusType.Completed);
