@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import { useSearchParams } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
 // project
 import SearchBar from "../components/SearchBar.tsx";
@@ -9,28 +11,10 @@ import { SearchNovelData } from '../store/novelDetailInterface.ts';
 
 // cssㅔ
 import {Button} from "flowbite-react";
-import { useSearchParams } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
 
 type SortType = "latest" | "alphabetical";
 
 function SearchResult(): React.JSX.Element {
-    /* 배경색 변경 */
-    useEffect(() => {
-        const root = document.getElementById('root');
-        if (root) {
-            root.style.width = '100%';
-            root.style.height = '100%';
-            root.style.background = '#FFFAEB';
-        }
-        return () => {
-            if (root) {
-                root.style.width = '';
-                root.style.height = '';
-            }
-        }
-    }, []);
-
     const [sortOrder, setSortOrder] = useState<SortType>("latest");
     const [searchParam] = useSearchParams();
     const query = searchParam.get('query') || '';
@@ -38,8 +22,33 @@ function SearchResult(): React.JSX.Element {
     // TODO: 검색 결과 페이지에 무한 스크롤 또는 페이지네이션 적용
     // const [currentPage, setCurrentPage] = useState(1);
 
+    /* 배경색 변경 */
     useEffect(() => {
-        const url = `api/admin/novels/search?query=${query}&page=$1&size=20`
+        const root = document.getElementById("root");
+        if (root) {
+            root.style.width = "100%";
+            root.style.height = "100%";
+            root.style.background = "#FFFAEB";
+        }
+        const cleanup = () => {
+            if (root) {
+                root.style.width = "";
+                root.style.height = "";
+                root.style.background = "";
+            }
+        };
+        const handlePopState = () => {
+            cleanup();
+        };
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            cleanup();
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
+
+    useEffect(() => {
+        const url = `api/admin/novels/search?query=${query}&page=1&size=20`
         const fetchResults = async () => {
             try {
                 const res: AxiosResponse = await get({ url: url });
