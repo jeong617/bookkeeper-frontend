@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface RequestArgs<T = any> {
     url: string;
@@ -14,7 +15,7 @@ const api: AxiosInstance = axios.create({
     timeout: 5000,
 });
 
-// token 설정 추가
+// 요청 인터셉터: token 설정 추가
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
       const token: string | null = localStorage.getItem('accessToken');
@@ -25,6 +26,26 @@ api.interceptors.request.use(
   },
   (error) => {
       return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터: token 만료 시 token 갱신 또는 재로그인 유도
+api.interceptors.response.use(
+  (response: AxiosResponse) => {
+    const newAccessToken = response.headers['authorization'];
+    if (newAccessToken) {
+      localStorage.setItem('accessToken', newAccessToken.split(' ')[1]); // 새 Access Token 저장
+    }
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      const navigate = useNavigate();
+      localStorage.removeItem('accessToken');
+      alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+      navigate('/auth');
+    }
+    return Promise.reject(error);
   }
 );
 

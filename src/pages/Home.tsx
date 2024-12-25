@@ -8,7 +8,7 @@ import SimpleBookCard from '../components/SimpleBookCard.tsx';
 import { CategoryType } from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import { useSideBarStore } from '../store/store.tsx';
-import get from '../api/api.ts';
+import get, { post } from '../api/api.ts';
 import getToken from '../utils/getToken.ts';
 
 // css
@@ -45,6 +45,18 @@ function Home(): React.JSX.Element {
     navigate('/auth');
   }
 
+  // logout
+  const logout = async () => {
+    const url = `auth/logout`;
+    try {
+      await post({ url: url });
+      localStorage.removeItem('accessToken');
+      navigate('/auth');
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // get novel list api
   useEffect(() => {
     const fetchNovelList = async () => {
@@ -58,7 +70,8 @@ function Home(): React.JSX.Element {
           totalPages: res.data.data.totalPages,
           totalElements: res.data.data.totalElements,
         }));
-      } catch (error) {
+      } catch (error: any) {
+        if (error.response?.status === 401) return navigate('/auth');
         console.error('소설 목록을 가져오는 데 실패했습니다.', error);
       }
     };
@@ -73,7 +86,7 @@ function Home(): React.JSX.Element {
           <button onClick={toggle}>
             <FaBars size={18} className="fill-button-text" />
           </button>
-          <button className="text-button-text font-medium text-sm">로그아웃</button>
+          <button onClick={logout} className="text-button-text font-medium text-sm">로그아웃</button>
         </div>
         <Link to="/" className="w-1/3 mt-10">
           <img alt="logo" src="/logo.png" />
