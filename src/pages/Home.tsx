@@ -70,7 +70,8 @@ function Home(): React.JSX.Element {
           totalPages: res.data.data.totalPages,
           totalElements: res.data.data.totalElements,
         }));
-      } catch (error) {
+      } catch (error: any) {
+        if (error.response?.status === 401) return navigate('/auth');
         console.error('소설 목록을 가져오는 데 실패했습니다.', error);
       }
     };
