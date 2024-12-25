@@ -1,4 +1,5 @@
-import React, {useRef, useState} from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import { debounce } from 'lodash';
 
 // css
 import {AiOutlineUpload} from 'react-icons/ai';
@@ -33,6 +34,7 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
     });
     const [scheduleDate, setScheduleDate] = useState<string>('');
     const [scheduleTime, setScheduleTime] = useState<string>('09:00');
+
 
     // handler
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -73,25 +75,31 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
             fileInputRef.current.click();
         }
     };
-    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+
+    // api
+    const debouncedSubmit = useCallback(
+      debounce(async (formData: FormData) => {
+          try {
+              await post({ url: 'api/admin/episode', data: formData });
+              alert('업로드 성공!');
+              onClose();
+          } catch (error) {
+              console.error('episode upload error: ', error);
+          }
+      }, 500), []
+    );
+
+    const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        // FormData 객체 생성
         const formData = new FormData();
         formData.append('episodeRequest', new Blob([JSON.stringify({...episodeData, 'novelId' : novelId})], { type: 'application/json' }));
-
         if (file) {
             formData.append('file', file);
         } else {
             console.error('파일이 선택되지 않았습니다.');
             return;
         }
-        try {
-            await post({url: 'api/admin/episode', data: formData});
-            alert('업로드 성공!');
-            onClose();
-        } catch (error) {
-            console.error('episode uplode error: ', error);
-        }
+        debouncedSubmit(formData);
     };
 
     return (
@@ -101,7 +109,7 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
                     <div className="flex flex-row justify-between">
                         <h2 className="text-3xl font-extrabold self-start px-6 py-5">{title}</h2>
                         <div className="relative end-0.5 mb-5 flex gap-3">
-                            <button type="submit"><MainButton className="w-14" label="저장"/></button>
+                            <button type="submit"><MainButton className="w-14 hover:bg-button-text" label="저장"/></button>
                             <button
                                 onClick={onClose}
                             ><MainButton className="w-14 bg-gray-400" label="닫기"/></button>

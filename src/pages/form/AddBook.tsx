@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { AxiosRequestHeaders, AxiosResponse } from 'axios';
+import { debounce } from 'lodash';
 
 // project
 import MainButton from '../../components/MainButton';
@@ -61,21 +62,28 @@ function AddBook({ isOpened, onClose }: AddBookProps): React.JSX.Element | null 
       return { ...prev, category: updatedCategories };
     });
   };
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-    try {
-      const res: AxiosResponse = await post({ url: 'api/admin/novel', data: bookData });
-      const presignedUrl: string = res.data.data.presignedUrl;
-      console.log(presignedUrl);
-      if (file && presignedUrl) {
-        await putPresignedUrl({ url: presignedUrl, data: file, headers: putFileHeaders });
+
+  // api
+  const debouncedSubmit = useCallback(
+    debounce(async (bookData) => {
+      try {
+        const res: AxiosResponse = await post({ url: 'api/admin/novel', data: bookData });
+        const presignedUrl: string = res.data.data.presignedUrl;
+        if (file && presignedUrl) {
+          await putPresignedUrl({ url: presignedUrl, data: file, headers: putFileHeaders });
+        }
         alert('새 소설 생성 완료!');
         onClose();
         window.location.reload();
+      } catch (error) {
+        console.error('Error creating presignedURL:', error);
       }
-    } catch (error) {
-      console.error('Error creating presignedURL:', error);
-    }
+    }, 500), [bookData, file, onClose],
+  );
+
+  const handleSubmit = (e: React.FormEvent): void => {
+    e.preventDefault();
+    debouncedSubmit(bookData);
   };
 
   return (

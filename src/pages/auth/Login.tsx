@@ -1,13 +1,14 @@
-import { Button, Label } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { post } from '../../api/api.ts';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 // project
 import { LoginData } from '../../store/UserData.ts';
 
 // css
+import { Button, Label } from 'flowbite-react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 
 interface LoginProps {
@@ -31,23 +32,26 @@ function Login({ setState }: LoginProps): React.JSX.Element {
   };
 
   // api
-  const login = async () => {
-    const url = `${import.meta.env.VITE_API_URL_NGROK}auth/login`;
-    try {
-      const response: AxiosResponse = await post({ url: url, data: loginData });
-      const accessToken = response.headers['authorization'];
-      if (accessToken) {
-        localStorage.setItem('accessToken', accessToken.split(' ')[1]);
-        navigate('/');
+  const debouncedLogin = useCallback(
+    debounce(async (loginData) => {
+      try {
+        const response: AxiosResponse = await post({ url: 'auth/login', data: loginData });
+        const accessToken = response.headers['authorization'];
+        if (accessToken) {
+          localStorage.setItem('accessToken', accessToken.split(' ')[1]);
+          navigate('/');
+        }
+      } catch (error: any) {
+        if (error.response?.data.code === 'NOT_EXIST_USER') alert(error.response.data.message);
+        else if (error.response?.data.code === 'USER_PASSWORD_NOT_MATCHED') alert(error.response.data.message);
+        console.log(error);
       }
-    } catch (err) {
-      console.error('로그인 요청 실패: ', err);
-    }
-  };
+    }, 200), [],
+  );
 
   const enterLogin = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
-      login();
+      debouncedLogin(loginData);
     }
   };
 
@@ -80,7 +84,7 @@ function Login({ setState }: LoginProps): React.JSX.Element {
         </div>
         <Button
           className='bg-button-text mt-5 shadow-md'
-          onClick={login}
+          onClick={() => debouncedLogin(loginData)}
         >
           로그인
         </Button>

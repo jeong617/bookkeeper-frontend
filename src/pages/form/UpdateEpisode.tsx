@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from 'axios';
 
 // css
@@ -10,6 +10,7 @@ import InputBox from '../../components/InputBox.tsx';
 import MainButton from '../../components/MainButton';
 import { get, put } from '../../api/api.ts';
 import {divideIsoDateTime} from '../../utils/parseDateTime.ts';
+import { debounce } from 'lodash';
 
 interface UpdateEpisodeProps {
   episodeId: string;
@@ -60,7 +61,20 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  // api
+  const debouncedSubmit = useCallback(
+    debounce(async (formData: FormData) => {
+      try {
+        await put({url: `api/admin/episode/${episodeId}`, data: formData});
+        alert('에피소드 수정 성공!');
+        onClose();
+      } catch (error) {
+        alert('에피소드 수정 실패');
+      }
+    }, 300), []
+  );
+
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     // FormData 객체 생성
     const formData = new FormData();
@@ -73,16 +87,10 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
     if (file) {
       formData.append('file', file);
     } else {
-      console.error('파일이 선택되지 않았습니다.');
+      alert('파일이 선택되지 않았습니다.');
       return;
     }
-    try {
-      await put({url: `api/admin/episode/${episodeId}`, data: formData});
-      alert('에피소드 수정 성공!');
-      onClose();
-    } catch (error) {
-      console.error('episode uplode error: ', error);
-    }
+    debouncedSubmit(formData);
   };
 
   // api

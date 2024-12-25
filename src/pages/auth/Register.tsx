@@ -1,11 +1,14 @@
-import { Button, Label } from 'flowbite-react';
-import { IoIosArrowRoundForward } from 'react-icons/io';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { debounce } from 'lodash';
 
 // project
 import { RegisterData } from '../../store/UserData.ts';
 import { AgeGroupType } from '../../store/types.tsx';
+
 import { post } from '../../api/api.ts';
+// css
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import { Button, Label } from 'flowbite-react';
 
 interface RegisterProps {
   setState: () => void;
@@ -43,23 +46,28 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
   };
 
   // api
-  const register = async () => {
-    const url = 'auth/signUp';
+  const debouncedRegister = useCallback(
+    debounce(async (formData) => {
+      try {
+        await post({ url: 'auth/signUp', data: formData });
+        setUserInfo({
+          email: '',
+          password: '',
+          nickName: '',
+          gender: '',
+          ageGroup: AgeGroupType.Teens,
+        })
+        alert('회원가입 성공! 관리자의 승인을 기다려주세요');
+      } catch (err) {
+        console.error('회원가입 요청 실패: ', err);
+      }
+    }, 200), [],
+  );
+
+  const register = () => {
     const formData = new FormData();
     formData.append('data', new Blob([JSON.stringify(userInfo)], { type: 'application/json' }));
-    try {
-      await post({ url: url, data: formData });
-      setUserInfo({
-        email: '',
-        password: '',
-        nickName: '',
-        gender: '',
-        ageGroup: AgeGroupType.Teens,
-      })
-      alert('회원가입 성공! 관리자의 승인을 기다려주세요');
-    } catch (err) {
-      console.error('회원가입 요청 실패: ', err);
-    }
+    debouncedRegister(formData);
   };
 
   return (
