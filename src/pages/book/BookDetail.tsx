@@ -83,7 +83,7 @@ function BookDetail(): React.JSX.Element {
 
   useEffect(() => {
     getEpisodeList();
-  }, [novelId, isEpisodeUploadModalOpened]);
+  }, [novelId, isEpisodeUploadModalOpened,isEpisodeDetailModalOpened]);
 
   // commentList api
   useEffect(() => {
@@ -151,7 +151,7 @@ function BookDetail(): React.JSX.Element {
           </div>
         </div>
 
-        <div className='bg-gray-50 w-full mt-12 rounded-normal-radius'>
+        <div className='bg-gray-50 w-full my-12 rounded-normal-radius'>
           {/* 회차-댓글 전환 버튼 */}
           <div className='flex flex-row py-3 text-lg'>
             <button
