@@ -53,13 +53,14 @@ export enum AgeGroupType {
   Nineties = 'NINETIES',
 }
 
-export enum FileStateType {
-  Pending = 'PENDING',
-  Start = 'START',
-  Completed = 'COMPLETED'
-}
-
 export enum NotificationTargetType {
   All = 'ALL',
   Specific = 'SPECIFIC',
+}
+
+export enum TTSUploadStatusType {
+  Pending = 'PENDING',
+  Progress = 'STARTING',
+  Completed = 'COMPLETED',
+  Failed = 'FAILED',
 }
