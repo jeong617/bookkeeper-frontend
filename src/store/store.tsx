@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { FileStateType } from './types.tsx';
+import { TTSUploadStatusType } from './types.tsx';
 
 interface SideBarState {
   isOpened: boolean;
@@ -8,16 +8,16 @@ interface SideBarState {
 
 interface FileUploadData {
   id: string;
-  title: string;
-  episodeNum: number;
-  status: FileStateType;
+  novelTitle: string;
+  episodeTitle: string;
+  status: TTSUploadStatusType;
 }
 
 interface FileStore {
   files: FileUploadData[];
   addFile: (file: FileUploadData) => void;
-  updateFileStatus: (id: string, status: FileStateType) => void;
-  getPendingFiles: () => FileUploadData[];
+  updateFileStatus: (id: string, status: TTSUploadStatusType) => void;
+  getFilesByStatus: (status: TTSUploadStatusType) => FileUploadData[];
 }
 
 export const useSideBarStore = create<SideBarState>((set) => ({
@@ -41,6 +41,5 @@ export const useFileStore = create<FileStore>((set, get) => ({
         file.id === id ? { ...file, status } : file
       ),
     })),
-  getPendingFiles: () =>
-    get().files.filter((file) => file.status === FileStateType.Pending),
+  getFilesByStatus: (status) => get().files.filter((file) => file.status === status),
 }));

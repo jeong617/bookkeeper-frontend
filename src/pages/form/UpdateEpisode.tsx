@@ -74,16 +74,14 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
     }, 300), []
   );
 
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-    // FormData 객체 생성
+  const handleSubmit = (): void => {
     const formData = new FormData();
     formData.append('episodeRequest', new Blob([JSON.stringify({
       "title": episodeData.title,
       "novelId": episodeData.novelId,
       "releaseStatus": episodeData.releaseStatus,
       "scheduledDate": episodeData.scheduledDate,
-    })]))
+    })], { type: 'application/json' }));
     if (file) {
       formData.append('file', file);
     } else {
@@ -124,11 +122,11 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
           </div>
           <div>
             <MainButton label='저장'
-                        className='w-14 mr-3 align-top self-start hover:cursor-pointer'
-                        onClick={() => handleSubmit}
+                        className='w-14 mr-3 align-top self-start hover:cursor-pointer hover:bg-button-text'
+                        onClick={handleSubmit}
             />
             <MainButton label='닫기'
-                        className='w-14 mr-3 align-top self-start bg-gray-400 hover:cursor-pointer'
+                        className='w-14 mr-3 align-top self-start bg-gray-400 hover:cursor-pointer hover:bg-gray-600'
                         onClick={onClose} />
           </div>
         </div>
@@ -162,7 +160,7 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
         {/* 에피소드 정보 */}
         <div className='flex flex-row'>
           <h2 className='w-[250px] ml-3 text-lg font-bold'>회차 정보</h2>
-          <InputBox label='회차 제목' name='title' className='w-96' defaultValue={episodeData.title}
+          <InputBox label='회차 제목' name='title' className='w-96' value={episodeData.title}
                     onChange={handleInputChange}
           />
         </div>

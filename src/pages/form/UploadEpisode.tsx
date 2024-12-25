@@ -2,12 +2,15 @@ import React, { useCallback, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 
 // css
-import {AiOutlineUpload} from 'react-icons/ai';
+import { AiOutlineUpload } from 'react-icons/ai';
 
 // project
 import InputBox from '../../components/InputBox.tsx';
 import MainButton from '../../components/MainButton';
-import {post} from '../../api/api.ts';
+import { post } from '../../api/api.ts';
+import { useFileStore } from '../../store/store.tsx';
+import { AxiosResponse } from 'axios';
+import { TTSUploadStatusType } from '../../store/types.tsx';
 
 interface UploadEpisodeProps {
     novelId: string;
@@ -24,6 +27,7 @@ interface EpisodeData {
 
 function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX.Element {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const { files, addFile } = useFileStore();
     const [file, setFile] = useState<File | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
     const [episodeData, setEpisodeData] = useState<EpisodeData>({
@@ -34,7 +38,6 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
     });
     const [scheduleDate, setScheduleDate] = useState<string>('');
     const [scheduleTime, setScheduleTime] = useState<string>('09:00');
-
 
     // handler
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -48,6 +51,7 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
         const {name, value} = e.target;
         setEpisodeData((prev) => ({...prev, [name]: value}));
     };
+    console.log(episodeData.title);
     const handleReleaseStatusChange = (status: 'PRIVATE' | 'PUBLIC' | 'SCHEDULED'): void => {
         setEpisodeData((prev) => ({...prev, releaseStatus: status}));
     };
@@ -78,16 +82,23 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
 
     // api
     const debouncedSubmit = useCallback(
-      debounce(async (formData: FormData) => {
+      debounce(async (formData: FormData, episodeTitle: string) => {
           try {
-              await post({ url: 'api/admin/episode', data: formData });
+              const res : AxiosResponse = await post({ url: 'api/admin/episode', data: formData });
               alert('업로드 성공!');
+              addFile({
+                  id: res.data.data.episodeId,
+                  novelTitle: episodeTitle,
+                  episodeTitle: episodeTitle,
+                  status: TTSUploadStatusType.Pending
+              })
               onClose();
           } catch (error) {
               console.error('episode upload error: ', error);
           }
-      }, 500), []
+      }, 300), []
     );
+    console.log(files);
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
@@ -99,7 +110,7 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
             console.error('파일이 선택되지 않았습니다.');
             return;
         }
-        debouncedSubmit(formData);
+        debouncedSubmit(formData, episodeData.title);
     };
 
     return (
@@ -137,7 +148,7 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
                     {/* 에피소드 제목 */}
                     <div className="flex flex-row">
                         <h2 className="w-[250px] ml-3 text-lg font-bold">도서 정보</h2>
-                        <InputBox label="회차 제목" className="w-96" name='title' onChange={handleInputChange}/>
+                        <InputBox label="회차 제목" className="w-96" name='title' value={episodeData.title} onChange={handleInputChange}/>
                     </div>
 
                     {/* 공개 여부 */}
