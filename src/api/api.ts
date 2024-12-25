@@ -34,16 +34,16 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     const newAccessToken = response.headers['authorization'];
     if (newAccessToken) {
-      localStorage.setItem('accessToken', newAccessToken.split(' ')[1]); // 새 Access Token 저장
+      localStorage.setItem('accessToken', newAccessToken.split(' ')[1]);
     }
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === '401') {
       const navigate = useNavigate();
       localStorage.removeItem('accessToken');
-      alert('세션이 만료되었습니다. 다시 로그인해주세요.');
       navigate('/auth');
+      alert('세션이 만료되었습니다. 다시 로그인해주세요.');
     }
     return Promise.reject(error);
   }
