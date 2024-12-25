@@ -8,7 +8,7 @@ import { post } from '../../api/api.ts';
 
 export function Header(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
-  const navitate = useNavigate();
+  const navigate = useNavigate();
 
   // api
   const logout = async () => {
@@ -16,7 +16,7 @@ export function Header(): React.JSX.Element {
     try {
       await post({ url: url });
       localStorage.removeItem('accessToken');
-      navitate('/auth');
+      navigate('/auth');
     } catch (err) {
       console.error(err);
     }
