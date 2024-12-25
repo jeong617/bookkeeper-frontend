@@ -32,7 +32,7 @@ export function Header(): React.JSX.Element {
           <div
             className="h-[60px] text-center text-[#633200] text-[20px] font-normal font-jejudoldam leading-[60px]">BookKeeper
           </div>
-          <img alt="fox-logo" className="w-[40px] h-[35px]" src="/src/assets/face-total.png" />
+          <img alt="fox-logo" className="w-[40px] h-[35px]" src="/face-total.png" />
         </Link>
       </div>
       <div
