@@ -10,7 +10,7 @@ import EpisodeListItem from '../../components/EpisodeListItem.tsx';
 import CommentItem from '../../components/CommentItem.tsx';
 import { BookDetailTabType } from '../../store/types.tsx';
 import { NovelDetailData, EpisodeData, CommentData } from '../../store/novelDetailInterface.ts';
-import parseDateTime from '../../utils/parseDateTime.ts';
+import { formatDateTime } from '../../utils/parseDateTime.ts';
 import UpdateEpisode from '../form/UpdateEpisode.tsx';
 
 // css
@@ -202,7 +202,7 @@ function BookDetail(): React.JSX.Element {
                       episodeNumber={comment.episodeNumber}
                       userName={comment.userName}
                       content={comment.content}
-                      createdAt={parseDateTime(comment.createdAt)}
+                      createdAt={formatDateTime(comment.createdAt)}
                     />
                   ),
                 )
