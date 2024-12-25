@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // project
 import { SideBar } from '../components/SideBar.tsx';
-import { useSideBarStore } from '../store/store.tsx';
+import { useFileStore, useSideBarStore } from '../store/store.tsx';
 
 const MainLayout = (): React.JSX.Element => {
   const isOpened = useSideBarStore((state) => state.isOpened);
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
+  const loadFiles = useFileStore((state) => state.loadFiles);
 
   // handler
   const handleOutsideClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -18,6 +20,10 @@ const MainLayout = (): React.JSX.Element => {
       }
     }
   };
+
+  useEffect(() => {
+    loadFiles();
+  }, []);
 
   return (
     <div className="h-full flex relative" onClick={handleOutsideClick}>

@@ -23,8 +23,8 @@ function FileUploadMonitor(): React.JSX.Element {
             <Table.HeadCell className='w-1/5'>상태</Table.HeadCell>
           </Table.Head>
           <Table.Body className='divide-y'>
-            {files && files.map((file) =>
-              (<Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+            {files && files.map((file, index) =>
+              (<Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={index}>
                 <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
                   {file.novelTitle}
                 </Table.Cell>
