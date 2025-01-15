@@ -81,29 +81,29 @@ function Home(): React.JSX.Element {
   return (
     <>
       {/* logo & search section */}
-      <section className="flex flex-col w-full bg-main h-72 justify-center items-center gap-2">
-        <div className="absolute top-5 left-8 flex flex-row gap-5">
+      <section className='flex flex-col w-full bg-main h-72 justify-center items-center gap-2'>
+        <div className='absolute top-5 left-8 flex flex-row gap-5'>
           <button onClick={toggle}>
-            <FaBars size={18} className="fill-button-text" />
+            <FaBars size={18} className='fill-button-text' />
           </button>
-          <button onClick={logout} className="text-button-text font-medium text-sm">로그아웃</button>
+          <button onClick={logout} className='text-button-text font-medium text-sm'>로그아웃</button>
         </div>
-        <Link to="/" className="w-1/3 mt-10">
-          <img alt="logo" src="/logo.png" />
+        <Link to="/" className='w-1/3 mt-10'>
+          <img alt="logo" src='/logo.png' />
         </Link>
-        <div className="w-1/2">
+        <div className='w-1/2'>
           <SearchBar defaultQuery=''/>
         </div>
       </section>
 
       {/* book list container */}
-      <div className="container mx-auto mt-10 max-w-5xl pb-20">
-        <div className="flex flex-col w-full divide-y">
-          <div className="flex justify-between mb-2">
-            <span className="text-xl font-bold">서적목록</span>
+      <div className='container mx-auto mt-10 max-w-5xl pb-20'>
+        <div className='flex flex-col w-full divide-y'>
+          <div className='flex justify-between mb-2'>
+            <span className='text-xl font-bold'>서적목록</span>
             <FormButton onClick={openModal} label="새 작품 만들기" />
           </div>
-          <div className="flex flex-row gap-2 py-2">
+          <div className='flex flex-row gap-2 py-2'>
             {categories.map((category: CategoryType, index) => (
               <Button key={index} pill size="xs" color="gray"
                       className={`text-line focus:ring-0`}>{category}</Button>
@@ -111,7 +111,7 @@ function Home(): React.JSX.Element {
             }
           </div>
         </div>
-        <div className="grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10">
+        <div className='grid grid-cols-5 mx-auto mt-5 justify-items-center gap-x-1 gap-y-10'>
           {!isNovelListEmpty ? (
             novelList.map((novel) => (
               <Link key={novel.id} to={`/novel/${novel.id}`}>
@@ -128,7 +128,7 @@ function Home(): React.JSX.Element {
         </div>
 
         {/* 페이지 번호 */}
-        <div className="mt-12 flex justify-center">
+        <div className='mt-12 flex justify-center'>
           <Pagination
             currentPage={pageInfo.currentPage}
             onPageChange={handlePageChange}
