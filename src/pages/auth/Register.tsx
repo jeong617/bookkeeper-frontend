@@ -71,10 +71,10 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
   };
 
   return (
-    <>
+    <div>
       <h2 className='text-5xl font-extrabold text-black mb-8'>Register</h2>
       {/* form 영역 */}
-      <section className='flex flex-col gap-5'>
+      <section className='flex flex-col w-full gap-5'>
         <div>
           <div className='block'>
             <Label htmlFor='email1' value='ID' />
@@ -147,14 +147,13 @@ function Register({ setState }: RegisterProps): React.JSX.Element {
         <Button className='bg-button-text mt-5 shadow-md' onClick={register}>회원가입</Button>
       </section>
       <p
-        className='mt-2 text-sm text-button-text/70 hover:cursor-pointer hover:text-button-text justify-self-center flex items-center gap-1'
+        className='mt-2 text-sm text-button-text/70 justify-self-center flex self-center gap-1 hover:cursor-pointer hover:text-button-text'
         onClick={setState}
       >
         이미 회원이신가요?
         <IoIosArrowRoundForward />
       </p>
-
-    </>
+    </div>
   );
 }
 
