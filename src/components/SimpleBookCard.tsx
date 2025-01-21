@@ -17,14 +17,15 @@ function SimpleBookCard({ title, author, coverImageUrl }: SimpleBookCardProps): 
     target.src = defaultImage;
   };
   return (
-    <div className="flex flex-col items-start">
+    <div className='flex flex-col w-32 items-start md:w-40'>
       {/* 커버 이미지 */}
-      <img alt="cover-image" className="w-40 h-60 mb-2 shadow-lg rounded-normal-radius" src={coverImageUrl}
+      <img alt="cover-image" className='h-48 mb-2 shadow-lg rounded-normal-radius md:h-60'
+           src={coverImageUrl}
            onError={handleImageError}
       />
       {/* 제목 & 작가 */}
-      <div className="w-40 text-xl font-bold ml-1 truncate ...">{title}</div>
-      <div className="w-40 ml-1 text-ellipsis truncate ...">{author}</div>
+      <div className='w-full text-xl font-bold ml-1 truncate'>{title}</div>
+      <div className='w-full ml-1 truncate'>{author}</div>
     </div>
   );
 }
