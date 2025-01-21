@@ -38,8 +38,6 @@ function Home(): React.JSX.Element {
       currentPage: page,
     }));
   };
-  const openModal = () => setModalOpened(true);
-  const closeModal = () => setModalOpened(false);
 
   // token이 없는 경우 login 화면으로 redirect
   if (!getToken()) {
@@ -108,7 +106,7 @@ function Home(): React.JSX.Element {
         <div className="flex flex-col w-full divide-y">
           <div className="flex justify-between mb-2 px-1">
             <span className="text-xl font-bold content-end">서적목록</span>
-            <FormButton onClick={openModal} label="새 작품 만들기"/>
+            <FormButton onClick={() => setModalOpened(true)} label="새 작품 만들기"/>
           </div>
           <div className="flex flex-row gap-2 px-1 py-2">
             {categories.map((category: CategoryType, index) => (
@@ -150,7 +148,7 @@ function Home(): React.JSX.Element {
       {/* open modal */}
       {isModalOpened && (
         <div>
-          <AddBook isOpened={isModalOpened} onClose={closeModal}/>
+          <AddBook isOpened={isModalOpened} onClose={() => setModalOpened(false)} />
         </div>
       )}
     </>
