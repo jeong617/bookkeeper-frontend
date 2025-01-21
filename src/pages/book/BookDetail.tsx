@@ -62,7 +62,7 @@ function BookDetail(): React.JSX.Element {
       await del({url: url});
       setPopWarning(false);
       navigate('/');
-    } catch (error) {
+    } catch {
       alert('소설 삭제 실패');
     }
   };
@@ -74,7 +74,7 @@ function BookDetail(): React.JSX.Element {
       await del({url: url});
       alert('에피소드 삭제 완료!');
       getEpisodeList();
-    } catch (error) {
+    } catch {
       alert('에피소드 삭제 실패');
     }
   };
