@@ -53,7 +53,7 @@ function AuthSkeleton(): React.JSX.Element {
 
             {/* Mobile */}
             <div className='flex flex-col md:hidden w-full h-full'>
-                <div className='flex flex-col flex-1 justify-center w-full px-10 bg-white gap-20'>
+                <div className='flex flex-col flex-1 w-full px-10 justify-center bg-white gap-20'>
                     <div className='flex justify-center items-center'>
                         <img
                             src="/logo.png"
