@@ -102,7 +102,7 @@ function Home(): React.JSX.Element {
       </section>
 
       {/* book list container */}
-      <div className='container mx-auto mt-2 max-w-5xl pb-20 md:mt-10'>
+      <div className='container mx-auto mt-2 md:max-w-5xl pb-20 md:mt-10'>
         <div className="flex flex-col w-full divide-y">
           <div className="flex justify-between mb-2 px-1">
             <span className="text-xl font-bold content-end">서적목록</span>

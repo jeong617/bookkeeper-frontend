@@ -36,10 +36,10 @@ export function Header(): React.JSX.Element {
         </Link>
       </div>
       <div
-        className="w-[70px] h-[35px] px-px py-[7px] bg-button rounded-[10px] shadow justify-center items-center gap-2.5 flex hover:cursor-pointer hover:bg-button-text"
+        className="w-16 h-[35px] px-px py-[7px] bg-button rounded-[10px] shadow justify-center items-center gap-2.5 flex hover:cursor-pointer hover:bg-button-text"
         onClick={logout}
       >
-        <span className="text-center text-white text-[15px] font-semibold leading-[34.50px]">로그아웃</span>
+        <span className="text-center text-white font-semibold">로그아웃</span>
       </div>
     </div>
 
