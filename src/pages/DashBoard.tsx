@@ -12,10 +12,10 @@ function DashBoard(): React.JSX.Element {
     return (
         <>
             <Header/>
-            <div className="container max-w-5xl mx-auto px-10 mt-14">
+            <div className="container max-w-5xl mx-auto h-full px-10 mt-14">
                 <h1 className="font-extrabold text-2xl flex justify-start mb-6">DASHBOARD</h1>
-                <div className="grid grid-cols-2 gap-y-10 gap-x-20 justify-self-center">
-                    <Card className="w-96">
+                <div className="grid gap-y-10 md:gap-x-20 md:grid-cols-2 md:justify-self-center">
+                    <Card className="md:w-96">
                         <div className="mb-4 flex items-center justify-between">
                             <h5 className="text-xl font-bold leading-none text-gray-900">조회수 많은순</h5>
                         </div>
@@ -34,7 +34,7 @@ function DashBoard(): React.JSX.Element {
                             </ul>
                         </div>
                     </Card>
-                    <Card className="w-96">
+                    <Card className="md:w-96">
                         <div className="mb-4 flex items-center justify-between">
                             <h5 className="text-xl font-bold leading-none text-gray-900">좋아요 많은순</h5>
                         </div>
@@ -54,7 +54,7 @@ function DashBoard(): React.JSX.Element {
                             </ul>
                         </div>
                     </Card>
-                    <Card className="w-96">
+                    <Card className="md:w-96">
                         <div className="mb-4 flex items-center justify-between">
                             <h5 className="text-xl font-bold leading-none text-gray-900">댓글수 많은순</h5>
                         </div>
@@ -73,7 +73,7 @@ function DashBoard(): React.JSX.Element {
                             </ul>
                         </div>
                     </Card>
-                    <Card className="w-96">
+                    <Card className="md:w-96">
                         <div className="mb-4 flex items-center justify-between">
                             <h5 className="text-xl font-bold leading-none text-gray-900">북마크 많은순</h5>
                         </div>
