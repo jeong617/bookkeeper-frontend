@@ -21,6 +21,11 @@ interface FileStore {
   getFilesByStatus: (status: TTSUploadStatusType) => FileUploadData[];
 }
 
+interface LayoutState {
+  isMobile: boolean;
+  setIsMobile: (isMobile: boolean) => void;
+}
+
 export const useSideBarStore = create<SideBarState>((set) => ({
   isOpened: false,
   toggleIsOpened: () => {
@@ -52,4 +57,9 @@ export const useFileStore = create<FileStore>((set, get) => ({
       return { files: updatedFiles };
     }),
   getFilesByStatus: (status) => get().files.filter((file) => file.status === status),
+}));
+
+export const useLayoutStore = create<LayoutState>((set) => ({
+  isMobile: window.innerWidth < 768,
+  setIsMobile: (isMobile: boolean) => set({isMobile}),
 }));

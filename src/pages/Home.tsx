@@ -108,10 +108,10 @@ function Home(): React.JSX.Element {
             <span className="text-xl font-bold content-end">서적목록</span>
             <FormButton onClick={() => setModalOpened(true)} label="새 작품 만들기"/>
           </div>
-          <div className="flex flex-row gap-2 px-1 py-2">
+          <div className="flex flex-wrap gap-x-2 gap-y-1 px-1 py-2">
             {categories.map((category: CategoryType, index) => (
               <Button key={index} pill size="xs" color="gray"
-                      className={`text-line focus:ring-0`}>{category}</Button>
+                      className={`text-line focus:ring-0 text-nowrap`}>{category}</Button>
             ))
             }
           </div>

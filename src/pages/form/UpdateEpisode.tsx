@@ -11,6 +11,7 @@ import MainButton from '../../components/MainButton';
 import { get, put } from '../../api/api.ts';
 import {divideIsoDateTime} from '../../utils/parseDateTime.ts';
 import { debounce } from 'lodash';
+import {useLayoutStore} from '../../store/store.tsx';
 
 interface UpdateEpisodeProps {
   episodeId: string;
@@ -29,11 +30,17 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const { isMobile, setIsMobile } = useLayoutStore();
 
   // etc
   const { date, time } = divideIsoDateTime(episodeData.scheduledDate);
 
   // handler
+  const handleBackgroundClick = () => {
+    if (!isMobile) {
+      onClose();
+    }
+  };
   const handleUploadClick = (): void => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -68,7 +75,7 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
         await put({url: `api/admin/episode/${episodeId}`, data: formData});
         alert('에피소드 수정 성공!');
         onClose();
-      } catch (error) {
+      } catch {
         alert('에피소드 수정 실패');
       }
     }, 300), []
@@ -112,83 +119,106 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
     getEpisodeDetail(episodeId);
   }, [episodeId]);
 
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEsc)
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [onClose])
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setIsMobile]);
+
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center'>
-      <div className='flex flex-col gap-10 bg-white w-[800px] p-6 rounded-md shadow-lg'>
+    <div className='fixed z-30 inset-0 flex justify-center md:items-center bg-black bg-opacity-20'
+         onClick={handleBackgroundClick}
+    >
+      <div className='flex flex-col w-full gap-10 bg-white p-6 md:w-[800px] md:rounded-md md:shadow-lg'>
         <div className='flex flex-row justify-between'>
-          <div className='flex flex-row items-end self-start px-6 py-5 gap-4'>
+          <div className='md:flex flex-row items-end self-start px-6 py-5 gap-4'>
             <h2 className='text-3xl font-extrabold'>{`Chapter${episodeData.chapter}`}</h2>
             <h3 className='text-lg font-medium'>{episodeData.title}</h3>
           </div>
-          <div>
+          {/* Desktop 닫기&저장 버튼 */}
+          <div className='hidden md:flex'>
             <MainButton label='저장'
                         className='w-14 mr-3 align-top self-start hover:cursor-pointer hover:bg-button-text'
                         onClick={handleSubmit}
             />
             <MainButton label='닫기'
                         className='w-14 mr-3 align-top self-start bg-gray-400 hover:cursor-pointer hover:bg-gray-600'
-                        onClick={onClose} />
+                        onClick={onClose}/>
           </div>
         </div>
 
         {/* 음성파일 재생성요청 */}
-        <div className='flex flex-row'>
-          <h2 className='w-[250px] ml-3 pr-8 text-lg font-bold'>음성 파일 재생성</h2>
-          <FaCloudDownloadAlt size={20} className='self-center' />
+        <div className='md:flex flex-row'>
+          <h2 className='w-[250px] md:ml-3 pr-8 text-lg font-bold'>음성 파일 재생성</h2>
+          <FaCloudDownloadAlt size={20} className='place-self-center md:self-center'/>
         </div>
 
 
         {/* 파일 업로드 */}
-        <div className='flex flex-row'>
-          <h2 className='w-[250px] ml-3 text-lg font-bold'>교체 파일</h2>
+        <div className='md:flex flex-row'>
+          <h2 className='w-[250px] md:ml-3 text-lg font-bold'>교체 파일</h2>
           <span
-            className="flex justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"
+            className="flex justify-center items-center place-self-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer"
             onClick={handleUploadClick}
           >
-            <AiOutlineUpload size={40} />
+            <AiOutlineUpload size={40}/>
           </span>
           {fileName && (<p className='px-3 py-1 text-xs self-end'>{fileName}</p>)}
           <input
             type='file'
             ref={fileInputRef}
-            style={{ display: 'none' }}
+            style={{display: 'none'}}
             onChange={handleFileChange}
             accept='txt/plain'
           />
         </div>
 
         {/* 에피소드 정보 */}
-        <div className='flex flex-row'>
-          <h2 className='w-[250px] ml-3 text-lg font-bold'>회차 정보</h2>
+        <div className='md:flex flex-row'>
+          <h2 className='w-[250px] md:ml-3 text-lg font-bold'>회차 정보</h2>
           <InputBox label='회차 제목' name='title' className='w-96' value={episodeData.title}
                     onChange={handleInputChange}
           />
         </div>
 
         {/* 공개 여부 */}
-        <div className='flex'>
-          <h2 className='w-[250px] ml-3 text-lg font-bold'>공개 여부</h2>
+        <div className='md:flex'>
+          <h2 className='w-[250px] md:ml-3 text-lg font-bold'>공개 여부</h2>
           <div className='flex flex-col py-2 gap-4'>
             <div id='radio-section' className='flex flex-row'>
               <div className='flex items-center me-4'>
                 <input type='radio' name='releaseStatus' value='PUBLIC'
                        className='focus:ring-0'
                        checked={episodeData.releaseStatus === 'PUBLIC'}
-                       onChange={() => handleReleaseStatusChange('PUBLIC')} />
+                       onChange={() => handleReleaseStatusChange('PUBLIC')}/>
                 <label className='ms-2 text-sm font-medium text-gray-900'>공개</label>
               </div>
               <div className='flex items-center me-4'>
                 <input type='radio' name='releaseStatus' value='PRIVATE'
                        className='focus:ring-0'
                        checked={episodeData.releaseStatus === 'PRIVATE'}
-                       onChange={() => handleReleaseStatusChange('PRIVATE')} />
+                       onChange={() => handleReleaseStatusChange('PRIVATE')}/>
                 <label className='ms-2 text-sm font-medium text-gray-900'>비공개</label>
               </div>
               <div className='flex items-center me-4'>
                 <input type='radio' name='releaseStatus' value='SCHEDULED'
                        className='focus:ring-0'
                        checked={episodeData.releaseStatus === 'SCHEDULED'}
-                       onChange={() => handleReleaseStatusChange('SCHEDULED')} />
+                       onChange={() => handleReleaseStatusChange('SCHEDULED')}/>
                 <label className='ms-2 text-sm font-medium text-gray-900'>예약 공개</label>
               </div>
             </div>
@@ -206,6 +236,16 @@ function UpdateEpisode({ episodeId, onClose }: UpdateEpisodeProps): React.JSX.El
           </div>
         </div>
 
+        {/* Mobile 닫기&저장 버튼 */}
+        <div className='flex justify-center md:hidden'>
+          <MainButton label='저장'
+                      className='w-14 mr-3 align-top self-start hover:cursor-pointer hover:bg-button-text'
+                      onClick={handleSubmit}
+          />
+          <MainButton label='닫기'
+                      className='w-14 mr-3 align-top self-start bg-gray-400 hover:cursor-pointer hover:bg-gray-600'
+                      onClick={onClose}/>
+        </div>
       </div>
     </div>
   );

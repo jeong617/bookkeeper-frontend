@@ -12,6 +12,7 @@ import {post, putPresignedUrl} from '../../api/api.ts';
 import {AiOutlineUpload, AiOutlinePlus} from 'react-icons/ai';
 import {Button} from 'flowbite-react';
 import {NovelDetailData} from '../../store/novelDetailInterface.ts';
+import {useLayoutStore} from '../../store/store.tsx';
 
 type AddBookProps = {
   isOpened: boolean;
@@ -21,7 +22,6 @@ type AddBookProps = {
 
 function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.Element | null {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [fileName, setFileName] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(prevNovelInfo?.coverImageUrl || null);
@@ -33,6 +33,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
     categoryList: prevNovelInfo?.categoryList || [] as string[],
     isCompleted: prevNovelInfo?.isCompleted || false,
   });
+  const { isMobile, setIsMobile } = useLayoutStore();
 
   const putFileHeaders = {
     'Content-Type': 'image/jpeg',
@@ -106,13 +107,14 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
       window.removeEventListener('keydown', handleEsc);
     };
   }, [isOpened, onClose]);
+
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
+      setIsMobile(window.innerWidth < 768);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [setIsMobile]);
 
   return (
     <>
@@ -122,7 +124,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
                onClick={handleBackgroundClick}
           >
             <form onSubmit={handleSubmit}>
-              <div className='flex flex-col gap-5 bg-white w-full py-6 rounded-md md:w-[50rem] md:px-16 md:shadow-lg'
+              <div className='flex flex-col gap-5 bg-white w-full px-1 py-6 rounded-md md:w-[50rem] md:px-16 md:shadow-lg'
                    onClick={(e) => e.stopPropagation()}
               >
                 {/* Desktop 저장 & 닫기 버튼 */}
@@ -135,7 +137,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
 
                 {/* 표지 등록 */}
                 <div className='md:pt-8 md:flex'>
-                  <h2 className='md:w-1/3 text-lg font-bold'>표지 등록</h2>
+                  <h2 className='mb-2 text-lg font-bold md:w-1/3 md:mb-0'>표지 등록</h2>
                   <div className="place-self-center md:w-2/3">
                     <span
                       className='flex flex-col justify-center items-center rounded-normal-radius w-28 h-32 bg-background hover:bg-gray-200 hover:cursor-pointer'
@@ -159,7 +161,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
 
                 {/* 도서 정보 */}
                 <div className='md:flex'>
-                  <h2 className='w-1/3 text-lg font-bold'>도서 정보</h2>
+                  <h2 className='w-1/3 text-lg font-bold mb-2 md:mb-0'>도서 정보</h2>
                   <div className='flex flex-col gap-2.5 md:w-2/3'>
                     <InputBox label='책 제목' name='title' onChange={handleInputChange} value={bookData.title}/>
                     <div className='flex items-end'>
@@ -188,7 +190,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
 
                 {/* 카테고리 */}
                 <div className='md:flex'>
-                  <h2 className='w-1/3 text-lg font-bold'>카테고리</h2>
+                  <h2 className='w-1/3 text-lg font-bold mb-2 md:mb-0'>카테고리</h2>
                   <div className='flex flex-wrap gap-x-3 gap-y-1 md:w-2/3'>
                     {categories.map((category) => (
                       <Button pill size='xs'
@@ -202,7 +204,7 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
 
                 {/* 완결 여부 */}
                 <div className='md:flex pb-3'>
-                  <h2 className='w-1/3 text-lg font-bold'>완결여부</h2>
+                  <h2 className='w-1/3 text-lg font-bold mb-2 md:mb-0'>완결여부</h2>
                   <div className='flex self-start gap-3'>
                     <Button pill size='xs' color='gray' name='isCompleted'
                             onClick={() => setBookData((prev) => ({...prev, isCompleted: true}))}
@@ -212,6 +214,14 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
                             className={`focus:ring-0 ${!bookData.isCompleted ? 'text-button border border-button' : 'text-line border border-gray-200'}`}>미완결</Button>
                   </div>
                 </div>
+
+                {/* Mobile 저장 & 닫기 버튼 */}
+                <div className='place-self-center md:hidden'>
+                  <button type='submit'><MainButton className='w-14 mx-1' label='저장'/></button>
+                  <button
+                    onClick={onClose}
+                  ><MainButton className='w-14 bg-gray-400 mx-1' label='닫기'/></button>
+                </div>
               </div>
             </form>
           </div>
@@ -220,5 +230,4 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
     </>
   );
 }
-
 export default AddBook;

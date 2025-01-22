@@ -3,7 +3,9 @@ export enum CategoryType {
   Fantasy = '판타지',
   Romance = '로맨스',
   FairyTale = '동화',
-  Mystery = '미스터리'
+  Mystery = '미스터리',
+  Short ='단편소설',
+  Long = '장편소설',
 }
 
 export enum DisplayType {
