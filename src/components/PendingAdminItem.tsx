@@ -39,7 +39,7 @@ function PendingAdminItem({
         <p className='text-sm'>{email}</p>
       </div>
 
-      <span className='col-span-2 flex flex-col items-baseline overflow-hidden md:text-nowrap md:gap-2'>
+      <span className='col-span-2 flex flex-col items-baseline overflow-hidden md:text-nowrap'>
         <p>{createdAt.split(' ')[0]}</p>
         <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
       </span>
