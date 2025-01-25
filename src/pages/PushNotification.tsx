@@ -58,9 +58,9 @@ function PushNotification(): React.JSX.Element {
   return (
     <>
       <Header />
-      <div className='container mx-auto mt-20 grid grid-cols-2'>
+      <div className='container mx-auto mt-4 md:mt-20 md:grid md:grid-cols-2'>
         <section id='notification-input'
-                 className='relative w-2/3'
+                 className='relative w-full px-1 md:w-2/3'
         >
           {/* text area */}
           <div className='flex'>
@@ -123,7 +123,7 @@ function PushNotification(): React.JSX.Element {
 
         {/* notification history */}
         <section id='notification-history'>
-          <Table className='rounded-normal-radius'>
+          <Table className='mt-8 rounded-normal-radius md:mt-0'>
             <Table.Head>
               <Table.HeadCell className='w-4/6'>내용</Table.HeadCell>
               <Table.HeadCell>시간</Table.HeadCell>
