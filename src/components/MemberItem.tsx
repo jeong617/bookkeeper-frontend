@@ -1,7 +1,7 @@
 import React from 'react';
 
 // css
-import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
+import {IoEyeOutline, IoEyeOffOutline} from 'react-icons/io5';
 
 interface MemberItemProps {
   profile?: string;
@@ -13,7 +13,8 @@ interface MemberItemProps {
 
 }
 
-function MemberItem({ profile = '/default-profile.svg',
+function MemberItem({
+                      profile = '/default-profile.svg',
                       email,
                       nickname,
                       createdAt,
@@ -24,20 +25,27 @@ function MemberItem({ profile = '/default-profile.svg',
     event.currentTarget.src = '/default-profile.svg';
   };
   return (
-    <div className={`grid grid-cols-8 gap-2 px-2 items-center bg-white mx-2 ${className}`}>
-      <img src={profile} className='aspect-square h-[4.5rem] p-2 mx-auto rounded-full'
+    <div className={`grid grid-cols-8 gap-2 px-2 py-1 items-center bg-white mx-2 ${className}`}>
+      <img src={profile} className='aspect-square p-2 mx-auto rounded-full md:h-[4.5rem]'
            onError={handleImageError}
            alt='profile-image'
       />
-      <span className='col-span-2'>{nickname}</span>
-      <span className='col-span-2'>{email}</span>
-      <span className='col-span-2 flex gap-2 items-baseline'>
-              <p>{createdAt.split(' ')[0]}</p>
-              <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
-            </span>
+      {/* Desktop */}
+      <span className='hidden overflow-hidden md:col-span-2'>{nickname}</span>
+      <span className='hidden overflow-hidden md:col-span-2'>{email}</span>
+
+      {/* Mobile */}
+      <div className='col-span-4 overflow-hidden'>
+        <p className='font-semibold'>{nickname}</p>
+        <p className='text-sm'>{email}</p>
+      </div>
+      <span className='col-span-2 flex flex-col items-baseline overflow-hidden md:text-nowrap md:gap-2'>
+        <p>{createdAt.split(' ')[0]}</p>
+        <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
+      </span>
       <button className='grow'>
         {!deletedAt ?
-          <IoEyeOutline size={20} className='mx-auto' /> : <IoEyeOffOutline size={20} className='mx-auto' />}
+          <IoEyeOutline size={20} className='mx-auto'/> : <IoEyeOffOutline size={20} className='mx-auto'/>}
       </button>
     </div>
 
