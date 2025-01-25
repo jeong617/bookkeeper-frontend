@@ -23,7 +23,7 @@ function PendingAdminItem({
     event.currentTarget.src = '/default-profile.svg';
   };
   return (
-    <div className={`grid grid-cols-8 gap-2 px-2 items-center bg-white mx-2 ${className}`}>
+    <div className={`grid grid-cols-8 gap-2 px-2 py-1 items-center bg-white mx-2 ${className}`}>
       <img src={profile} className='aspect-square p-2 mx-auto rounded-full md:h-[4.5rem]'
            onError={handleImageError}
            alt='profile-image'
