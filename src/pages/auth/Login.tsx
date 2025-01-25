@@ -57,7 +57,7 @@ function Login({ setState }: LoginProps): React.JSX.Element {
 
   return (
     <div onKeyDown={enterLogin} tabIndex={0}>
-      <h2 className='text-5xl font-extrabold text-black mb-8'>Log In</h2>
+      <h2 className='text-3xl md:text-5xl font-extrabold text-black mb-8'>Log In</h2>
       {/* form 영역 */}
       <section className='flex flex-col gap-5'>
         <div>
@@ -73,7 +73,7 @@ function Login({ setState }: LoginProps): React.JSX.Element {
         </div>
         <div>
           <div className='block'>
-            <Label htmlFor='password1' value='PASSWORD' />
+            <Label htmlFor='password' value='PASSWORD' />
           </div>
           <input type='password' name='password'
                  className='block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300'

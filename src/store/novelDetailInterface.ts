@@ -2,9 +2,11 @@ export interface NovelDetailData {
     id: string;
     title: string;
     authorList: string[];
-    category: string[];
+    categoryList: string[];
     coverImageUrl: string;
     summary: string;
+    publicationYear: number;
+    isCompleted: boolean;
     views: number;
     likes: number;
 }

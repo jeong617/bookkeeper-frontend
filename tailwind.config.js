@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         'suit': ['SUIT', 'sans-serif'],
         'jejudoldam': ['EF_jejudoldam', 'sans-serif'],
+        'LOTTERIACHAB': ['LOTTERIACHAB', 'sans-serif'],
       },
       colors: {
         'main': '#FFFAEB',

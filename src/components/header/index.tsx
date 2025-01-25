@@ -30,16 +30,17 @@ export function Header(): React.JSX.Element {
         </button>
         <Link to="/" className="h-[45px] justify-start items-center flex">
           <div
-            className="h-[60px] text-center text-[#633200] text-[20px] font-normal font-jejudoldam leading-[60px]">BookKeeper
+            className="h-[60px] text-center text-[#633200] text-[20px] font-normal font-jejudoldam leading-[60px]">
+            BookKeeper
           </div>
           <img alt="fox-logo" className="w-[40px] h-[35px]" src="/face-total.png" />
         </Link>
       </div>
       <div
-        className="w-[70px] h-[35px] px-px py-[7px] bg-button rounded-[10px] shadow justify-center items-center gap-2.5 flex hover:cursor-pointer hover:bg-button-text"
+        className="w-16 h-[35px] px-px py-[7px] rounded-[10px] justify-center items-center gap-2.5 flex hover:cursor-pointer hover:text-button"
         onClick={logout}
       >
-        <span className="text-center text-white text-[15px] font-semibold leading-[34.50px]">로그아웃</span>
+        <span className="text-center text-button-text">로그아웃</span>
       </div>
     </div>
 

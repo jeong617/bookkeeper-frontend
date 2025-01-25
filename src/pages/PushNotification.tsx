@@ -45,11 +45,12 @@ function PushNotification(): React.JSX.Element {
     const url = import.meta.env.VITE_API_URL_NOTI;
     try {
       if (target === NotificationTargetType.All) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {to_email, ...payload} = notifications
         await broadcast({ host: url }, payload);
       } else await toUser({host: url}, notifications);
       alert('알림 전송 성공!');
-    } catch (error) {
+    } catch {
       alert('알림 전송 실패');
     }
     setNotifications({ title: '', message: '', to_email: '' });
@@ -58,9 +59,9 @@ function PushNotification(): React.JSX.Element {
   return (
     <>
       <Header />
-      <div className='container mx-auto mt-20 grid grid-cols-2'>
+      <div className='container mx-auto mt-4 md:mt-20 md:grid md:grid-cols-2'>
         <section id='notification-input'
-                 className='relative w-2/3'
+                 className='relative w-full px-1 md:w-2/3'
         >
           {/* text area */}
           <div className='flex'>
@@ -123,7 +124,7 @@ function PushNotification(): React.JSX.Element {
 
         {/* notification history */}
         <section id='notification-history'>
-          <Table className='rounded-normal-radius'>
+          <Table className='mt-8 rounded-normal-radius md:mt-0'>
             <Table.Head>
               <Table.HeadCell className='w-4/6'>내용</Table.HeadCell>
               <Table.HeadCell>시간</Table.HeadCell>
