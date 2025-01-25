@@ -3,21 +3,21 @@ import React, {useEffect, useState} from 'react';
 import {AxiosResponse} from 'axios';
 
 // project
-import {get, del} from '../../api/api.ts';
-import {Header} from '../../components/header';
-import FormButton from '../../components/FormButton.tsx';
-import EpisodeListItem from '../../components/EpisodeListItem.tsx';
-import CommentItem from '../../components/CommentItem.tsx';
-import {BookDetailTabType} from '../../store/types.tsx';
-import {NovelDetailData, EpisodeData, CommentData} from '../../store/novelDetailInterface.ts';
-import {formatDateTime} from '../../utils/parseDateTime.ts';
-import UpdateEpisode from '../form/UpdateEpisode.tsx';
+import {get, del} from '../api/api.ts';
+import {Header} from '../components/header';
+import FormButton from '../components/FormButton.tsx';
+import EpisodeListItem from '../components/EpisodeListItem.tsx';
+import CommentItem from '../components/CommentItem.tsx';
+import {BookDetailTabType} from '../store/types.tsx';
+import {NovelDetailData, EpisodeData, CommentData} from '../store/novelDetailInterface.ts';
+import {formatDateTime} from '../utils/parseDateTime.ts';
+import UpdateEpisode from './form/UpdateEpisode.tsx';
 
 // css
 import {FaPen, FaHeart, FaTrashAlt, FaPlus} from 'react-icons/fa';
-import PopUp from '../form/PopUp.tsx';
-import UploadEpisode from '../form/UploadEpisode.tsx';
-import AddBook from '../form/AddBook.tsx';
+import PopUp from './form/PopUp.tsx';
+import UploadEpisode from './form/UploadEpisode.tsx';
+import AddBook from './form/AddBook.tsx';
 
 function BookDetail(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<BookDetailTabType>(BookDetailTabType.Episodes);

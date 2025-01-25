@@ -7,7 +7,7 @@ import MainLayout from '../layout/MainLayout.tsx';
 import Home from '../pages/Home.tsx';
 import DashBoard from '../pages/DashBoard.tsx';
 import ManageMembers from '../pages/ManageMembers.tsx';
-import BookDetail from '../pages/book/BookDetail.tsx';
+import BookDetail from '../pages/BookDetail.tsx';
 import { get } from '../api/api.ts';
 import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
 import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
