@@ -31,7 +31,6 @@ function PushNotification(): React.JSX.Element {
       setNotifications((prev) => ({ ...prev, to_email: '' }));
     }
   };
-  console.log(notifications);
   // push notification api
   const pushNotification = async () => {
     if (!notifications.title.trim() || !notifications.message.trim()) {
