@@ -66,3 +66,5 @@ export enum TTSUploadStatusType {
   Completed = 'COMPLETED',
   Failed = 'FAILED',
 }
+
+export const PROFILE_IMAGE_MAX_SIZE = 2 * 1024 * 1024;

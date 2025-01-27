@@ -152,9 +152,9 @@ function AddBook({isOpened, onClose, prevNovelInfo}: AddBookProps): React.JSX.El
                     <input
                       type='file'
                       ref={fileInputRef}
-                      style={{display: 'none'}}
                       onChange={handleFileChange}
                       accept='image/*'
+                      className='hidden'
                     />
                   </div>
                 </div>
