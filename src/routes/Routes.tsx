@@ -13,6 +13,7 @@ import AuthSkeleton from '../pages/auth/AuthSkeleton.tsx';
 import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
 import PushNotification from '../pages/PushNotification.tsx';
 import SearchResult from '../pages/SearchResult.tsx';
+import Feedback from '../pages/Feedback.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
         path: 'auth/',
         element: <AuthSkeleton />,
       },
+      {
+        path: 'feedback/',
+        element: <Feedback />
+      }
     ]
   },
 ])
