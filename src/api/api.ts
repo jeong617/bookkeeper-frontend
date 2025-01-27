@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 interface RequestArgs<T = any> {
     url: string;
@@ -39,18 +38,16 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === '401') {
-      const navigate = useNavigate();
+    if (error.status === 401) {
       localStorage.removeItem('accessToken');
-      navigate('/auth');
-      alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+      window.location.href = '/auth';
+      alert('다시 로그인해주세요.');
     }
     return Promise.reject(error);
   }
 );
 
 // TODO: 로그인 기능 구현 후 요청 인터셉터 추가 및 props에 header정보 추가
-// TODO: 상태코드 정한 후 응답 인터셉터 추가
 
 const get = async <T>({url}: RequestArgs): Promise<T> => {
     const response = await api.get<T>(url);
