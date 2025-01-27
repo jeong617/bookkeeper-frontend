@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {keepPreviousData, useQuery} from '@tanstack/react-query';
 
 // project
 import SearchBar from '../components/SearchBar.tsx';
@@ -9,7 +10,6 @@ import {CategoryType} from '../store/types.tsx';
 import AddBook from './form/AddBook.tsx';
 import {useSideBarStore} from '../store/store.tsx';
 import get, {post} from '../api/api.ts';
-import getToken from '../utils/getToken.ts';
 
 // css
 import {Button, Pagination} from 'flowbite-react';
@@ -39,11 +39,6 @@ function Home(): React.JSX.Element {
     }));
   };
 
-  // token이 없는 경우 login 화면으로 redirect
-  if (!getToken()) {
-    navigate('/auth');
-  }
-
   // logout
   const logout = async () => {
     const url = `auth/logout`;
@@ -56,26 +51,31 @@ function Home(): React.JSX.Element {
     }
   }
 
-  // get novel list api
-  useEffect(() => {
-    const fetchNovelList = async () => {
-      try {
-        const res = await get({
-          url: `api/admin/novels?page=${pageInfo.currentPage}&size=20`,
-        });
-        setNovelList(res.data.data.novelList);
-        setPageInfo((prev) => ({
-          ...prev,
-          totalPages: res.data.data.totalPages,
-          totalElements: res.data.data.totalElements,
-        }));
-      } catch (error: any) {
-        if (error.response?.status === 401) return navigate('/auth');
-        console.error('소설 목록을 가져오는 데 실패했습니다.', error);
-      }
-    };
-    fetchNovelList();
-  }, [pageInfo.currentPage]);
+  // api
+  const fetchNovelList = async (page: number) => {
+    const res = await get({
+      url: `api/admin/novels?page=${page}&size=20`,
+    });
+    setNovelList(res.data.data.novelList);
+    setPageInfo((prev) => ({
+      ...prev,
+      totalPages: res.data.data.totalPages,
+      totalElements: res.data.data.totalElements,
+    }))
+    return res;
+  };
+
+  const {error} = useQuery({
+    queryKey: ['novels', pageInfo.currentPage],
+    queryFn: () => fetchNovelList(pageInfo.currentPage),
+    placeholderData: keepPreviousData,
+    staleTime: 5000,
+  })
+
+  if (error) {
+    console.error(error.message);
+  }
+
 
   return (
     <>
@@ -148,7 +148,7 @@ function Home(): React.JSX.Element {
       {/* open modal */}
       {isModalOpened && (
         <div>
-          <AddBook isOpened={isModalOpened} onClose={() => setModalOpened(false)} />
+          <AddBook isOpened={isModalOpened} onClose={() => setModalOpened(false)}/>
         </div>
       )}
     </>
