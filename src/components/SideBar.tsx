@@ -33,22 +33,22 @@ export function SideBar(): React.JSX.Element {
       </div>
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item as={Link} to='/' icon={FaHouse}>
+          <Sidebar.Item as={Link} to='/' icon={FaHouse} onClick={toggle} >
             HOME
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/notification' icon={FaBell}>
+          <Sidebar.Item as={Link} to='/notification' icon={FaBell} onClick={toggle}>
             NOTIFICATION
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/members' icon={FaUser}>
+          <Sidebar.Item as={Link} to='/members' icon={FaUser} onClick={toggle}>
             MEMBERS
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/dashboard' icon={FaChartSimple}>
+          <Sidebar.Item as={Link} to='/dashboard' icon={FaChartSimple} onClick={toggle}>
             DASHBOARD
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload}>
+          <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload} onClick={toggle}>
             UPLOAD MONITOR
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/feedback' icon={FaQuestionCircle}>
+          <Sidebar.Item as={Link} to='/feedback' icon={FaQuestionCircle} onClick={toggle}>
             문의하기
           </Sidebar.Item>
         </Sidebar.ItemGroup>
