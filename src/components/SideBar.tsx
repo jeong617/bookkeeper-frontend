@@ -7,7 +7,7 @@ import { useSideBarStore } from '../store/store.tsx';
 // css
 import { Sidebar } from 'flowbite-react';
 import { FaHouse, FaUser, FaChartSimple, FaBars } from 'react-icons/fa6';
-import { FaBell, FaFileUpload, FaQuestionCircle } from 'react-icons/fa';
+import { FaBell, FaFileUpload, FaQuestionCircle, FaHandHoldingMedical } from 'react-icons/fa';
 
 export function SideBar(): React.JSX.Element {
   const toggle = useSideBarStore((state) => state.toggleIsOpened);
@@ -47,6 +47,9 @@ export function SideBar(): React.JSX.Element {
           </Sidebar.Item>
           <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload} onClick={toggle}>
             UPLOAD MONITOR
+          </Sidebar.Item>
+          <Sidebar.Item as={Link} to='/feedback' icon={FaHandHoldingMedical} onClick={toggle}>
+            소설요청
           </Sidebar.Item>
           <Sidebar.Item as={Link} to='/feedback' icon={FaQuestionCircle} onClick={toggle}>
             문의하기

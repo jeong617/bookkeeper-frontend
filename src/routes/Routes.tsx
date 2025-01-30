@@ -14,6 +14,7 @@ import FileUploadMonitor from '../pages/FileUploadMonitor.tsx';
 import PushNotification from '../pages/PushNotification.tsx';
 import SearchResult from '../pages/SearchResult.tsx';
 import Feedback from '../pages/Feedback.tsx';
+import NovelRequest from '../pages/NovelRequest.tsx';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: 'feedback/',
         element: <Feedback />
+      },
+      {
+        path: 'novel-request/',
+        element: <NovelRequest />
       }
     ]
   },
