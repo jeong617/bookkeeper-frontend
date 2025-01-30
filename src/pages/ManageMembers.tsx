@@ -54,7 +54,6 @@ function ManageMembers(): React.JSX.Element {
       setIsFetching(false);
     }
   };
-  console.log(totalPages);
   const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreMembers);
 
   useEffect(() => {

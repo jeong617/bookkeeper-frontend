@@ -57,7 +57,6 @@ function UploadEpisode({novelId, title, onClose}: UploadEpisodeProps): React.JSX
         const {name, value} = e.target;
         setEpisodeData((prev) => ({...prev, [name]: value}));
     };
-    console.log(episodeData.title);
     const handleReleaseStatusChange = (status: 'PRIVATE' | 'PUBLIC' | 'SCHEDULED'): void => {
         setEpisodeData((prev) => ({...prev, releaseStatus: status}));
     };

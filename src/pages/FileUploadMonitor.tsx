@@ -10,7 +10,6 @@ import { TTSUploadStatusType } from '../store/types.tsx';
 function FileUploadMonitor(): React.JSX.Element {
   useBackgroundUploader();
   const { files } = useFileStore();
-  console.log(files);
 
   return (
     <>
