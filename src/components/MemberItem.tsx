@@ -40,7 +40,7 @@ function MemberItem({
         <p className='text-sm'>{email}</p>
       </div>
       <span className='col-span-2 flex flex-col items-baseline overflow-hidden md:text-nowrap'>
-        <p>{createdAt.split(' ')[0]}</p>
+        <p>{createdAt.split(' ')[0].slice(2)}</p>
         <p className='text-sm font-light bottom-0'>{createdAt.split(' ')[1]}</p>
       </span>
       <button className='grow'>
