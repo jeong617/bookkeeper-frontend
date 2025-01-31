@@ -5,3 +5,5 @@
  */
 //================================================================
 export * as broker from "./broker";
+export * as novel from "./novel";
+export * as requester from "./requester";

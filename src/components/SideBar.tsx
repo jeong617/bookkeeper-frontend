@@ -48,7 +48,7 @@ export function SideBar(): React.JSX.Element {
           <Sidebar.Item as={Link} to='/upload-monitor' icon={FaFileUpload} onClick={toggle}>
             UPLOAD MONITOR
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to='/feedback' icon={FaHandHoldingMedical} onClick={toggle}>
+          <Sidebar.Item as={Link} to='/novel-request' icon={FaHandHoldingMedical} onClick={toggle}>
             소설요청
           </Sidebar.Item>
           <Sidebar.Item as={Link} to='/feedback' icon={FaQuestionCircle} onClick={toggle}>
