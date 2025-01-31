@@ -7,7 +7,7 @@
 import type { IConnection } from "@nestia/fetcher";
 import { PlainFetcher } from "@nestia/fetcher/lib/PlainFetcher";
 import type { Resolved } from "typia";
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Query } from "..";
 
 /**
