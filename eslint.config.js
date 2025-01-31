@@ -21,6 +21,7 @@ export default [
             "no-unused-vars": "off",
             "@typescript-eslint/no-unused-vars": "off",
             "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-namespace": "off"
         }
     },
     pluginJs.configs.recommended,
@@ -31,6 +32,7 @@ export default [
             ...pluginReact.configs.flat.recommended.rules,
             "react/react-in-jsx-scope": "off",
             "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-namespace": "off"
         },
     },
 ];
