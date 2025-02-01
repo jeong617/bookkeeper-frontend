@@ -67,4 +67,12 @@ export enum TTSUploadStatusType {
   Failed = 'FAILED',
 }
 
+export enum ReqNovelStatus {
+  pending = '미확인',
+  progress = '진행중',
+  confirm = '완료',
+  cancle = '거절',
+
+}
+
 export const PROFILE_IMAGE_MAX_SIZE = 2 * 1024 * 1024;
