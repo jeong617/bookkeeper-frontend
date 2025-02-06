@@ -15,6 +15,7 @@ import PushNotification from '../pages/PushNotification.tsx';
 import SearchResult from '../pages/SearchResult.tsx';
 import Feedback from '../pages/Feedback.tsx';
 import NovelRequest from '../pages/NovelRequest.tsx';
+import {getNovelList} from '../api/functional/novel/list';
 
 const loadBookDetail = async ({ params }: any) => {
   const { novelId } = params;
@@ -25,6 +26,18 @@ const loadBookDetail = async ({ params }: any) => {
     throw new Error('Failed to load book details');
   }
 };
+
+const loadReqNovels = async () => {
+  try {
+    const res: void = await getNovelList(
+      {host: import.meta.env.VITE_API_URL_NOTI},
+      {page: 1, orderBy: 'desc'}
+    )
+    return { reqNovels: res }
+  } catch {
+    throw new Error('Failed to load request novels');
+  }
+}
 
 const router = createBrowserRouter([
   {
@@ -70,7 +83,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'novel-request/',
-        element: <NovelRequest />
+        element: <NovelRequest />,
+        loader: loadReqNovels,
       }
     ]
   },
