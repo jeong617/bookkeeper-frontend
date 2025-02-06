@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 // project
-import { LoginData } from '../../store/UserData.ts';
+import { LoginData } from '../../store/userData.ts';
 
 // css
 import { Button, Label } from 'flowbite-react';

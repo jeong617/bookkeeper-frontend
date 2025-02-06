@@ -2,7 +2,7 @@ import React, {useCallback, useRef, useState} from 'react';
 import {debounce} from 'lodash';
 
 // project
-import {RegisterData} from '../../store/UserData.ts';
+import {RegisterData} from '../../store/userData.ts';
 import {AgeGroupType, PROFILE_IMAGE_MAX_SIZE} from '../../store/types.tsx';
 
 import {post} from '../../api/api.ts';

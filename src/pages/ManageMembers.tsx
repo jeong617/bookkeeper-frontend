@@ -6,7 +6,7 @@ import {Header} from '../components/header';
 import FormButton from '../components/FormButton.tsx';
 import SearchBar from '../components/SearchBar';
 import {RoleType, SortDirectionType, SortFieldType} from '../store/types.tsx';
-import {MemberData} from '../store/UserData.ts';
+import {MemberData} from '../store/userData.ts';
 import {formatDateTime} from '../utils/parseDateTime.ts';
 import {get, put} from '../api/api.ts';
 import useInfiniteScroll from '../hooks/useInfiniteScroll.ts';
