@@ -24,6 +24,8 @@ function Register({setState}: RegisterProps): React.JSX.Element {
   });
   const [preview, setPreview] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [activateRegisterBtn, setActivateRegisterBtn] = useState<boolean>(false);
+  const [validationNum, setValidationNum] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const ageGroupUI: { [key: string]: string } = {
@@ -47,6 +49,9 @@ function Register({setState}: RegisterProps): React.JSX.Element {
     const {name, value} = e.target;
     setUserInfo((prev) => ({...prev, [name]: value}));
   };
+  const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidationNum(e.target.value);
+  }
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -60,6 +65,25 @@ function Register({setState}: RegisterProps): React.JSX.Element {
   };
 
   // api
+  const validateEmail = async (email: string) => {
+    try {
+      alert('이메일에서 인증번호를 확인해주세요!');
+      await post({url: `auth/email/send?email=${email}`});
+    } catch (err) {
+      console.error('인증번호 요청 실패: ', err);
+    }
+  }
+
+  const verifyValidNum = async (email: string, code: string) => {
+    try {
+      await post({url: `auth/email/verify?email=${email}&code=${code}`})
+      alert('인증 성공!');
+      setActivateRegisterBtn(true);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const debouncedRegister = useCallback(
     debounce(async (formData) => {
       try {
@@ -99,13 +123,39 @@ function Register({setState}: RegisterProps): React.JSX.Element {
       <section className='flex flex-col w-full gap-5'>
         <div>
           <div className='block'>
-            <Label htmlFor='email1' value='ID'/>
+            <Label htmlFor='email' value='EMAIL'/>
           </div>
-          <input type='email' name='email'
-                 className=' block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300'
-                 value={userInfo.email}
-                 onChange={handleInput}
-                 placeholder='abcd@kakao.com' required/>
+          <div className='flex gap-1'>
+            <input type='email' name='email'
+                   className=' block w-4/5 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300'
+                   value={userInfo.email}
+                   onChange={handleInput}
+                   placeholder='abcd@kakao.com' required
+            />
+            <button
+              className='px-4 py-2.5 rounded-lg text-sm font-medium w-1/5 bg-main hover:bg-button text-gray-600 border border-gray-300'
+              onClick={() => validateEmail(userInfo.email)}
+            >
+              인증
+            </button>
+          </div>
+        </div>
+        <div>
+          <div className='block'>
+            <Label value='인증번호'/>
+          </div>
+          <div className='flex gap-1'>
+            <input type='text' name='vailidation-number'
+                   className=' block w-4/5 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-gray-300'
+                   onChange={handleValidation}
+            />
+            <button
+              className='px-4 py-2.5 rounded-lg text-sm font-medium w-1/5 bg-main hover:bg-button text-gray-600 border border-gray-300'
+              onClick={validationNum ? () => verifyValidNum(userInfo.email, validationNum) : undefined}
+            >
+              확인
+            </button>
+          </div>
         </div>
         <div>
           <div className='block'>
@@ -187,7 +237,13 @@ function Register({setState}: RegisterProps): React.JSX.Element {
 
           </div>
         </div>
-        <Button className='bg-button-text mt-5 shadow-md' onClick={register}>회원가입</Button>
+        <Button
+          className='bg-button-text mt-5 shadow-md'
+          onClick={register}
+          disabled={!activateRegisterBtn}
+        >
+          회원가입
+        </Button>
       </section>
       <p
         className='mt-2 text-sm text-button-text/70 justify-self-center flex self-center gap-1 hover:cursor-pointer hover:text-button-text'
