@@ -104,7 +104,8 @@ function NovelRequest(): React.JSX.Element {
                       {novel.novel.novelInfo.title}
                     </Table.Cell>
                     <Table.Cell
-                      className='w-2/5 whitespace-nowrap overflow-hidden text-ellipsis font-medium text-gray-900'>
+                      className='w-2/5 whitespace-nowrap overflow-hidden text-ellipsis font-medium text-gray-900'
+                    >
                       <p>{novel.novel.novelStatus.responsiblePerson}</p>
                     </Table.Cell>
                     <Table.Cell className='w-1/5 whitespace-nowrap overflow-hidden font-medium text-gray-900'
@@ -121,8 +122,10 @@ function NovelRequest(): React.JSX.Element {
                                 d="m1 1 4 4 4-4"/>
                         </svg>
                       </button>
-                      <div
-                        className={`absolute z-10 bg-white divide-gray-100 rounded-normal-radius shadow ${dropdownIndex === index ? 'block' : 'hidden'}`}
+
+                      {/* dropdown */}
+                      <div className={`absolute z-10 bg-white divide-gray-100 rounded-normal-radius shadow 
+                                    ${dropdownIndex === index ? 'block' : 'hidden'}`}
                       >
                         <ul className="justify-center items-center text-sm text-gray-700 divide-y">
                           <li className="px-2 py-2 hover:bg-gray-100"

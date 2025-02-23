@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'notification/',
-        element: <PushNotification />
+        element: <PushNotification />,
       },
       {
         path: 'novel/:novelId',
