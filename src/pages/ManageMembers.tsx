@@ -60,16 +60,18 @@ function ManageMembers(): React.JSX.Element {
     fetchMoreMembers();
   }, [paramOption]);
 
-  const approveAdmin = async (pendingAdminId: string) => {
-    const url = `api/admin/members/${pendingAdminId}/roles/ADMIN`;
+  const approveRole = async (pendingAdminId: string, role: string) => {
+    const url = `api/admin/members/${pendingAdminId}/roles/${role}`;
     try {
       const res: AxiosResponse = await put({url: url});
       setParamOptions((prev) => ({...prev, role: RoleType.Admin}));
       setTotalPages(res.data.totalPages);
+      alert('권한이 성공적으로 수정되었습니다!');
     } catch (err) {
       console.error(err);
     }
   }
+
   return (
     <>
       <Header/>
@@ -150,7 +152,7 @@ function ManageMembers(): React.JSX.Element {
                     createdAt={formatDateTime(member.createdAt)}
                     nickname={member.nickname}
                     profile={member.profileImageUrl ?? undefined}
-                    onClick={approveAdmin}
+                    onClick={approveRole}
                   />
                 )
               ))}
