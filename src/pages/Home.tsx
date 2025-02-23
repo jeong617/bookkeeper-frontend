@@ -27,7 +27,6 @@ function Home(): React.JSX.Element {
     totalElements: 1,
     currentPage: 1,
   });
-
   const categories: CategoryType[] = Object.values(CategoryType);
   const isNovelListEmpty = Array.isArray(novelList) && novelList.length === 0;
 
@@ -75,8 +74,6 @@ function Home(): React.JSX.Element {
   if (error) {
     console.error(error.message);
   }
-
-
   return (
     <>
       {/* Mobile logo section */}
