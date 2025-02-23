@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import axios, {AxiosResponse} from 'axios';
 import { TTSUploadStatusType } from './types.tsx';
 
 interface SideBarState {
@@ -26,6 +27,11 @@ interface LayoutState {
   setIsMobile: (isMobile: boolean) => void;
 }
 
+interface RoleState {
+  role: string | null;
+  setRole: (newRole: string) => void;
+  getRole: () => Promise<void>;
+}
 export const useSideBarStore = create<SideBarState>((set) => ({
   isOpened: false,
   toggleIsOpened: () => {
@@ -62,4 +68,26 @@ export const useFileStore = create<FileStore>((set, get) => ({
 export const useLayoutStore = create<LayoutState>((set) => ({
   isMobile: window.innerWidth < 768,
   setIsMobile: (isMobile: boolean) => set({isMobile}),
+}));
+
+export const useRoleStore = create<RoleState>((set) => ({
+  role: null,
+  setRole: (newRole) => set({ role: newRole }),
+  getRole: async () => {
+    try {
+      const response: AxiosResponse = await axios.get(
+        `${import.meta.env.VITE_API_URL_NGROK}auth/me`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          }
+        }
+        );
+      set({ role: response.data.data });
+      return response.data.data;  // ADMIN || AUTHOR
+    } catch (error) {
+      alert('내 역할 가져오기 실패' + error);
+      return null;
+    }
+  },
 }));
