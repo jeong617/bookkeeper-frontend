@@ -20,7 +20,7 @@ function AuthSkeleton(): React.JSX.Element {
             <div className='hidden md:flex w-full'>
                 {/* 로고 */}
                 <div
-                    className={`absolute z-10 flex h-full w-1/2 bg-main items-center justify-center flex-col transform transition-transform duration-700 ${
+                    className={`absolute z-10 flex h-full w-1/2 bg-[#FFFAEB] items-center justify-center flex-col transform transition-transform duration-700 ${
                         toggle === AuthType.Login ? 'translate-x-0' : 'translate-x-full'
                     }`}
                 >
