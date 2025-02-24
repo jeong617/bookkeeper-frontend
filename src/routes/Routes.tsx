@@ -30,7 +30,7 @@ const loadBookDetail = async ({ params }: any) => {
 const loadReqNovels = async () => {
   try {
     const res: void = await getNovelList(
-      {host: import.meta.env.VITE_API_URL_NOTI},
+      {host: import.meta.env.VITE_API_URL_COMMUNITY},
       {page: 1, orderBy: 'desc'}
     )
     return { reqNovels: res }

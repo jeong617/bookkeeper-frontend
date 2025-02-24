@@ -37,7 +37,7 @@ function NovelRequest(): React.JSX.Element {
   const getReqNovels = async () => {
     try {
       const res: any = await getNovelList(
-        {host: import.meta.env.VITE_API_URL_NOTI},
+        {host: import.meta.env.VITE_API_URL_COMMUNITY},
         {page: currentPage, orderBy: 'desc'}
       );
       setTotalPage(res.data.totalCount)
@@ -49,7 +49,7 @@ function NovelRequest(): React.JSX.Element {
     try {
       await deleteNovel(
         {
-          host: import.meta.env.VITE_API_URL_NOTI,
+          host: import.meta.env.VITE_API_URL_COMMUNITY,
           headers: {Authorization: `Bearer ${getToken()}`}
         },
         {id: id}
@@ -62,7 +62,7 @@ function NovelRequest(): React.JSX.Element {
     try {
       await updateReviewStatus(
         {
-          host: import.meta.env.VITE_API_URL_NOTI,
+          host: import.meta.env.VITE_API_URL_COMMUNITY,
           headers: {Authorization: `Bearer ${getToken()}`}
         },
         {
